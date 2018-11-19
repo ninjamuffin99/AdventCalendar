@@ -212,12 +212,23 @@ class PlayState extends FlxState
 	private var touchesLength:Float = 0;
 	private var touchesAngle:Float = 0;
 	private var picAngleOld:Float = 0;
+	private var picWidthOld:Float = 0;
 	
 	private function dragControls():Void
 	{	
 		var pressingButton:Bool = false;
+		var zoomPressingButton:Bool = false;
 		var buttonJustPressed:Bool = false;
+		var zoomButtonJustPressed:Bool = false;
 		var buttonPos:FlxPoint = new FlxPoint();
+		
+		// its called touchNew, but really its the length of the line between the two touches
+		// or the length between the center of the image and the mouse on right click
+		var touchNew:Float = 0;
+		var rads:Float = 0;
+		var midScreen:FlxPoint = new FlxPoint();
+		midScreen.set(FlxG.width / 2, FlxG.height / 2);
+				
 		
 		#if !mobile
 			if (FlxG.mouse.pressed)
@@ -232,6 +243,19 @@ class PlayState extends FlxState
 				buttonPos = FlxG.mouse.getPosition();
 			}
 			
+			if (FlxG.mouse.pressedRight)
+			{
+				if (FlxG.mouse.justPressedRight)
+				{
+					zoomButtonJustPressed = true;
+				}
+				
+				zoomPressingButton = true;
+				
+				rads = Math.atan2(midScreen.y - FlxG.mouse.y, midScreen.x - FlxG.mouse.x);
+				touchNew = FlxMath.vectorLength(midScreen.x - FlxG.mouse.x, midScreen.y - FlxG.mouse.y);
+			}
+			
 		#else
 			if (FlxG.touches.list.length == 1)
 			{
@@ -243,6 +267,19 @@ class PlayState extends FlxState
 				
 				pressingButton = true;
 				buttonPos = FlxG.touches.list[0].getPosition();
+			}
+			if (FlxG.touches.list.length == 2)
+			{
+				
+				if (FlxG.touches.list[1].justPressed)
+				{
+					zoomButtonJustPressed = true;
+				}
+				
+				zoomPressingButton = true;
+				
+				rads = Math.atan2(FlxG.touches.list[0].y - FlxG.touches.list[1].y, FlxG.touches.list[0].x - FlxG.touches.list[1].x);
+				touchNew = FlxMath.vectorLength(FlxG.touches.list[0].x - FlxG.touches.list[1].x, FlxG.touches.list[0].y - FlxG.touches.list[1].y);
 			}
 		#end
 		
@@ -265,40 +302,25 @@ class PlayState extends FlxState
 		}
 		
 		// zoom behaviour
-		if (FlxG.touches.list.length == 2)
-		{
-			var touchNew:Float = FlxMath.vectorLength(FlxG.touches.list[0].x - FlxG.touches.list[1].x, FlxG.touches.list[0].y - FlxG.touches.list[1].y);
-			
-			var rads:Float = Math.atan2(FlxG.touches.list[0].y - FlxG.touches.list[1].y, FlxG.touches.list[0].x - FlxG.touches.list[1].x);
-		
-			
-			
-			if (FlxG.touches.list[1].justPressed)
+		if (zoomPressingButton)
+		{	
+			if (zoomButtonJustPressed)
 			{
 				touchesLength = touchNew;
 				touchesAngle = FlxAngle.asDegrees(rads);
 				picAngleOld = bigPreview.angle;
-				
-				//FlxG.watch.addQuick("Degs/Angle", degs);
+				picWidthOld = bigPreview.width;
 			}
+			
 			
 			var degs = FlxAngle.asDegrees(rads);
 			bigPreview.angle = (picAngleOld + degs - touchesAngle);
 			
-			bigPreview.setGraphicSize(Std.int(bigPreview.width + (touchNew - touchesLength)));
+			FlxG.watch.addQuick("Degs/Angle", degs);
+			
+			bigPreview.setGraphicSize(Std.int(picWidthOld * (touchNew / touchesLength)));
 			bigPreview.updateHitbox();
 			bigPreview.screenCenter();
-			
-			if (touchNew - touchesLength >= 10)
-			{
-				touchesLength += touchNew * 0.1;
-			}
-			else if (touchNew - touchesLength <= -10)
-			{
-				touchesLength -= touchNew * 0.1;
-			}
-			else
-				touchesLength = touchNew;
 			
 		}
 	}
