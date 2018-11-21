@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.effects.particles.FlxEmitter;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxAngle;
@@ -11,6 +12,8 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxVector;
 import flixel.text.FlxText;
 import flixel.ui.FlxSpriteButton;
+import flixel.util.FlxColor;
+import flixel.util.helpers.FlxPointRangeBounds;
 
 /**
  * ...
@@ -28,8 +31,30 @@ class PlayState extends FlxState
 	private var curAnimPlaying:Int = 0;
 	private var isSpritesheet:Bool = false;
 	
+	private var _emitter:FlxEmitter;
+	
 	override public function create():Void 
 	{
+		_emitter = new FlxEmitter(0, 0, 200);
+		_emitter.makeParticles(2, 2, FlxColor.WHITE, 200);
+		
+		add(_emitter);
+		_emitter.start(false, 0.1);
+		
+		_emitter.velocity.active = false;
+		_emitter.lifespan.set(20);
+		_emitter.acceleration.start.min.x = 2;
+		_emitter.acceleration.start.max.x = 8;
+		_emitter.acceleration.start.min.y = 30;
+		_emitter.acceleration.start.max.y = 50;
+		_emitter.acceleration.end.min.x = 0;
+		_emitter.acceleration.end.max.x = 30;
+		_emitter.acceleration.end.min.y = 30;
+		_emitter.acceleration.end.max.y = 50;
+		_emitter.width = FlxG.width;
+		
+		
+		
 		#if !mobile
 			FlxG.mouse.visible = true;
 		#end
@@ -314,7 +339,7 @@ class PlayState extends FlxState
 			
 			
 			var degs = FlxAngle.asDegrees(rads);
-			bigPreview.angle = (picAngleOld + degs - touchesAngle);
+			// bigPreview.angle = (picAngleOld + degs - touchesAngle);
 			
 			FlxG.watch.addQuick("Degs/Angle", degs);
 			
