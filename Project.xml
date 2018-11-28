@@ -79,4 +79,6 @@
 	<!-- _________________________________ Custom _______________________________ -->
 	
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
+	<classpath path="source/newgroundsAPI/lib/Source"/>
+	
 </project>

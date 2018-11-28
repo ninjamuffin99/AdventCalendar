@@ -14,6 +14,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
 import flixel.util.helpers.FlxPointRangeBounds;
+import io.newgrounds.NG;
 
 /**
  * ...
@@ -32,10 +33,19 @@ class PlayState extends FlxState
 	private var isSpritesheet:Bool = false;
 	
 	private var _emitter:FlxEmitter;
+	private var curDate:Date;
 	
 	override public function create():Void 
-	{
-		_emitter = new FlxEmitter(0, 0, 200);
+	{	
+		var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
+		
+		NGio.ngDataLoaded.add(function()
+		{
+			curDate = NG.core.calls.gateway.getDatetime().send;
+		});
+		
+		
+		_emitter = new FlxEmitter(-130, -50, 200);
 		_emitter.makeParticles(2, 2, FlxColor.WHITE, 200);
 		
 		add(_emitter);
@@ -44,14 +54,14 @@ class PlayState extends FlxState
 		_emitter.velocity.active = false;
 		_emitter.lifespan.set(20);
 		_emitter.acceleration.start.min.x = 2;
-		_emitter.acceleration.start.max.x = 8;
-		_emitter.acceleration.start.min.y = 30;
-		_emitter.acceleration.start.max.y = 50;
-		_emitter.acceleration.end.min.x = 0;
+		_emitter.acceleration.start.max.x = 10;
+		_emitter.acceleration.start.min.y = 25;
+		_emitter.acceleration.start.max.y = 40;
+		_emitter.acceleration.end.min.x = 1;
 		_emitter.acceleration.end.max.x = 30;
-		_emitter.acceleration.end.min.y = 30;
-		_emitter.acceleration.end.max.y = 50;
-		_emitter.width = FlxG.width;
+		_emitter.acceleration.end.min.y = 25;
+		_emitter.acceleration.end.max.y = 40;
+		_emitter.width = FlxG.width + 150;
 		
 		
 		
