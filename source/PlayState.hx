@@ -40,7 +40,6 @@ class PlayState extends FlxState
 	
 	override public function create():Void 
 	{	
-		FlxG.log.redirectTraces = true;
 		var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
 		
 		NGio.ngDataLoaded.add(function()
@@ -51,14 +50,21 @@ class PlayState extends FlxState
 				if (response.success && response.result.success) 
 				{
 					var data:GetDateTimeResult = response.result.data;
-					trace(data);
+					FlxG.log.add("TIME DATA HERE");
+					FlxG.log.add(data.datetime);
+					var dateTimeFixed:String = data.datetime.substring(0, 10);
+					FlxG.log.add("Fixed string: " + dateTimeFixed);
+					curDate = Date.fromString(dateTimeFixed);
+					
+					FlxG.log.add("Current day of the month: " + curDate.getDate());
 				}
 				else
 				{
 					curDate = Date.now();
+					FlxG.log.add("MADE DATE TIME CURRENT TIME");
 				}
 				
-			}).send;
+			}).send();
 		});
 		
 		
