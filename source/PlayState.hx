@@ -15,6 +15,8 @@ import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
 import flixel.util.helpers.FlxPointRangeBounds;
 import io.newgrounds.NG;
+import io.newgrounds.objects.events.Response;
+import io.newgrounds.objects.events.Result.GetDateTimeResult;
 
 /**
  * ...
@@ -33,15 +35,30 @@ class PlayState extends FlxState
 	private var isSpritesheet:Bool = false;
 	
 	private var _emitter:FlxEmitter;
+	private var _emitterBG:FlxEmitter;
 	private var curDate:Date;
 	
 	override public function create():Void 
 	{	
+		FlxG.log.redirectTraces = true;
 		var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
 		
 		NGio.ngDataLoaded.add(function()
 		{
-			curDate = NG.core.calls.gateway.getDatetime().send;
+			NG.core.calls.gateway.getDatetime().addDataHandler(
+			function(response:Response<GetDateTimeResult>):Void
+			{
+				if (response.success && response.result.success) 
+				{
+					var data:GetDateTimeResult = response.result.data;
+					trace(data);
+				}
+				else
+				{
+					curDate = Date.now();
+				}
+				
+			}).send;
 		});
 		
 		
@@ -62,6 +79,27 @@ class PlayState extends FlxState
 		_emitter.acceleration.end.min.y = 25;
 		_emitter.acceleration.end.max.y = 40;
 		_emitter.width = FlxG.width + 150;
+		
+		
+		_emitterBG = new FlxEmitter(-130, -50, 200);
+		_emitterBG.makeParticles(1, 1, FlxColor.WHITE, 200);
+		
+		add(_emitterBG);
+		_emitterBG.start(false, 0.1);
+		
+		var parralaxxx:Float = 3;
+		
+		_emitterBG.velocity.active = false;
+		_emitterBG.lifespan.set(20);
+		_emitterBG.acceleration.start.min.x = 2 / parralaxxx;
+		_emitterBG.acceleration.start.max.x = 10 / parralaxxx;
+		_emitterBG.acceleration.start.min.y = 25 / parralaxxx;
+		_emitterBG.acceleration.start.max.y = 40 / parralaxxx;
+		_emitterBG.acceleration.end.min.x = 1 / parralaxxx;
+		_emitterBG.acceleration.end.max.x = 30 / parralaxxx;
+		_emitterBG.acceleration.end.min.y = 25 / parralaxxx;
+		_emitterBG.acceleration.end.max.y = 40 / parralaxxx;
+		_emitterBG.width = FlxG.width + 150;
 		
 		
 		
