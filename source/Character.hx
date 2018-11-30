@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
@@ -17,6 +18,36 @@ class Character extends FlxSprite
 		
 		drag.x = drag.y = 2500;
 		makeGraphic(16, 16);
+		
+		setFacingFlip(FlxObject.LEFT, false, false);
+		setFacingFlip(FlxObject.RIGHT, true, false);
+		
+		
+	}
+	
+	override public function update(elapsed:Float):Void 
+	{
+		super.update(elapsed);
+		
+		if (velocity.x > 0)
+		{
+			facing = FlxObject.RIGHT;
+			offset.x = 4;
+		}
+		else if (velocity.x < 0)
+		{
+			facing = FlxObject.LEFT;
+			offset.x = 8;
+		}
+		
+	}
+	
+	private function resizeHitbox():Void
+	{
+		height = 4;
+		width = 4;
+		offset.y = 12;
+		offset.x = 8;
 	}
 	
 }

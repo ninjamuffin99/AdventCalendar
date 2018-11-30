@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.effects.particles.FlxEmitter;
@@ -15,6 +16,7 @@ import flixel.math.FlxVector;
 import flixel.text.FlxText;
 import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
+import flixel.util.FlxSort;
 import flixel.util.helpers.FlxPointRangeBounds;
 import io.newgrounds.NG;
 import io.newgrounds.objects.events.Response;
@@ -26,13 +28,24 @@ import io.newgrounds.objects.events.Result.GetDateTimeResult;
  */
 class PlayState extends FlxState 
 {
+	private var player:Player;
+	
 	private var _grpThumbnails:FlxTypedGroup<FlxSpriteButton>;
 	private var _grpThumbnailPics:FlxTypedGroup<FlxSprite>;
+	private var _grpCharacters:FlxTypedSpriteGroup<FlxSprite>;
+	private var _grpEntites:FlxTypedGroup<FlxObject>;
 	
 	private var curDate:Date;
 	
 	private var gameCamera:FlxCamera;
 	private var uiCamera:FlxCamera;
+	
+	private var sprSnow:FlxSprite;
+	
+	private var tree:Tree;
+	
+	private var collisionBounds:FlxObject;
+	private var treeOGhitbox:FlxObject;
 	
 	override public function create():Void 
 	{	
@@ -105,10 +118,10 @@ class PlayState extends FlxState
 		gameCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 		uiCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 
+		gameCamera.zoom = 2.5;
+		
 		gameCamera.bgColor = 0xff626a71;
 		uiCamera.bgColor = FlxColor.TRANSPARENT;
-
-		gameCamera.zoom = 2.5;
 
 		FlxG.cameras.reset(gameCamera);
 		FlxG.cameras.add(uiCamera);
@@ -156,20 +169,52 @@ class PlayState extends FlxState
 			
 		}
 		
+		var bgTest:FlxSprite = new FlxSprite(288, 162).makeGraphic(370, 235, FlxColor.WHITE);
+		// add(bgTest);
+		
+		sprSnow = new FlxSprite(288 - 36, 162 - 11).loadGraphic(AssetPaths.snow__png);
+		add(sprSnow);
+		
+		collisionBounds = new FlxObject(sprSnow.x, 308, sprSnow.width, 3);
+		collisionBounds.immovable = true;
+		add(collisionBounds);
+		
 		initCharacters();
+		
+		tree = new Tree();
+		_grpCharacters.add(tree);
+		tree.setPosition(collisionBounds.x + 400, collisionBounds.y + 170);
+		
+		treeOGhitbox = new FlxObject(tree.x, tree.y - tree.treeSize.height, tree.treeSize.width, tree.treeSize.height);
+		add(treeOGhitbox);
+		
+		FlxG.camera.follow(player, FlxCameraFollowStyle.LOCKON, 0.5);
+		
+		var zoomOffset:Float = 250;
+		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 100, sprSnow.y + sprSnow.height);
+		
+		
 		
 		super.create();
 	}
 	
 	private function initCharacters():Void
 	{
-		var player:Player = new Player(450, 250);
-		add(player);
+		_grpEntites = new FlxTypedGroup<FlxObject>();
+		add(_grpEntites);
+		
+		_grpCharacters = new FlxTypedSpriteGroup<FlxSprite>();
+		_grpEntites.add(_grpCharacters);
+		
+		
+		
+		player = new Player(450, collisionBounds.y + 50);
+		_grpCharacters.add(player);
 		
 		for (c in 0...24)
 		{
-			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), 250 + FlxG.random.float( -90, 90));
-			add(npc);
+			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), collisionBounds.y + 100 + FlxG.random.float( -90, 90));
+			_grpCharacters.add(npc);
 		}
 	}
 	
@@ -177,6 +222,18 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void 
 	{
 		super.update(elapsed);
+		
+		FlxG.collide(collisionBounds, _grpCharacters);
+		FlxG.collide(_grpCharacters, _grpEntites);
+		
+		_grpCharacters.sort(FlxSort.byY);
+		
+		if (FlxG.overlap(player, treeOGhitbox))
+		{
+			tree.alpha = 0.5;
+		}
+		else	
+			tree.alpha = 1;
 	}
 	
 	// SYNTAX GUIDE

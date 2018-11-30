@@ -16,6 +16,8 @@ class Player extends Character
 		super(X, Y, SimpleGraphic);
 		
 		loadGraphic(AssetPaths.tankMan__png);
+		
+		resizeHitbox();
 	}
 	
 	private var jumpBoost:Int = 0;
@@ -37,7 +39,7 @@ class Player extends Character
 				C = 0;
 			}
 			
-			offset.y = C * 1.3;
+			offset.y = (C * 1.3) + 12;
 			
 			C *= speed;
 			

@@ -24,24 +24,15 @@ class NPC extends Character
 		
 		loadGraphic(AssetPaths.tankMan__png);
 		
-		setFacingFlip(FlxObject.LEFT, false, false);
-		setFacingFlip(FlxObject.RIGHT, true, false);
-		
+
 		drag.x = drag.y = drag.x * 0.05;
+		
+		resizeHitbox();
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
 		super.update(elapsed);
-		
-		if (velocity.x > 0)
-		{
-			facing = FlxObject.RIGHT;
-		}
-		else if (velocity.x < 0)
-		{
-			facing = FlxObject.LEFT;
-		}
 		
 		_brain.update();
 	}
