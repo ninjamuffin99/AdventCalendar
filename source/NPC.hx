@@ -25,7 +25,7 @@ class NPC extends Character
 		loadGraphic(AssetPaths.tankMan__png);
 		
 
-		drag.x = drag.y = drag.x * 0.05;
+		drag.x = drag.y = drag.x * 0.07;
 		
 		resizeHitbox();
 	}

@@ -31,7 +31,7 @@ class Player extends Character
 			jumpBoost++;
 			
 			
-			var C = FlxMath.fastCos(5.8 * jumpBoost * FlxG.elapsed);
+			var C = FlxMath.fastCos(8 * jumpBoost * FlxG.elapsed);
 			
 			if (C < 0)
 			{
@@ -42,8 +42,6 @@ class Player extends Character
 			offset.y = (C * 1.3) + 12;
 			
 			C *= speed;
-			
-			FlxG.watch.addQuick("C SHIT", C);
 			
 			var vertSlow:Float = 0.9;
 			

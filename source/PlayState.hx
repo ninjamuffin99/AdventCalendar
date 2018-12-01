@@ -14,6 +14,8 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVector;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
@@ -29,10 +31,13 @@ import io.newgrounds.objects.events.Result.GetDateTimeResult;
 class PlayState extends FlxState 
 {
 	private var player:Player;
+	private var camFollow:FlxObject;
+	private var camOffset:Float = 70;
+	private var playerHitbox:FlxObject;
 	
-	private var _grpThumbnails:FlxTypedGroup<FlxSpriteButton>;
-	private var _grpThumbnailPics:FlxTypedGroup<FlxSprite>;
-	private var _grpCharacters:FlxTypedSpriteGroup<FlxSprite>;
+	private var thumbnail:Thumbnail;
+
+	private var _grpCharacters:FlxTypedSpriteGroup<SpriteShit>;
 	private var _grpEntites:FlxTypedGroup<FlxObject>;
 	
 	private var curDate:Date;
@@ -47,13 +52,20 @@ class PlayState extends FlxState
 	private var collisionBounds:FlxObject;
 	private var treeOGhitbox:FlxObject;
 	
+	private var presOverlaps:Int = 0;
+	
+	
+	private var camZoomPos:FlxPoint;
+	
 	override public function create():Void 
 	{	
+		camZoomPos = new FlxPoint(288 - 36, 162 - 11);
+		
 		#if !mobile
 			FlxG.mouse.visible = true;
 		#end
 		
-		var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
+		// var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
 		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
 		curDate = Date.now();
@@ -83,38 +95,6 @@ class PlayState extends FlxState
 			}).send();
 		});
 		
-	
-		
-		_grpThumbnails = new FlxTypedGroup<FlxSpriteButton>();
-		add(_grpThumbnails);
-		
-		_grpThumbnailPics = new FlxTypedGroup<FlxSprite>();
-		add(_grpThumbnailPics);
-		
-		for (i in 0...grid.length)
-		{
-			var gridPos:FlxPoint = new FlxPoint(120 * (i % 4) + 10, (120 * Std.int(i / 4)) + 60);
-			
-			var gridBG:FlxSpriteButton = new FlxSpriteButton(gridPos.x, gridPos.y, null, function(){
-				openSubState(new GallerySubstate(i));
-			});
-			gridBG.makeGraphic(100, 100);
-			_grpThumbnails.add(gridBG);
-			
-			var gridThing:FlxSprite = new FlxSprite(gridPos.x, gridPos.y);
-			gridThing.loadGraphic(grid[i][0]);
-			
-			var testSize:Int = 90;
-			if (gridThing.width > gridThing.height)
-				gridThing.setGraphicSize(testSize);
-			else
-				gridThing.setGraphicSize(0, testSize);
-			
-			gridThing.updateHitbox();
-			gridThing.setPosition(gridBG.getMidpoint().x - (gridThing.width / 2), gridBG.getMidpoint().y - (gridThing.height / 2)); 
-			_grpThumbnailPics.add(gridThing);
-		}
-		
 		gameCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 		uiCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 
@@ -127,30 +107,20 @@ class PlayState extends FlxState
 		FlxG.cameras.add(uiCamera);
 
 		FlxCamera.defaultCameras = [gameCamera];
-
-		_grpThumbnails.forEach(function(s:FlxSpriteButton){
-			s.cameras = [uiCamera];
-		});
 		
-		_grpThumbnailPics.forEach(function(s:FlxSprite){
-			s.cameras = [uiCamera];
-		});
-		
-		for (i in 0...4) 
+		for (i in 0...1) 
 		{
 			var parralaxxx:Float = 2 * (i + 1);
 			
 			var _emitterBG:FlxEmitter;
 			
-			_emitterBG = new FlxEmitter(-150, -50, 200);
+			_emitterBG = new FlxEmitter(camZoomPos.x, camZoomPos.y, 200);
 			_emitterBG.makeParticles(Math.ceil(5 / parralaxxx), Math.ceil(5 / parralaxxx), FlxColor.WHITE, 200);
 			
 			add(_emitterBG);
 			_emitterBG.start(false, 0.3);
 			
-			FlxG.log.add(_emitterBG);
-			
-			
+			FlxG.log.add("add emitter");
 			
 			_emitterBG.velocity.active = false;
 			_emitterBG.lifespan.set(20);
@@ -164,8 +134,8 @@ class PlayState extends FlxState
 			_emitterBG.acceleration.end.max.y = 40 / parralaxxx;
 			_emitterBG.width = FlxG.width + 150;
 			
-			_emitterBG.cameras = [uiCamera];
-			_emitterBG.forEach(function(p:FlxParticle){p.cameras = [uiCamera]; });
+			// _emitterBG.cameras = [uiCamera];
+			//_emitterBG.forEach(function(p:FlxParticle){p.cameras = [uiCamera]; });
 			
 		}
 		
@@ -180,20 +150,19 @@ class PlayState extends FlxState
 		add(collisionBounds);
 		
 		initCharacters();
+		initPresents();
 		
 		tree = new Tree();
 		_grpCharacters.add(tree);
-		tree.setPosition(collisionBounds.x + 400, collisionBounds.y + 170);
+		tree.setPosition(collisionBounds.x + 160, collisionBounds.y + 50);
 		
 		treeOGhitbox = new FlxObject(tree.x, tree.y - tree.treeSize.height, tree.treeSize.width, tree.treeSize.height);
 		add(treeOGhitbox);
 		
-		FlxG.camera.follow(player, FlxCameraFollowStyle.LOCKON, 0.5);
+		FlxG.camera.follow(camFollow, FlxCameraFollowStyle.LOCKON, 0.5);
 		
 		var zoomOffset:Float = 250;
 		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 100, sprSnow.y + sprSnow.height);
-		
-		
 		
 		super.create();
 	}
@@ -203,13 +172,23 @@ class PlayState extends FlxState
 		_grpEntites = new FlxTypedGroup<FlxObject>();
 		add(_grpEntites);
 		
-		_grpCharacters = new FlxTypedSpriteGroup<FlxSprite>();
+		_grpCharacters = new FlxTypedSpriteGroup<SpriteShit>();
 		_grpEntites.add(_grpCharacters);
 		
 		
 		
-		player = new Player(450, collisionBounds.y + 50);
+		player = new Player(350, collisionBounds.y + 50);
 		_grpCharacters.add(player);
+		
+		playerHitbox = new FlxObject(0, 0, player.width + 6, player.height + 6);
+		add(playerHitbox);
+		
+		thumbnail = new Thumbnail(0, 0, 0);
+		add(thumbnail);
+		FlxTween.tween(thumbnail.offset, {y: 5}, 1.2, {ease:FlxEase.quadInOut, type:FlxTweenType.PINGPONG});
+		
+		camFollow = new FlxObject(0, 0, 1, 1);
+		add(camFollow);
 		
 		for (c in 0...24)
 		{
@@ -218,10 +197,40 @@ class PlayState extends FlxState
 		}
 	}
 	
+	private function initPresents():Void
+	{
+		for (p in 0...24)
+		{
+			var present:Present = new Present(450 + FlxG.random.float( -150, 150), collisionBounds.y + 100 + FlxG.random.float( -90, 90));
+			_grpCharacters.add(present);
+			present.curDay = p;
+			present.ID = 1;
+		}
+	}
+	
 	
 	override public function update(elapsed:Float):Void 
 	{
 		super.update(elapsed);
+		
+		camFollow.setPosition(player.x, player.y - camOffset);
+		playerHitbox.setPosition(player.x - 3, player.y - 3);
+		presOverlaps = 0;
+		
+		if (player.y < collisionBounds.y + 20)
+		{
+			if (camOffset < 90)
+			{
+				camOffset += 10 * FlxG.elapsed;
+			}
+		}
+		else
+		{
+			if (camOffset > 70)
+			{
+				camOffset -= 10 * FlxG.elapsed;
+			}
+		}
 		
 		FlxG.collide(collisionBounds, _grpCharacters);
 		FlxG.collide(_grpCharacters, _grpEntites);
@@ -230,10 +239,43 @@ class PlayState extends FlxState
 		
 		if (FlxG.overlap(player, treeOGhitbox))
 		{
-			tree.alpha = 0.5;
+			if (tree.alpha > 0.55)
+			{
+				tree.alpha -= 0.025;
+			}
 		}
-		else	
-			tree.alpha = 1;
+		else
+		{
+			if (tree.alpha < 1)
+			{
+				tree.alpha += 0.025;
+			}
+		}
+		
+		_grpCharacters.forEach(function(s:SpriteShit)
+		{
+			// Present
+			if (s.ID == 1)
+			{
+				if (presOverlaps < 1)
+				{
+					if (FlxG.overlap(playerHitbox, s))
+					{
+						presOverlaps += 1;
+						thumbnail.overlappin = true;
+						thumbnail.setPosition(s.x - 20, s.y - thumbnail.height - 8);
+						thumbnail.newThumb(s.curDay);
+						
+						if (FlxG.keys.justPressed.SPACE)
+						{
+							openSubState(new GallerySubstate(s.curDay));
+						}
+					}
+				}
+				
+			}
+		});
+		
 	}
 	
 	// SYNTAX GUIDE
@@ -243,7 +285,8 @@ class PlayState extends FlxState
 	[
 		[
 			"assets/images/scepterD.png",
-			"Test Info"
+			"Test Info",
+			"assets/images/thumbs/thumb-scepterD.png"
 			
 		]
 	];

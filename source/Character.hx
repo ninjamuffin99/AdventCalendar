@@ -8,9 +8,9 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * ...
  * @author NInjaMuffin99
  */
-class Character extends FlxSprite 
+class Character extends SpriteShit 
 {
-	private var speed:Float = 55;
+	private var speed:Float = 95;
 
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{

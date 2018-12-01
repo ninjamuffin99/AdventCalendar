@@ -8,7 +8,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * ...
  * @author NInjaMuffin99
  */
-class Tree extends FlxSprite 
+class Tree extends SpriteShit 
 {
 	public var treeSize:FlxRect;
 
