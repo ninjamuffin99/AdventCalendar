@@ -35,6 +35,8 @@ class PlayState extends FlxState
 	private var camOffset:Float = 70;
 	private var playerHitbox:FlxObject;
 	
+	private var snowStamp:FlxSprite;
+	
 	private var thumbnail:Thumbnail;
 
 	private var _grpCharacters:FlxTypedSpriteGroup<SpriteShit>;
@@ -46,6 +48,7 @@ class PlayState extends FlxState
 	private var uiCamera:FlxCamera;
 	
 	private var sprSnow:FlxSprite;
+	private var snowStamps:FlxSprite;
 	
 	private var tree:Tree;
 	
@@ -138,7 +141,7 @@ class PlayState extends FlxState
 		
 		// initSnow();
 		
-		collisionBounds = new FlxObject(sprSnow.x, 308, sprSnow.width, 3);
+		collisionBounds = new FlxObject(sprSnow.x, 306, sprSnow.width, 3);
 		collisionBounds.immovable = true;
 		add(collisionBounds);
 		
@@ -158,6 +161,10 @@ class PlayState extends FlxState
 		
 		var zoomOffset:Float = 250;
 		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 100, sprSnow.y + sprSnow.height);
+		
+		snowStamp = new FlxSprite(0, 0);
+		snowStamp.loadGraphic(AssetPaths.stamp__png);
+		add(snowStamp);
 		
 		super.create();
 	}
@@ -213,7 +220,7 @@ class PlayState extends FlxState
 		
 		
 		
-		player = new Player(350, collisionBounds.y + 50);
+		player = new Player(315, collisionBounds.y + 65);
 		_grpCharacters.add(player);
 		
 		playerHitbox = new FlxObject(0, 0, player.width + 6, player.height + 6);
@@ -228,7 +235,7 @@ class PlayState extends FlxState
 		
 		for (c in 0...24)
 		{
-			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), collisionBounds.y + 100 + FlxG.random.float( -90, 90));
+			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), collisionBounds.y + 90 + FlxG.random.float( -90, 90));
 			_grpCharacters.add(npc);
 		}
 	}
@@ -297,6 +304,11 @@ class PlayState extends FlxState
 			// Present
 			if (s.ID == 1)
 			{
+				if (s.posDiff.x != 0 || s.posDiff.y != 0)
+				{
+					// sprSnow.stamp(snowStamp, Std.int(s.x), Std.int(s.y));
+				}
+				
 				if (presOverlaps < 1)
 				{
 					if (FlxG.overlap(playerHitbox, s))
