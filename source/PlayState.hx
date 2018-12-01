@@ -119,11 +119,19 @@ class PlayState extends FlxState
 		sprMountains.scrollFactor.set(0.3, 0.3);
 		add(sprMountains);
 		
+		var sprSnow1:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 65).loadGraphic(AssetPaths.snow1__png);
+		add(sprSnow1);
+		sprSnow1.scrollFactor.set(0.4, 0.4);
+		
 		// initSnow();
 		
 		var sprGround:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 35).loadGraphic(AssetPaths.ground__png);
-		sprGround.scrollFactor.set(0.5, 0.5);
+		sprGround.scrollFactor.set(0.6, 0.6);
 		add(sprGround);
+		
+		var sprSnow2:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 96).loadGraphic(AssetPaths.snow2__png);
+		sprSnow2.scrollFactor.set(0.75, 0.75);
+		add(sprSnow2);
 		
 		sprSnow = new FlxSprite(288 - 36, 162 - 11).loadGraphic(AssetPaths.snow__png);
 		add(sprSnow);
@@ -146,7 +154,7 @@ class PlayState extends FlxState
 		treeOGhitbox = new FlxObject(tree.x, tree.y - tree.treeSize.height, tree.treeSize.width, tree.treeSize.height);
 		add(treeOGhitbox);
 		
-		FlxG.camera.follow(camFollow, FlxCameraFollowStyle.LOCKON, 0.5);
+		FlxG.camera.follow(camFollow, FlxCameraFollowStyle.LOCKON, 0.05);
 		
 		var zoomOffset:Float = 250;
 		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 100, sprSnow.y + sprSnow.height);
@@ -298,7 +306,7 @@ class PlayState extends FlxState
 						thumbnail.setPosition(s.x - 20, s.y - thumbnail.height - 8);
 						thumbnail.newThumb(s.curDay);
 						
-						if (FlxG.keys.justPressed.SPACE)
+						if (FlxG.keys.justPressed.SPACE && s.curDay < grid.length)
 						{
 							openSubState(new GallerySubstate(s.curDay));
 						}
