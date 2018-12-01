@@ -108,46 +108,33 @@ class PlayState extends FlxState
 
 		FlxCamera.defaultCameras = [gameCamera];
 		
-		for (i in 0...1) 
-		{
-			var parralaxxx:Float = 2 * (i + 1);
-			
-			var _emitterBG:FlxEmitter;
-			
-			_emitterBG = new FlxEmitter(camZoomPos.x, camZoomPos.y, 200);
-			_emitterBG.makeParticles(Math.ceil(5 / parralaxxx), Math.ceil(5 / parralaxxx), FlxColor.WHITE, 200);
-			
-			add(_emitterBG);
-			_emitterBG.start(false, 0.3);
-			
-			FlxG.log.add("add emitter");
-			
-			_emitterBG.velocity.active = false;
-			_emitterBG.lifespan.set(20);
-			_emitterBG.acceleration.start.min.x = 2 / parralaxxx;
-			_emitterBG.acceleration.start.max.x = 10 / parralaxxx;
-			_emitterBG.acceleration.start.min.y = 25 / parralaxxx;
-			_emitterBG.acceleration.start.max.y = 40 / parralaxxx;
-			_emitterBG.acceleration.end.min.x = 1 / parralaxxx;
-			_emitterBG.acceleration.end.max.x = 30 / parralaxxx;
-			_emitterBG.acceleration.end.min.y = 25 / parralaxxx;
-			_emitterBG.acceleration.end.max.y = 40 / parralaxxx;
-			_emitterBG.width = FlxG.width + 150;
-			
-			// _emitterBG.cameras = [uiCamera];
-			//_emitterBG.forEach(function(p:FlxParticle){p.cameras = [uiCamera]; });
-			
-		}
-		
 		var bgTest:FlxSprite = new FlxSprite(288, 162).makeGraphic(370, 235, FlxColor.WHITE);
 		// add(bgTest);
+		
+		var sprSky:FlxSprite = new FlxSprite(camZoomPos.x, camZoomPos.y).loadGraphic(AssetPaths.AdventCalendarBG__png);
+		sprSky.scrollFactor.set(0.05, 0.05);
+		add(sprSky);
+		
+		var sprMountains:FlxSprite = new FlxSprite(sprSky.x, sprSky.y).loadGraphic(AssetPaths.mountains__png);
+		sprMountains.scrollFactor.set(0.3, 0.3);
+		add(sprMountains);
+		
+		// initSnow();
+		
+		var sprGround:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 35).loadGraphic(AssetPaths.ground__png);
+		sprGround.scrollFactor.set(0.5, 0.5);
+		add(sprGround);
 		
 		sprSnow = new FlxSprite(288 - 36, 162 - 11).loadGraphic(AssetPaths.snow__png);
 		add(sprSnow);
 		
+		// initSnow();
+		
 		collisionBounds = new FlxObject(sprSnow.x, 308, sprSnow.width, 3);
 		collisionBounds.immovable = true;
 		add(collisionBounds);
+		
+		initSnow();
 		
 		initCharacters();
 		initPresents();
@@ -165,6 +152,47 @@ class PlayState extends FlxState
 		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 100, sprSnow.y + sprSnow.height);
 		
 		super.create();
+	}
+	
+	private var snowLayer:Int = 2;
+	
+	private function initSnow():Void
+	{
+		var parralaxxx:Float = 5 * (snowLayer + 1);
+		var parralaxxxSnowSize:Float = 5 * (snowLayer + 1);
+			
+		var _emitterBG:FlxEmitter;
+		
+		_emitterBG = new FlxEmitter(camZoomPos.x - 50, camZoomPos.y- 90, 200);
+		_emitterBG.makeParticles(Math.ceil(5 / parralaxxxSnowSize), Math.ceil(5 / parralaxxx), FlxColor.WHITE, 200);
+		
+		add(_emitterBG);
+		_emitterBG.start(false, 0.3);
+		
+		FlxG.log.add("add emitter");
+		
+		_emitterBG.velocity.active = false;
+		_emitterBG.lifespan.set(20);
+		_emitterBG.acceleration.start.min.x = 2 / parralaxxx;
+		_emitterBG.acceleration.start.max.x = 10 / parralaxxx;
+		_emitterBG.acceleration.start.min.y = 25 / parralaxxx;
+		_emitterBG.acceleration.start.max.y = 40 / parralaxxx;
+		_emitterBG.acceleration.end.min.x = 1 / parralaxxx;
+		_emitterBG.acceleration.end.max.x = 30 / parralaxxx;
+		_emitterBG.acceleration.end.min.y = 25 / parralaxxx;
+		_emitterBG.acceleration.end.max.y = 40 / parralaxxx;
+		_emitterBG.width = 400;
+		
+		// _emitterBG.cameras = [uiCamera];
+		_emitterBG.forEach(function(p:FlxParticle)
+		{
+			// p.cameras = [uiCamera]; 
+			// p.scrollFactor.x = snowLayer / 2;
+		});
+		
+		
+		
+		snowLayer -= 1;
 	}
 	
 	private function initCharacters():Void
@@ -223,6 +251,10 @@ class PlayState extends FlxState
 			{
 				camOffset += 10 * FlxG.elapsed;
 			}
+			else
+			{
+				tree.alpha -= 0.3 * FlxG.elapsed;
+			}
 		}
 		else
 		{
@@ -246,7 +278,7 @@ class PlayState extends FlxState
 		}
 		else
 		{
-			if (tree.alpha < 1)
+			if (tree.alpha < 1 && player.y > collisionBounds.y + 20)
 			{
 				tree.alpha += 0.025;
 			}
