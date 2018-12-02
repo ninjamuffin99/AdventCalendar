@@ -16,7 +16,7 @@ class Tree extends SpriteShit
 	{
 		super(X, Y);
 		
-		loadGraphic(AssetPaths.christmasTree__png);
+		loadGraphic("assets/images/christmasTree_01.png");
 		
 		treeSize = new FlxRect(0, 0, width, height);
 		
