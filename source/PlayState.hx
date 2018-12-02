@@ -87,9 +87,10 @@ class PlayState extends FlxState
 		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
 		curDate = Date.now();
-		/*
+		
 		NGio.ngDataLoaded.add(function()
 		{
+			/*
 			NG.core.calls.gateway.getDatetime().addDataHandler(
 			function(response:Response<GetDateTimeResult>):Void
 			{
@@ -111,8 +112,9 @@ class PlayState extends FlxState
 				}
 				
 			}).send();
+			*/
 		});
-		*/
+		
 		gameCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 		uiCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 
@@ -405,6 +407,7 @@ class PlayState extends FlxState
 							}
 							
 							s.animation.play("opened");
+							FlxG.sound.play("assets/sounds/presentOpen" + soundEXT, 1);
 							openSubState(new GallerySubstate(s.curDay));
 						}
 					}
