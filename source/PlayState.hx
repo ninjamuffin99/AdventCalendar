@@ -423,13 +423,14 @@ class PlayState extends FlxState
 		[
 			"assets/images/superPhil.jpg",
 			"Art by SuperPhil",
-			"assets/images/thumbs/thumb-superPhil.png"
+			"assets/images/thumbs/thumb-superPhil.png",
+			"SuperPhil64"
 		],
 		[
 			"assets/images/scepterD.png",
 			"Test Info",
-			"assets/images/thumbs/thumb-scepterD.png"
-			
+			"assets/images/thumbs/thumb-scepterD.png",
+			"ScepterDPinoy"
 		]
 	];
 	

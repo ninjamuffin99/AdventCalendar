@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -22,8 +23,13 @@ class GallerySubstate extends FlxSubState
 	private var isSpritesheet:Bool = false;
 	private var curAnimPlaying:Int = 0;
 	private var imageText:FlxText;
+	private var infoBox:FlxSprite;
 	private var bigPreview:FlxSprite;
 	private var bigImage:FlxSpriteGroup;
+	
+	private var newCamera:FlxCamera;
+	
+	private var curDay:Int = 0;
 	
 	
 	public function new(picNum:Int) 
@@ -39,18 +45,31 @@ class GallerySubstate extends FlxSubState
 	override public function create():Void 
 	{
 		
+		newCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		FlxG.cameras.add(newCamera);
+		newCamera.bgColor = FlxColor.TRANSPARENT;
+		
 		bigImage = new FlxSpriteGroup();
 		bigPreview = new FlxSprite();
 		bigImage.add(bigPreview);
 		
+		bigPreview.cameras = [newCamera];
+		bigImage.cameras = [newCamera];
 		
-		imageText = new FlxText(0, 490, FlxG.width - 6, "Test Words", 18);
+		
+		imageText = new FlxText(0, 490, FlxG.width - 6, "", 18);
 		imageText.alignment = FlxTextAlign.CENTER;
 		imageText.screenCenter(X);
+		
+		infoBox = new FlxSprite(0, imageText.y - 4).makeGraphic(Std.int(750), Std.int(imageText.height * 2.1), FlxColor.BLACK);
+		infoBox.alpha = 0.5;
+		infoBox.screenCenter(X);
+		bigImage.add(infoBox);
+		
 		bigImage.add(imageText);
 		
 		var text:FlxText = new FlxText(10, 10, 0, "Current Pic - Press ESC to exit", 16);
-		add(text);
+		bigImage.add(text);
 		
 		
 		add(bigImage);
@@ -64,11 +83,13 @@ class GallerySubstate extends FlxSubState
 	
 	private function openImage(i:Int):Void
 	{
+		curDay = i;
+		
 		curAnimPlaying = 0;
 		bigImage.visible = true;
 		bigPreview.loadGraphic(picsArray[i][0]);
 		
-		var isAnimated = picsArray[i][2];
+		var isAnimated = false;
 		var horizSize:Int = Std.int(bigPreview.width);
 		var vertSize:Int = Std.int(bigPreview.height);
 		// checks if animated
@@ -92,9 +113,9 @@ class GallerySubstate extends FlxSubState
 		}
 		
 		if (bigPreview.width < bigPreview.height)
-			bigPreview.setGraphicSize(0, Std.int(FlxG.width * 0.75));
+			bigPreview.setGraphicSize(0, Std.int(FlxG.height));
 		else
-			bigPreview.setGraphicSize(Std.int(FlxG.height * 0.75));
+			bigPreview.setGraphicSize(Std.int(FlxG.width));
 		
 		bigPreview.updateHitbox();
 		bigPreview.screenCenter();
@@ -108,6 +129,13 @@ class GallerySubstate extends FlxSubState
 		#if !mobile
 			keyboardControls();
 		#end
+		
+		imageText.text = picsArray[curDay][1] + "\nPress ENTER to open " + picsArray[curDay][3] + "'s Newgrounds page";
+		
+		if (FlxG.keys.justPressed.ENTER)
+		{
+			FlxG.openURL("https://" + picsArray[curDay][3] + ".newgrounds.com");
+		}
 		
 		dragControls();
 		
@@ -127,7 +155,10 @@ class GallerySubstate extends FlxSubState
 		#end
 		
 		if (FlxG.keys.justPressed.ESCAPE)
+		{
+			FlxG.cameras.remove(newCamera);
 			close();
+		}
 		
 		// REPLACE THESE TO BE CLEANER LATER AND WITH MORE KEYS
 		if (FlxG.keys.pressed.S)
