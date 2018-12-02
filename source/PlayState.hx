@@ -199,6 +199,8 @@ class PlayState extends FlxState
 		treeOGhitbox = new FlxObject(tree.x, tree.y - tree.treeSize.height, tree.treeSize.width, tree.treeSize.height);
 		add(treeOGhitbox);
 		
+		
+		
 		FlxG.camera.follow(camFollow, FlxCameraFollowStyle.LOCKON, 0.05);
 		
 		var zoomOffset:Float = 250;
@@ -285,7 +287,7 @@ class PlayState extends FlxState
 		
 		for (c in 0...days)
 		{
-			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), FlxG.random.float(tree.y + tree.height, 430));
+			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), FlxG.random.float(collisionBounds.y + 60, 430));
 			npc.animation.frameIndex = c;
 			_grpCharacters.add(npc);
 		}
