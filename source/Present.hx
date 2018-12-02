@@ -16,7 +16,9 @@ class Present extends SpriteShit
 	{
 		super(X, Y, SimpleGraphic);
 		
-		loadGraphic(AssetPaths.present__png);
+		loadGraphic(AssetPaths.present__png, true, 16, 17);
+		animation.add("closed", [0]);
+		animation.add("opened", [1]);
 		drag.x = drag.y = 5000;
 		
 		offset.y = height - 8;

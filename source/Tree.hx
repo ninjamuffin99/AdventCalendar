@@ -20,10 +20,10 @@ class Tree extends SpriteShit
 		
 		treeSize = new FlxRect(0, 0, width, height);
 		
-		offset.y = height - 16;
+		offset.y = height - 20;
 		height = 16;
 		
-		offset.x = 34;
+		offset.x = 48;
 		
 		width -= offset.x * 2;
 		

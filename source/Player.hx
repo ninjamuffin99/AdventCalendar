@@ -21,6 +21,7 @@ class Player extends Character
 	}
 	
 	private var jumpBoost:Int = 0;
+	private var justStepped:Bool = false;
 	
 	override public function update(elapsed:Float):Void 
 	{
@@ -35,9 +36,17 @@ class Player extends Character
 			
 			if (C < 0)
 			{
+				if (!justStepped)
+				{
+					justStepped = true;
+					FlxG.sound.play("assets/sounds/walk" + FlxG.random.int(1, 3) +".ogg", 0.2);
+				}
+				
 				jumpBoost += 4;
 				C = 0;
 			}
+			else
+				justStepped = false;
 			
 			offset.y = (C * 1.3) + 12;
 			

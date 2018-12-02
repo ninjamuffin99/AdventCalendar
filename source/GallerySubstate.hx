@@ -43,7 +43,8 @@ class GallerySubstate extends FlxSubState
 		bigPreview = new FlxSprite();
 		bigImage.add(bigPreview);
 		
-		imageText = new FlxText(0, FlxG.height - 70, FlxG.width - 6, "Test Words", 18);
+		
+		imageText = new FlxText(0, 490, FlxG.width - 6, "Test Words", 18);
 		imageText.alignment = FlxTextAlign.CENTER;
 		imageText.screenCenter(X);
 		bigImage.add(imageText);

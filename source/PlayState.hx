@@ -7,6 +7,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.effects.particles.FlxEmitter;
 import flixel.effects.particles.FlxParticle;
+import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxAngle;
@@ -41,6 +42,7 @@ class PlayState extends FlxState
 
 	private var _grpCharacters:FlxTypedSpriteGroup<SpriteShit>;
 	private var _grpEntites:FlxTypedGroup<FlxObject>;
+	private var _grpCollision:FlxGroup;
 	
 	private var curDate:Date;
 	
@@ -60,9 +62,22 @@ class PlayState extends FlxState
 	
 	private var camZoomPos:FlxPoint;
 	
+	private var soundEXT:String = "";
+	
 	override public function create():Void 
 	{	
 		camZoomPos = new FlxPoint(288 - 36, 162 - 11);
+		
+		#if !flash
+			soundEXT = ".ogg";
+			
+			
+		#else
+			soundEXT = ".mp3";
+		#end
+		
+		FlxG.sound.playMusic("assets/music/song1" + soundEXT, 0);
+		FlxG.sound.music.fadeIn(5, 0, 0.7);
 		
 		#if !mobile
 			FlxG.mouse.visible = true;
@@ -72,7 +87,7 @@ class PlayState extends FlxState
 		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
 		curDate = Date.now();
-		
+		/*
 		NGio.ngDataLoaded.add(function()
 		{
 			NG.core.calls.gateway.getDatetime().addDataHandler(
@@ -97,7 +112,7 @@ class PlayState extends FlxState
 				
 			}).send();
 		});
-		
+		*/
 		gameCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 		uiCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
 
@@ -117,6 +132,16 @@ class PlayState extends FlxState
 		var sprSky:FlxSprite = new FlxSprite(camZoomPos.x, camZoomPos.y).loadGraphic(AssetPaths.AdventCalendarBG__png);
 		sprSky.scrollFactor.set(0.05, 0.05);
 		add(sprSky);
+		
+		var sprClouds2:FlxSprite = new FlxSprite(sprSky.x, sprSky.y).loadGraphic(AssetPaths.clouds2__png);
+		sprClouds2.scrollFactor.set(0.1, 0.1);
+		sprClouds2.alpha = 0.5;
+		add(sprClouds2);
+		
+		var sprClouds1:FlxSprite = new FlxSprite(sprSky.x, sprSky.y).loadGraphic(AssetPaths.clouds1__png);
+		sprClouds1.scrollFactor.set(0.2, 0.2);
+		sprClouds1.alpha = 0.5;
+		add(sprClouds1);
 		
 		var sprMountains:FlxSprite = new FlxSprite(sprSky.x, sprSky.y).loadGraphic(AssetPaths.mountains__png);
 		sprMountains.scrollFactor.set(0.3, 0.3);
@@ -141,9 +166,24 @@ class PlayState extends FlxState
 		
 		// initSnow();
 		
+		_grpCollision = new FlxGroup();
+		add(_grpCollision);
+		
 		collisionBounds = new FlxObject(sprSnow.x, 306, sprSnow.width, 3);
 		collisionBounds.immovable = true;
 		add(collisionBounds);
+		
+		var collisionBottom:FlxObject = new FlxObject(sprSnow.x, 451, sprSnow.width, 3);
+		collisionBottom.immovable = true;
+		_grpCollision.add(collisionBottom);
+		
+		var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height);
+		collLeft.immovable = true;
+		_grpCollision.add(collLeft);
+		
+		var collRight:FlxObject = new FlxObject(sprSnow.x + sprSnow.width - 1, sprSnow.y, 3, sprSnow.height);
+		collRight.immovable = true;
+		_grpCollision.add(collRight);
 		
 		initSnow();
 		
@@ -152,7 +192,7 @@ class PlayState extends FlxState
 		
 		tree = new Tree();
 		_grpCharacters.add(tree);
-		tree.setPosition(collisionBounds.x + 160, collisionBounds.y + 50);
+		tree.setPosition(collisionBounds.x + 230, collisionBounds.y + 42);
 		
 		treeOGhitbox = new FlxObject(tree.x, tree.y - tree.treeSize.height, tree.treeSize.width, tree.treeSize.height);
 		add(treeOGhitbox);
@@ -161,6 +201,8 @@ class PlayState extends FlxState
 		
 		var zoomOffset:Float = 250;
 		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 100, sprSnow.y + sprSnow.height);
+		FlxG.camera.focusOn(player.getPosition());
+		FlxG.camera.fade(FlxColor.BLACK, 2.5, true);
 		
 		snowStamp = new FlxSprite(0, 0);
 		snowStamp.loadGraphic(AssetPaths.stamp__png);
@@ -233,7 +275,12 @@ class PlayState extends FlxState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 		
-		for (c in 0...24)
+		var days = curDate.getDate() - 1;
+		if (days > 24)
+			days = 24;
+		
+		
+		for (c in 0...days)
 		{
 			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), collisionBounds.y + 90 + FlxG.random.float( -90, 90));
 			_grpCharacters.add(npc);
@@ -242,13 +289,29 @@ class PlayState extends FlxState
 	
 	private function initPresents():Void
 	{
-		for (p in 0...24)
+		var days = curDate.getDate();
+		if (days > 24)
+			days = 24;
+		
+		for (p in 0...days)
 		{
-			var present:Present = new Present(450 + FlxG.random.float( -150, 150), collisionBounds.y + 100 + FlxG.random.float( -90, 90));
+			var present:Present = new Present(presPositions[p][0], presPositions[p][1]);
 			_grpCharacters.add(present);
 			present.curDay = p;
 			present.ID = 1;
 		}
+		
+		var tank:Prop = new Prop(590, 420, "assets/images/snowTank.png");
+		tank.width -= 25;
+		tank.immovable = true;
+		_grpCharacters.add(tank);
+		
+		var fort:Prop = new Prop(640, 340, "assets/images/snowFort.png");
+		_grpCharacters.add(fort);
+		fort.offset.x += fort.width;
+		fort.width = 30;
+		fort.offset.x -= fort.width + 8;
+		fort.immovable = true;
 	}
 	
 	
@@ -281,6 +344,7 @@ class PlayState extends FlxState
 		
 		FlxG.collide(collisionBounds, _grpCharacters);
 		FlxG.collide(_grpCharacters, _grpEntites);
+		FlxG.collide(_grpCharacters, _grpCollision);
 		
 		_grpCharacters.sort(FlxSort.byY);
 		
@@ -320,6 +384,7 @@ class PlayState extends FlxState
 						
 						if (FlxG.keys.justPressed.SPACE && s.curDay < grid.length)
 						{
+							s.animation.play("opened");
 							openSubState(new GallerySubstate(s.curDay));
 						}
 					}
@@ -336,10 +401,23 @@ class PlayState extends FlxState
 	public static var grid:Array<Dynamic> = 
 	[
 		[
+			"assets/images/superPhil.jpg",
+			"Art by SuperPhil",
+			"assets/images/thumbs/thumb-superPhil.png"
+		],
+		[
 			"assets/images/scepterD.png",
 			"Test Info",
 			"assets/images/thumbs/thumb-scepterD.png"
 			
+		]
+	];
+	
+	private var presPositions:Array<Dynamic> = 
+	[
+		[
+			470,
+			390
 		]
 	];
 
