@@ -12,11 +12,13 @@ class Tree extends SpriteShit
 {
 	public var treeSize:FlxRect;
 
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	public function new(?X:Float=0, ?Y:Float=0, curDay:Int) 
 	{
 		super(X, Y);
 		
-		loadGraphic("assets/images/christmasTree_01.png");
+		this.curDay = curDay;
+		
+		loadGraphic("assets/images/christmasTree_" + curDay + ".png");
 		
 		treeSize = new FlxRect(0, 0, width, height);
 		

@@ -83,6 +83,21 @@ class PlayState extends FlxState
 			FlxG.mouse.visible = true;
 		#end
 		
+		
+		for (i in 0...24)
+		{
+			openedPres.push(false);
+		}
+		
+		FlxG.save.bind("File1");
+		
+		if (FlxG.save.data.openedPres != null)
+		{
+			openedPres = FlxG.save.data.openedPres;
+		}
+		
+		FlxG.log.add(openedPres.length);
+		
 		var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
 		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
@@ -192,7 +207,7 @@ class PlayState extends FlxState
 		initCharacters();
 		initPresents();
 		
-		tree = new Tree();
+		tree = new Tree(0, 0, curDate.getDate() - 1);
 		_grpCharacters.add(tree);
 		tree.setPosition(collisionBounds.x + 230, collisionBounds.y + 42);
 		
@@ -302,9 +317,12 @@ class PlayState extends FlxState
 		
 		for (p in 0...days)
 		{
-			var present:Present = new Present(presPositions[p][0], presPositions[p][1]);
+			var present:Present = new Present(presPositions[p][0], presPositions[p][1], p);
 			_grpCharacters.add(present);
-			present.curDay = p;
+			if (openedPres[p])
+			{
+				present.animation.play("opened");
+			}
 			present.ID = 1;
 		}
 		
@@ -408,6 +426,11 @@ class PlayState extends FlxState
 							}
 							
 							s.animation.play("opened");
+							openedPres[s.curDay] = true;
+							
+							FlxG.save.data.openedPres = openedPres;
+							FlxG.save.flush();
+							
 							FlxG.sound.play("assets/sounds/presentOpen" + soundEXT, 1);
 							openSubState(new GallerySubstate(s.curDay));
 						}
@@ -462,6 +485,11 @@ class PlayState extends FlxState
 		55983,
 		55984,
 		55985 // dec 10th
+	];
+	
+	private var openedPres:Array<Bool> =
+	[
+	
 	];
 
 	

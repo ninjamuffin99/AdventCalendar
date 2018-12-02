@@ -12,9 +12,11 @@ import flixel.util.FlxColor;
 class Present extends SpriteShit
 {
 
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	public function new(?X:Float=0, ?Y:Float=0, curDay:Int) 
 	{
-		super(X, Y, SimpleGraphic);
+		super(X, Y);
+		
+		this.curDay = curDay;
 		
 		loadGraphic("assets/images/presents/present_" + (curDay + 1) +".png", true, 16, 17);
 		animation.add("closed", [0]);

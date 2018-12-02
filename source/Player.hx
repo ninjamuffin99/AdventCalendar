@@ -26,7 +26,7 @@ class Player extends Character
 	override public function update(elapsed:Float):Void 
 	{
 		
-		if (FlxG.keys.anyPressed([A, S, D, W]))
+		if (FlxG.keys.anyPressed([A, S, D, W, "UP", "DOWN", "LEFT", "RIGHT"]))
 		{
 			
 			jumpBoost++;
@@ -54,19 +54,19 @@ class Player extends Character
 			
 			var vertSlow:Float = 0.9;
 			
-			if (FlxG.keys.pressed.S)
+			if (FlxG.keys.anyPressed(["S", "DOWN"]))
 			{
 				velocity.y = C * vertSlow;
 			}
-			if (FlxG.keys.pressed.W)
+			if (FlxG.keys.anyPressed(["W", "UP"]))
 			{
 				velocity.y = -C * vertSlow;
 			}
-			if (FlxG.keys.pressed.A)
+			if (FlxG.keys.anyPressed(["A", "LEFT"]))
 			{
 				velocity.x = -C;
 			}
-			if (FlxG.keys.pressed.D)
+			if (FlxG.keys.anyPressed(["D", "RIGHT"]))
 			{
 				velocity.x = C;
 			}
