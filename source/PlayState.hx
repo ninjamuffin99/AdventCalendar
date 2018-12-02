@@ -424,13 +424,13 @@ class PlayState extends FlxState
 	public static var grid:Array<Dynamic> = 
 	[
 		[
-			"assets/images/superPhil.jpg",
+			"assets/images/artwork/superPhil.jpg",
 			"Art by SuperPhil",
 			"assets/images/thumbs/thumb-superPhil.png",
 			"SuperPhil64"
 		],
 		[
-			"assets/images/scepterD.png",
+			"assets/images/artwork/scepterD.png",
 			"Test Info",
 			"assets/images/thumbs/thumb-scepterD.png",
 			"ScepterDPinoy"
