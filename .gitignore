@@ -1,3 +1,5 @@
 export/
 
 source/APIStuff.hx
+*.png~
+*.kra~
