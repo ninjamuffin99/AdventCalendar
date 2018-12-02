@@ -23,7 +23,7 @@ class Tree extends SpriteShit
 		offset.y = height - 20;
 		height = 16;
 		
-		offset.x = 48;
+		offset.x = 54;
 		
 		width -= offset.x * 2;
 		

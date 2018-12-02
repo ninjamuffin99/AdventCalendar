@@ -15,7 +15,7 @@ class Player extends Character
 	{
 		super(X, Y, SimpleGraphic);
 		
-		loadGraphic(AssetPaths.tankMan__png);
+		loadGraphic(AssetPaths.tankMan__png, true, 16, 16);
 		
 		resizeHitbox();
 	}

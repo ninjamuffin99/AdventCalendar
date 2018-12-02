@@ -265,6 +265,7 @@ class PlayState extends FlxState
 		
 		
 		player = new Player(315, collisionBounds.y + 65);
+		player.animation.frameIndex = curDate.getDate() - 1;
 		_grpCharacters.add(player);
 		
 		playerHitbox = new FlxObject(0, 0, player.width + 6, player.height + 6);
@@ -284,7 +285,8 @@ class PlayState extends FlxState
 		
 		for (c in 0...days)
 		{
-			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), collisionBounds.y + 90 + FlxG.random.float( -90, 90));
+			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), FlxG.random.float(tree.y + tree.height, 430));
+			npc.animation.frameIndex = c;
 			_grpCharacters.add(npc);
 		}
 	}
@@ -295,9 +297,6 @@ class PlayState extends FlxState
 		if (days > 24)
 			days = 24;
 		
-		
-		// CODE FOR DAY 1 INITIAL SHIT
-		days = 1;
 		
 		for (p in 0...days)
 		{
@@ -431,7 +430,7 @@ class PlayState extends FlxState
 		],
 		[
 			"assets/images/artwork/scepterD.png",
-			"Test Info",
+			"Art by ScepterDPinoy",
 			"assets/images/thumbs/thumb-scepterD.png",
 			"ScepterDPinoy"
 		]
@@ -442,6 +441,10 @@ class PlayState extends FlxState
 		[
 			470,
 			390
+		],
+		[
+			430,
+			340
 		]
 	];
 	

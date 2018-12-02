@@ -71,6 +71,10 @@ class GallerySubstate extends FlxSubState
 		var text:FlxText = new FlxText(10, 10, 0, "Current Pic - Press ESC to exit", 16);
 		bigImage.add(text);
 		
+		var textBG:FlxSprite = new FlxSprite(5, 5).makeGraphic(text.text.length * 18, 20, FlxColor.BLACK);
+		textBG.alpha = 0.5;
+		add(textBG);
+		
 		
 		add(bigImage);
 		bigImage.visible = false;

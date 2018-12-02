@@ -22,7 +22,7 @@ class NPC extends Character
 		
 		_brain = new FSM(idle);
 		
-		loadGraphic(AssetPaths.tankMan__png);
+		loadGraphic(AssetPaths.tankMan__png, true, 16, 16);
 		
 
 		drag.x = drag.y = drag.x * 0.07;
