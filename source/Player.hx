@@ -39,7 +39,7 @@ class Player extends Character
 				if (!justStepped)
 				{
 					justStepped = true;
-					FlxG.sound.play("assets/sounds/walk" + FlxG.random.int(1, 3) +".ogg", 0.2);
+					FlxG.sound.play("assets/sounds/walk" + FlxG.random.int(1, 3) + PlayState.soundEXT, 0.2);
 				}
 				
 				jumpBoost += 4;

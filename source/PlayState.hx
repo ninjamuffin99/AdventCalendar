@@ -62,7 +62,7 @@ class PlayState extends FlxState
 	
 	private var camZoomPos:FlxPoint;
 	
-	private var soundEXT:String = "";
+	public static var soundEXT:String = "";
 	
 	override public function create():Void 
 	{	
@@ -83,7 +83,7 @@ class PlayState extends FlxState
 			FlxG.mouse.visible = true;
 		#end
 		
-		// var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
+		var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
 		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
 		curDate = Date.now();
@@ -293,6 +293,10 @@ class PlayState extends FlxState
 		if (days > 24)
 			days = 24;
 		
+		
+		// CODE FOR DAY 1 INITIAL SHIT
+		days = 1;
+		
 		for (p in 0...days)
 		{
 			var present:Present = new Present(presPositions[p][0], presPositions[p][1]);
@@ -384,6 +388,22 @@ class PlayState extends FlxState
 						
 						if (FlxG.keys.justPressed.SPACE && s.curDay < grid.length)
 						{
+							FlxG.log.add(s.curDay);
+							
+							if (s.curDay == 0)
+							{
+								var medal = NG.core.medals.get(medalNames[0]);
+								if (!medal.unlocked)
+									medal.sendUnlock();
+							}
+							
+							if (s.curDay == curDate.getDate() - 1)
+							{
+								var medal = NG.core.medals.get(medalNames[s.curDay]);
+								if (!medal.unlocked)
+									medal.sendUnlock();
+							}
+							
 							s.animation.play("opened");
 							openSubState(new GallerySubstate(s.curDay));
 						}
@@ -419,6 +439,20 @@ class PlayState extends FlxState
 			470,
 			390
 		]
+	];
+	
+	private var medalNames:Array<Int> = 
+	[
+		55976,
+		55977,
+		55978,
+		55979,
+		55980,
+		55981,
+		55982,
+		55983,
+		55984,
+		55985 // dec 10th
 	];
 
 	
