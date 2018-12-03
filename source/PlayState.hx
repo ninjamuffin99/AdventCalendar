@@ -99,7 +99,7 @@ class PlayState extends FlxState
 		
 		FlxG.log.add(openedPres.length);
 		
-		// var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
+		var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
 		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
 		curDate = Date.now();
@@ -402,7 +402,7 @@ class PlayState extends FlxState
 						thumbnail.setPosition(s.x - 20, s.y - thumbnail.height - 8);
 						thumbnail.newThumb(s.curDay);
 						
-						if (FlxG.keys.justPressed.SPACE && s.curDay < grid.length)
+						if (FlxG.keys.justPressed.SPACE)
 						{
 							FlxG.log.add(s.curDay);
 							
@@ -471,6 +471,10 @@ class PlayState extends FlxState
 		[
 			430,
 			340
+		],
+		[
+			420,
+			370
 		]
 	];
 	
