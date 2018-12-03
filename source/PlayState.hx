@@ -66,6 +66,7 @@ class PlayState extends FlxState
 	
 	override public function create():Void 
 	{	
+		
 		camZoomPos = new FlxPoint(288 - 36, 162 - 11);
 		
 		#if !flash
@@ -98,7 +99,7 @@ class PlayState extends FlxState
 		
 		FlxG.log.add(openedPres.length);
 		
-		var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
+		// var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
 		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
 		curDate = Date.now();
@@ -214,18 +215,12 @@ class PlayState extends FlxState
 		treeOGhitbox = new FlxObject(tree.x, tree.y - tree.treeSize.height, tree.treeSize.width, tree.treeSize.height);
 		add(treeOGhitbox);
 		
-		
-		
 		FlxG.camera.follow(camFollow, FlxCameraFollowStyle.LOCKON, 0.05);
 		
 		var zoomOffset:Float = 250;
 		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 100, sprSnow.y + sprSnow.height);
 		FlxG.camera.focusOn(player.getPosition());
 		FlxG.camera.fade(FlxColor.BLACK, 2.5, true);
-		
-		snowStamp = new FlxSprite(0, 0);
-		snowStamp.loadGraphic(AssetPaths.stamp__png);
-		add(snowStamp);
 		
 		super.create();
 	}
@@ -242,7 +237,7 @@ class PlayState extends FlxState
 		_emitterBG = new FlxEmitter(camZoomPos.x - 50, camZoomPos.y- 90, 200);
 		_emitterBG.makeParticles(Math.ceil(5 / parralaxxxSnowSize), Math.ceil(5 / parralaxxx), FlxColor.WHITE, 200);
 		
-		add(_emitterBG);
+		// add(_emitterBG);
 		_emitterBG.start(false, 0.3);
 		
 		FlxG.log.add("add emitter");
@@ -458,6 +453,12 @@ class PlayState extends FlxState
 			"Art by ScepterDPinoy",
 			"assets/images/thumbs/thumb-scepterD.png",
 			"ScepterDPinoy"
+		],
+		[
+			"assets/images/artwork/palkoark.png",
+			"Art by Palkoark",
+			"assets/images/thumbs/thumb-palkoark.png",
+			"Palkoark"
 		]
 	];
 	
