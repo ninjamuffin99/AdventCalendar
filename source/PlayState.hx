@@ -187,7 +187,7 @@ class PlayState extends FlxState
 		sprShine.animation.play("shine");
 		sprShine.scrollFactor.x = sprGround.scrollFactor.x * 0.85;
 		sprShine.scrollFactor.y = 0.6;
-		sprShine.alpha = 0.6;
+		sprShine.alpha = 0.8;
 		add(sprShine);
 		
 		var sprSnow2:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 96).loadGraphic(AssetPaths.snow2__png);
