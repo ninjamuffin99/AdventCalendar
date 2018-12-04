@@ -175,18 +175,18 @@ class PlayState extends FlxState
 		sprGround.scrollFactor.set(0.6, 0.6);
 		add(sprGround);
 		
-		var sprFire:FlxSprite = new FlxSprite(sprGround.x + 270, sprGround.y + 168).loadGraphic(AssetPaths.fireSheet__png, true, 10, 18);
+		var sprFire:FlxSprite = new FlxSprite(sprGround.x + 270, sprGround.y + 164).loadGraphic(AssetPaths.fireSheet__png, true, 10, 18);
 		sprFire.animation.add("fire", [0, 1, 2], 2);
 		sprFire.animation.play("fire");
 		sprFire.alpha = 0.65;
 		sprFire.scrollFactor.set(0.6, 0.6);
 		add(sprFire);
 		
-		var sprShine:FlxSprite = new FlxSprite(sprGround.x + 60, sprGround.y + 182).loadGraphic(AssetPaths.moonSheet__png, true, Std.int(150 / 3), 22);
+		var sprShine:FlxSprite = new FlxSprite(sprGround.x + 90, sprGround.y + 176).loadGraphic(AssetPaths.moonSheet__png, true, Std.int(150 / 3), 22);
 		sprShine.animation.add("shine", [0, 1, 2], 1);
 		sprShine.animation.play("shine");
-		sprShine.scrollFactor.x = sprSky.scrollFactor.x -d 0.03;
-		sprShine.scrollFactor.y = 0.65;
+		sprShine.scrollFactor.x = sprGround.scrollFactor.x * 0.85;
+		sprShine.scrollFactor.y = 0.6;
 		sprShine.alpha = 0.6;
 		add(sprShine);
 		
