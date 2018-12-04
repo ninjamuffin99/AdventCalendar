@@ -176,7 +176,7 @@ class PlayState extends FlxState
 		add(sprGround);
 		
 		var sprFire:FlxSprite = new FlxSprite(sprGround.x + 270, sprGround.y + 168).loadGraphic(AssetPaths.fireSheet__png, true, 10, 18);
-		sprFire.animation.add("fire", [0, 1, 2], 3);
+		sprFire.animation.add("fire", [0, 1, 2], 2);
 		sprFire.animation.play("fire");
 		sprFire.alpha = 0.65;
 		sprFire.scrollFactor.set(0.6, 0.6);
@@ -214,6 +214,15 @@ class PlayState extends FlxState
 		
 		initCharacters();
 		initPresents();
+		
+		var sign:SpriteShit = new SpriteShit(266, 318);
+		sign.loadGraphic(AssetPaths.sign__png);
+		sign.offset.y = sign.height - 4;
+		sign.height = 2;
+		sign.offset.x = 4;
+		sign.width -= 5;
+		sign.immovable = true;
+		_grpCharacters.add(sign);
 		
 		tree = new Tree(0, 0, curDate.getDate() - 1);
 		_grpCharacters.add(tree);
