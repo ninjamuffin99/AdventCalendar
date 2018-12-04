@@ -117,7 +117,7 @@ class GallerySubstate extends FlxSubState
 			}
 		}
 		
-		if (bigPreview.width <= bigPreview.height)
+		if (bigPreview.width >= bigPreview.height)
 			bigPreview.setGraphicSize(0, Std.int(FlxG.height));
 		else 
 			bigPreview.setGraphicSize(Std.int(FlxG.width));
