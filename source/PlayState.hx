@@ -459,6 +459,12 @@ class PlayState extends FlxState
 			"Art by Palkoark",
 			"assets/images/thumbs/thumb-palkoark.png",
 			"Palkoark"
+		],
+		[
+			"assets/images/artwork/snackers.png",
+			"Art by Snackers",
+			"assets/images/thumbs/thumb-snackers.png",
+			"Snackers"
 		]
 	];
 	
@@ -475,6 +481,10 @@ class PlayState extends FlxState
 		[
 			420,
 			370
+		],
+		[
+			530,
+			390
 		]
 	];
 	
