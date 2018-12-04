@@ -81,7 +81,7 @@ class PlayState extends FlxState
 		FlxG.sound.music.fadeIn(5, 0, 0.7);
 		
 		#if !mobile
-			FlxG.mouse.visible = true;
+			FlxG.mouse.visible = false;
 		#end
 		
 		
@@ -97,16 +97,17 @@ class PlayState extends FlxState
 			openedPres = FlxG.save.data.openedPres;
 		}
 		
-		FlxG.log.add(openedPres.length);
-		
-		var ngAPI:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
+		#if (!flash && !html5)
+			var newgrounds:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
+		#end
 		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
+		
 		curDate = Date.now();
 		
-		NGio.ngDataLoaded.add(function()
+		// this is run for if the preloader is workign (on web basically)
+		if (NGio.isLoggedIn)
 		{
-			/*
 			NG.core.calls.gateway.getDatetime().addDataHandler(
 			function(response:Response<GetDateTimeResult>):Void
 			{
@@ -121,28 +122,41 @@ class PlayState extends FlxState
 					
 					FlxG.log.add("Current day of the month: " + curDate.getDate());
 				}
-				else
-				{
-					curDate = Date.now();
-					FlxG.log.add("MADE DATE TIME CURRENT TIME");
-				}
+				
 				
 			}).send();
-			*/
+		}
+		else
+		{
+			curDate = Date.now();
+			FlxG.log.add("MADE DATE TIME CURRENT TIME");
+		}
+		
+		// and this adds a listener to the game that also updates the clock
+		NGio.ngDataLoaded.add(function()
+		{
+			
+			NG.core.calls.gateway.getDatetime().addDataHandler(
+			function(response:Response<GetDateTimeResult>):Void
+			{
+				if (response.success && response.result.success) 
+				{
+					var data:GetDateTimeResult = response.result.data;
+					FlxG.log.add("TIME DATA HERE");
+					FlxG.log.add(data.datetime);
+					var dateTimeFixed:String = data.datetime.substring(0, 10);
+					FlxG.log.add("Fixed string: " + dateTimeFixed);
+					curDate = Date.fromString(dateTimeFixed);
+					
+					FlxG.log.add("Current day of the month: " + curDate.getDate());
+				}
+				
+				
+			}).send();
+			
 		});
 		
-		gameCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
-		uiCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
-
-		gameCamera.zoom = 2.5;
-		
-		gameCamera.bgColor = 0xff626a71;
-		uiCamera.bgColor = FlxColor.TRANSPARENT;
-
-		FlxG.cameras.reset(gameCamera);
-		FlxG.cameras.add(uiCamera);
-
-		FlxCamera.defaultCameras = [gameCamera];
+		initCameras();
 		
 		var bgTest:FlxSprite = new FlxSprite(288, 162).makeGraphic(370, 235, FlxColor.WHITE);
 		// add(bgTest);
@@ -247,6 +261,24 @@ class PlayState extends FlxState
 		FlxG.camera.fade(FlxColor.BLACK, 2.5, true);
 		
 		super.create();
+	}
+	
+	private function initCameras():Void
+	{
+		
+		gameCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		uiCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
+		
+		gameCamera.zoom = 2.5;
+		
+		gameCamera.bgColor = 0xff626a71;
+		uiCamera.bgColor = FlxColor.TRANSPARENT;
+		
+		FlxG.cameras.reset(gameCamera);
+		FlxG.cameras.add(uiCamera);
+		
+		FlxCamera.defaultCameras = [gameCamera];
+		
 	}
 	
 	private var snowLayer:Int = 2;

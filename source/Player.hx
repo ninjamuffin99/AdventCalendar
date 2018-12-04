@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
@@ -25,7 +26,6 @@ class Player extends Character
 	
 	override public function update(elapsed:Float):Void 
 	{
-		
 		if (FlxG.keys.anyPressed([A, S, D, W, "UP", "DOWN", "LEFT", "RIGHT"]))
 		{
 			
