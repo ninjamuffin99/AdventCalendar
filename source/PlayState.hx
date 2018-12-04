@@ -261,7 +261,7 @@ class PlayState extends FlxState
 		_emitterBG = new FlxEmitter(camZoomPos.x - 50, camZoomPos.y- 90, 200);
 		_emitterBG.makeParticles(Math.ceil(5 / parralaxxxSnowSize), Math.ceil(5 / parralaxxx), FlxColor.WHITE, 200);
 		
-		// add(_emitterBG);
+		add(_emitterBG);
 		_emitterBG.start(false, 0.3);
 		
 		FlxG.log.add("add emitter");
