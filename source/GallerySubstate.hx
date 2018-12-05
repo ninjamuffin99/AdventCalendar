@@ -9,6 +9,7 @@ import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.text.FlxText;
+import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
 
 /**
@@ -23,10 +24,10 @@ class GallerySubstate extends FlxSubState
 	private var isSpritesheet:Bool = false;
 	private var curAnimPlaying:Int = 0;
 	private var imageText:FlxText;
-	private var infoBox:FlxSprite;
+	private var infoBox:FlxSpriteButton;
 	private var bigPreview:FlxSprite;
 	private var bigImage:FlxSpriteGroup;
-	private var textBG:FlxSprite;
+	private var textBG:FlxSpriteButton;
 	
 	private var newCamera:FlxCamera;
 	
@@ -63,7 +64,10 @@ class GallerySubstate extends FlxSubState
 		imageText.screenCenter(X);
 		imageText.cameras = [newCamera];
 		
-		infoBox = new FlxSprite(0, imageText.y - 4).makeGraphic(Std.int(750), Std.int(imageText.height * 2.1), FlxColor.BLACK);
+		infoBox = new FlxSpriteButton(0, imageText.y - 4, null, function(){
+			FlxG.openURL("https://" + picsArray[curDay][3] + ".newgrounds.com");
+		});
+		infoBox.makeGraphic(Std.int(750), Std.int(imageText.height * 2.1), FlxColor.BLACK);
 		infoBox.alpha = 0.5;
 		infoBox.screenCenter(X);
 		infoBox.cameras = [newCamera];
@@ -79,7 +83,11 @@ class GallerySubstate extends FlxSubState
 		}
 		text.cameras = [newCamera];
 		
-		textBG = new FlxSprite(5, 7).makeGraphic(text.text.length * 10, 25, FlxColor.BLACK);
+		textBG = new FlxSpriteButton(5, 7, null, function(){
+			FlxG.cameras.remove(newCamera);
+			close();
+		});
+		textBG.makeGraphic(text.text.length * 10, 25, FlxColor.BLACK);
 		textBG.alpha = 0.5;
 		textBG.cameras = [newCamera];
 		
