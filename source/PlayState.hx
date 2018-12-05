@@ -456,32 +456,26 @@ class PlayState extends FlxState
 						thumbnail.setPosition(s.x - 20, s.y - thumbnail.height - 8);
 						thumbnail.newThumb(s.curDay);
 						
+						#if (html5)
+							if (FlxG.html5.onMobile)
+							{
+								for (touch in FlxG.touches.list)
+								{
+									if (touch.justPressed)
+									{
+										if (touch.overlaps(s) || touch.overlaps(thumbnail))
+										{
+											interactPres(s);
+										}
+									}
+									
+								}
+							}
+						#end
+						
 						if (FlxG.keys.justPressed.SPACE)
 						{
-							FlxG.log.add(s.curDay);
-							
-							if (s.curDay == 0)
-							{
-								var medal = NG.core.medals.get(medalNames[0]);
-								if (!medal.unlocked)
-									medal.sendUnlock();
-							}
-							
-							if (s.curDay == curDate.getDate() - 1)
-							{
-								var medal = NG.core.medals.get(medalNames[s.curDay]);
-								if (!medal.unlocked)
-									medal.sendUnlock();
-							}
-							
-							s.animation.play("opened");
-							openedPres[s.curDay] = true;
-							
-							FlxG.save.data.openedPres = openedPres;
-							FlxG.save.flush();
-							
-							FlxG.sound.play("assets/sounds/presentOpen" + soundEXT, 1);
-							openSubState(new GallerySubstate(s.curDay));
+							interactPres(s);
 						}
 					}
 				}
@@ -491,6 +485,34 @@ class PlayState extends FlxState
 		
 		super.update(elapsed);
 		
+	}
+	
+	private function interactPres(s:SpriteShit):Void
+	{
+		FlxG.log.add(s.curDay);
+		
+		if (s.curDay == 0)
+		{
+			var medal = NG.core.medals.get(medalNames[0]);
+			if (!medal.unlocked)
+				medal.sendUnlock();
+		}
+		
+		if (s.curDay == curDate.getDate() - 1)
+		{
+			var medal = NG.core.medals.get(medalNames[s.curDay]);
+			if (!medal.unlocked)
+				medal.sendUnlock();
+		}
+		
+		s.animation.play("opened");
+		openedPres[s.curDay] = true;
+		
+		FlxG.save.data.openedPres = openedPres;
+		FlxG.save.flush();
+		
+		FlxG.sound.play("assets/sounds/presentOpen" + soundEXT, 1);
+		openSubState(new GallerySubstate(s.curDay));
 	}
 	
 	// SYNTAX GUIDE

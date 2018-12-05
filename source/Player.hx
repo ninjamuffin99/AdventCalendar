@@ -30,15 +30,20 @@ class Player extends Character
 	
 	override public function update(elapsed:Float):Void 
 	{
-		if (FlxG.html5.onMobile)
-		{
-			
-			touchControls();
-		}
-		else
-		{
+		#if html5
+			if (FlxG.html5.onMobile)
+			{
+				
+				touchControls();
+			}
+			else
+			{
+				keyboardControls();
+			}
+		#else
 			keyboardControls();
-		}
+		#end
+		
 		
 		super.update(elapsed);
 	}

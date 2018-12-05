@@ -26,12 +26,13 @@ class GallerySubstate extends FlxSubState
 	private var infoBox:FlxSprite;
 	private var bigPreview:FlxSprite;
 	private var bigImage:FlxSpriteGroup;
+	private var textBG:FlxSprite;
 	
 	private var newCamera:FlxCamera;
 	
 	private var curDay:Int = 0;
 	
-	
+	// GET TOUCH CONTROLS FOR EXITING GOING HERE
 	public function new(picNum:Int) 
 	{
 		this.picNum = picNum;
@@ -70,7 +71,13 @@ class GallerySubstate extends FlxSubState
 		
 		var text:FlxText = new FlxText(10, 10, 0, "Current Pic - Press ESC to exit", 16);
 		
-		var textBG:FlxSprite = new FlxSprite(5, 7).makeGraphic(text.text.length * 10, 25, FlxColor.BLACK);
+		if (FlxG.onMobile)
+		{
+			
+			text.text = "Current Pic - Tap here to exit";
+		}
+		
+		textBG= new FlxSprite(5, 7).makeGraphic(text.text.length * 10, 25, FlxColor.BLACK);
 		textBG.alpha = 0.5;
 		
 		bigImage.add(textBG);
@@ -137,10 +144,34 @@ class GallerySubstate extends FlxSubState
 		
 		imageText.text = picsArray[curDay][1] + "\nPress ENTER to open " + picsArray[curDay][3] + "'s Newgrounds page";
 		
+		if (FlxG.onMobile)
+		{
+			imageText.text = picsArray[curDay][1] + "\nTap here to open " + picsArray[curDay][3] + "'s Newgrounds page";
+			
+			for (touch in FlxG.touches.list)
+			{
+				if (touch.justPressed)
+				{
+					if (touch.overlaps(imageText, newCamera))
+					{
+						FlxG.openURL("https://" + picsArray[curDay][3] + ".newgrounds.com");
+					}
+					if (touch.overlaps(textBG, newCamera))
+					{
+						FlxG.cameras.remove(newCamera);
+						close();
+					}
+				}
+				
+			}
+			
+		}
+		
 		if (FlxG.keys.justPressed.ENTER)
 		{
 			FlxG.openURL("https://" + picsArray[curDay][3] + ".newgrounds.com");
 		}
+		
 		
 		dragControls();
 		
