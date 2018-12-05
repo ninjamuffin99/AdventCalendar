@@ -77,7 +77,7 @@ class PlayState extends FlxState
 			soundEXT = ".mp3";
 		#end
 		
-		FlxG.sound.playMusic("assets/music/song1" + soundEXT, 0);
+		FlxG.sound.playMusic("assets/music/song2" + soundEXT, 0);
 		FlxG.sound.music.fadeIn(5, 0, 0.7);
 		
 		#if !mobile
