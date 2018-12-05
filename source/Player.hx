@@ -3,6 +3,8 @@ package;
 import flixel.FlxG;
 import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
+import flixel.math.FlxVelocity;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
@@ -11,6 +13,8 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class Player extends Character 
 {
+	
+	private var C:Float = 0;
 
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
@@ -26,31 +30,47 @@ class Player extends Character
 	
 	override public function update(elapsed:Float):Void 
 	{
-		if (FlxG.keys.anyPressed([A, S, D, W, "UP", "DOWN", "LEFT", "RIGHT"]))
+		if (FlxG.html5.onMobile)
 		{
 			
-			jumpBoost++;
-			
-			
-			var C = FlxMath.fastCos(8 * jumpBoost * FlxG.elapsed);
-			
-			if (C < 0)
+			touchControls();
+		}
+		else
+		{
+			keyboardControls();
+		}
+		
+		super.update(elapsed);
+	}
+	
+	private function touchControls():Void
+	{
+		
+		// basically means that the touchscreen is bein pressed right guys
+		for (touch in FlxG.touches.list)
+		{
+			if (touch.pressed)
 			{
-				if (!justStepped)
-				{
-					justStepped = true;
-					FlxG.sound.play("assets/sounds/walk" + FlxG.random.int(1, 3) + PlayState.soundEXT, 0.2);
-				}
+				bobShit();
 				
-				jumpBoost += 4;
-				C = 0;
+				velocity.set(C);
+				velocity.rotate(FlxPoint.weak(), FlxAngle.angleBetweenTouch(this, FlxG.touches.list[0], true));
+				
 			}
 			else
-				justStepped = false;
-			
-			offset.y = (C * 1.3) + 12;
-			
-			C *= speed;
+			{
+				jumpBoost = 0;
+			}
+		}
+		
+	}
+	
+	private function keyboardControls():Void
+	{
+		
+		if (FlxG.keys.anyPressed([A, S, D, W, "UP", "DOWN", "LEFT", "RIGHT"]))
+		{
+			bobShit();
 			
 			var vertSlow:Float = 0.9;
 			
@@ -73,9 +93,33 @@ class Player extends Character
 		}
 		else
 			jumpBoost = 0;
+	}
+	
+	private function bobShit():Void
+	{
+		
+		jumpBoost++;
 		
 		
-		super.update(elapsed);
+		C = FlxMath.fastCos(8 * jumpBoost * FlxG.elapsed);
+		
+		if (C < 0)
+		{
+			if (!justStepped)
+			{
+				justStepped = true;
+				FlxG.sound.play("assets/sounds/walk" + FlxG.random.int(1, 3) + PlayState.soundEXT, 0.2);
+			}
+			
+			jumpBoost += 4;
+			C = 0;
+		}
+		else
+			justStepped = false;
+		
+		offset.y = (C * 1.3) + 12;
+		
+		C *= speed;
 	}
 	
 }

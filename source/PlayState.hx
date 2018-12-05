@@ -81,7 +81,7 @@ class PlayState extends FlxState
 		FlxG.sound.music.fadeIn(5, 0, 0.7);
 		
 		#if !mobile
-			FlxG.mouse.visible = false;
+			FlxG.mouse.visible = true;
 		#end
 		
 		
@@ -393,8 +393,6 @@ class PlayState extends FlxState
 	
 	override public function update(elapsed:Float):Void 
 	{
-		super.update(elapsed);
-		
 		camFollow.setPosition(player.x, player.y - camOffset);
 		playerHitbox.setPosition(player.x - 3, player.y - 3);
 		presOverlaps = 0;
@@ -490,6 +488,8 @@ class PlayState extends FlxState
 				
 			}
 		});
+		
+		super.update(elapsed);
 		
 	}
 	
