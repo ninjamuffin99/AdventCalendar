@@ -17,6 +17,7 @@ import flixel.math.FlxVector;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.ui.FlxButton;
 import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
@@ -259,6 +260,15 @@ class PlayState extends FlxState
 		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 100, sprSnow.y + sprSnow.height);
 		FlxG.camera.focusOn(player.getPosition());
 		FlxG.camera.fade(FlxColor.BLACK, 2.5, true);
+		
+		if (FlxG.onMobile)
+		{
+			var button = new FlxButton(10, 10, "Fullscreen", function() FlxG.fullscreen = !FlxG.fullscreen);
+			button.cameras = [uiCamera];
+			button.scrollFactor.set();
+			add(button);
+			
+		}
 		
 		super.create();
 	}
