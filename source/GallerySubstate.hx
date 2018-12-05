@@ -74,7 +74,7 @@ class GallerySubstate extends FlxSubState
 		
 		
 		
-		var text:FlxText = new FlxText(10, 10, 0, "Current Pic - Press ESC to exit", 16);
+		var text:FlxText = new FlxText(10, 10, 0, "Current Pic - Click here to exit", 16);
 		
 		if (FlxG.onMobile)
 		{
@@ -152,32 +152,17 @@ class GallerySubstate extends FlxSubState
 	
 	override public function update(elapsed:Float):Void 
 	{
+		super.update(elapsed);
+		
 		#if !mobile
 			keyboardControls();
 		#end
 		
-		imageText.text = picsArray[curDay][1] + "\nPress ENTER to open " + picsArray[curDay][3] + "'s Newgrounds page";
+		imageText.text = picsArray[curDay][1] + "\nClick here to open " + picsArray[curDay][3] + "'s Newgrounds page";
 		
 		if (FlxG.onMobile)
 		{
 			imageText.text = picsArray[curDay][1] + "\nTap here to open " + picsArray[curDay][3] + "'s Newgrounds page";
-			
-			for (touch in FlxG.touches.list)
-			{
-				if (touch.justPressed)
-				{
-					if (touch.overlaps(imageText, newCamera))
-					{
-						FlxG.openURL("https://" + picsArray[curDay][3] + ".newgrounds.com");
-					}
-					if (touch.overlaps(textBG, newCamera))
-					{
-						FlxG.cameras.remove(newCamera);
-						close();
-					}
-				}
-				
-			}
 			
 		}
 		
@@ -189,7 +174,7 @@ class GallerySubstate extends FlxSubState
 		
 		dragControls();
 		
-		super.update(elapsed);
+
 	}
 	
 	
