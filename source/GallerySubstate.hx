@@ -61,13 +61,14 @@ class GallerySubstate extends FlxSubState
 		imageText = new FlxText(0, 490, FlxG.width - 6, "", 18);
 		imageText.alignment = FlxTextAlign.CENTER;
 		imageText.screenCenter(X);
+		imageText.cameras = [newCamera];
 		
 		infoBox = new FlxSprite(0, imageText.y - 4).makeGraphic(Std.int(750), Std.int(imageText.height * 2.1), FlxColor.BLACK);
 		infoBox.alpha = 0.5;
 		infoBox.screenCenter(X);
-		bigImage.add(infoBox);
+		infoBox.cameras = [newCamera];
 		
-		bigImage.add(imageText);
+		
 		
 		var text:FlxText = new FlxText(10, 10, 0, "Current Pic - Press ESC to exit", 16);
 		
@@ -76,15 +77,20 @@ class GallerySubstate extends FlxSubState
 			
 			text.text = "Current Pic - Tap here to exit";
 		}
+		text.cameras = [newCamera];
 		
-		textBG= new FlxSprite(5, 7).makeGraphic(text.text.length * 10, 25, FlxColor.BLACK);
+		textBG = new FlxSprite(5, 7).makeGraphic(text.text.length * 10, 25, FlxColor.BLACK);
 		textBG.alpha = 0.5;
-		
-		bigImage.add(textBG);
-		bigImage.add(text);
+		textBG.cameras = [newCamera];
 		
 		
 		add(bigImage);
+		
+		add(textBG);
+		add(infoBox);
+		add(imageText);
+		add(text);
+		
 		bigImage.visible = false;
 		
 		openImage(picNum);

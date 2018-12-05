@@ -16,7 +16,7 @@ import flash.text.TextFormat;
 
 
 @:font() class CustomFont extends Font {}
-@:bitmap("assets/images/snow1.png") class LogoImage extends BitmapData { }
+@:bitmap("assets/images/tomloveschristmasthehorror.png") class LogoImage extends BitmapData { }
 class Preloader extends FlxBasePreloader 
 {
 	override public function new(MinDisplayTime:Float=4, ?AllowedURLs:Array<String>) 
@@ -44,7 +44,7 @@ class Preloader extends FlxBasePreloader
 		logo = new Sprite();
 		logo.scaleY = 0;
 		logo.addChild(new Bitmap(new LogoImage(0, 0))); //Sets the graphic of the sprite to a bitmap object, which uses our embedded bitmapData class
-		//addChild(logo);
+		addChild(logo);
 		
 		_buffer = new Sprite();
 		//_buffer.scaleX = _buffer.scaleY = 2;
@@ -53,7 +53,7 @@ class Preloader extends FlxBasePreloader
 		_bmpBar = new Bitmap(new BitmapData(1, 14, false, 0x5f6aff));
 		_bmpBar.x = 4;
 		_bmpBar.y = _height - 17;
-		_buffer.addChild(_bmpBar);
+		//_buffer.addChild(_bmpBar);
 		
 		
 		super.create();

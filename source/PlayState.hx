@@ -456,22 +456,22 @@ class PlayState extends FlxState
 						thumbnail.setPosition(s.x - 20, s.y - thumbnail.height - 8);
 						thumbnail.newThumb(s.curDay);
 						
-						#if (html5)
-							if (FlxG.html5.onMobile)
+						
+						if (FlxG.onMobile)
+						{
+							for (touch in FlxG.touches.list)
 							{
-								for (touch in FlxG.touches.list)
+								if (touch.justPressed)
 								{
-									if (touch.justPressed)
+									if (touch.overlaps(s) || touch.overlaps(thumbnail))
 									{
-										if (touch.overlaps(s) || touch.overlaps(thumbnail))
-										{
-											interactPres(s);
-										}
+										interactPres(s);
 									}
-									
 								}
+								
 							}
-						#end
+						}
+						
 						
 						if (FlxG.keys.justPressed.SPACE)
 						{
@@ -543,6 +543,12 @@ class PlayState extends FlxState
 			"Art by Snackers",
 			"assets/images/thumbs/thumb-snackers.png",
 			"Snackers"
+		],
+		[
+			"assets/images/artwork/cymbourine.png",
+			"Art by Cymbourine",
+			"assets/images/thumbs/thumb-cymbourine.png",
+			"Cymbourine"
 		]
 	];
 	
@@ -563,6 +569,10 @@ class PlayState extends FlxState
 		[
 			530,
 			390
+		],
+		[
+			380,
+			410
 		]
 	];
 	
