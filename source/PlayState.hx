@@ -122,6 +122,11 @@ class PlayState extends FlxState
 					curDate = Date.fromString(dateTimeFixed);
 					
 					FlxG.log.add("Current day of the month: " + curDate.getDate());
+					
+					initPresents();
+					initNPC();
+					
+					player.animation.frameIndex = curDate.getDate() - 1;
 				}
 				
 				
@@ -143,16 +148,18 @@ class PlayState extends FlxState
 				if (response.success && response.result.success) 
 				{
 					var data:GetDateTimeResult = response.result.data;
-					FlxG.log.add("TIME DATA HERE");
+					FlxG.log.add("NEWGROUNDS TIME DATA");
 					FlxG.log.add(data.datetime);
 					var dateTimeFixed:String = data.datetime.substring(0, 10);
 					FlxG.log.add("Fixed string: " + dateTimeFixed);
+					FlxG.log.add("prev curdate: " + curDate.getDate());
 					curDate = Date.fromString(dateTimeFixed);
 					
 					FlxG.log.add("Current day of the month: " + curDate.getDate());
 					
-					// initPresents();
-					// initNPC();
+					initPresents();
+					initNPC();
+					player.animation.frameIndex = curDate.getDate() - 1;
 				}
 				
 				
@@ -375,20 +382,23 @@ class PlayState extends FlxState
 	
 	private function initNPC():Void
 	{
-		
+		FlxG.log.add("NPCS ADDED");
 		var days:Int = getProperDays();
 		
-		
+		// uhh call it twice because for some reason it doesnt work??
+		var npcCount:Int = 0;
 		_grpCharacters.forEach(function(s:SpriteShit){
 			if (s.ID == 2)
 			{
-				_grpCharacters.remove(s, true);
+				npcCount += 1;
 			}
 		});
 		
+		FlxG.log.add("NPC STARTING POINT: " + npcCount);
 		
-		for (c in 0...days)
+		for (c in npcCount...days)
 		{
+			FlxG.log.add("NPC ADDED" + FlxG.random.int(0, 100));
 			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), FlxG.random.float(collisionBounds.y + 60, 430));
 			npc.animation.frameIndex = c;
 			npc.ID = 2;
@@ -405,14 +415,17 @@ class PlayState extends FlxState
 		// just a precaution while the game is being live updated
 		if (days > grid.length)
 		{
+			FlxG.log.add("over grid length, shortening the length to" + grid.length);
 			days = grid.length;
 		}
 		
+		FlxG.log.add(days);
 		return days;
 	}
 	
 	private function initPresents():Void
 	{
+		FlxG.log.add("GETTIN PRESENTS");
 		var days = getProperDays() + 1;
 		
 		_grpCharacters.forEach(function(s:SpriteShit){
@@ -422,9 +435,11 @@ class PlayState extends FlxState
 			}
 		});
 		
+		FlxG.log.add("how many presents there should be: " + days);
 		
 		for (p in 0...days)
 		{
+			
 			var present:Present = new Present(presPositions[p][0], presPositions[p][1], p);
 			_grpCharacters.add(present);
 			if (openedPres[p])
