@@ -122,6 +122,11 @@ class PlayState extends FlxState
 					curDate = Date.fromString(dateTimeFixed);
 					
 					FlxG.log.add("Current day of the month: " + curDate.getDate());
+					
+					initPresents();
+					initNPC();
+					
+					player.animation.frameIndex = curDate.getDate() - 1;
 				}
 				
 				
@@ -154,6 +159,7 @@ class PlayState extends FlxState
 					
 					initPresents();
 					initNPC();
+					player.animation.frameIndex = curDate.getDate() - 1;
 				}
 				
 				
@@ -379,17 +385,20 @@ class PlayState extends FlxState
 		FlxG.log.add("NPCS ADDED");
 		var days:Int = getProperDays();
 		
-		
+		// uhh call it twice because for some reason it doesnt work??
+		var npcCount:Int = 0;
 		_grpCharacters.forEach(function(s:SpriteShit){
 			if (s.ID == 2)
 			{
-				_grpCharacters.remove(s, true);
+				npcCount += 1;
 			}
 		});
 		
+		FlxG.log.add("NPC STARTING POINT: " + npcCount);
 		
-		for (c in 0...days)
+		for (c in npcCount...days)
 		{
+			FlxG.log.add("NPC ADDED" + FlxG.random.int(0, 100));
 			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), FlxG.random.float(collisionBounds.y + 60, 430));
 			npc.animation.frameIndex = c;
 			npc.ID = 2;
@@ -430,7 +439,6 @@ class PlayState extends FlxState
 		
 		for (p in 0...days)
 		{
-			FlxG.log.add("presents added " + FlxG.random.int(0, 100));
 			
 			var present:Present = new Present(presPositions[p][0], presPositions[p][1], p);
 			_grpCharacters.add(present);
