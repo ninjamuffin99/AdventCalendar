@@ -238,6 +238,18 @@ class PlayState extends FlxState
 		initCharacters();
 		initPresents();
 		
+		var tank:Prop = new Prop(590, 420, "assets/images/snowTank.png");
+		tank.width -= 25;
+		tank.immovable = true;
+		_grpCharacters.add(tank);
+		
+		var fort:Prop = new Prop(640, 340, "assets/images/snowFort.png");
+		_grpCharacters.add(fort);
+		fort.offset.x += fort.width;
+		fort.width = 30;
+		fort.offset.x -= fort.width + 8;
+		fort.immovable = true;
+		
 		var sign:SpriteShit = new SpriteShit(266, 318);
 		sign.loadGraphic(AssetPaths.sign__png);
 		sign.offset.y = sign.height - 4;
@@ -356,24 +368,58 @@ class PlayState extends FlxState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 		
-		var days = curDate.getDate() - 1;
-		if (days > 24)
-			days = 24;
+		initNPC();
+		
+	}
+	
+	private function initNPC():Void
+	{
+		
+		var days:Int = getProperDays();
+		
+		
+		_grpCharacters.forEach(function(s:SpriteShit){
+			if (s.ID == 1)
+			{
+				_grpCharacters.remove(s, true);
+			}
+		});
+		
 		
 		
 		for (c in 0...days)
 		{
 			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), FlxG.random.float(collisionBounds.y + 60, 430));
 			npc.animation.frameIndex = c;
+			npc.ID = 2;
 			_grpCharacters.add(npc);
 		}
 	}
 	
-	private function initPresents():Void
+	private function getProperDays():Int
 	{
-		var days = curDate.getDate();
+		var days = curDate.getDate() - 1;
 		if (days > 24)
 			days = 24;
+		
+		if (days > grid.length)
+		{
+			days = grid.length;
+		}
+		
+		return days;
+	}
+	
+	private function initPresents():Void
+	{
+		var days = getProperDays();
+		
+		_grpCharacters.forEach(function(s:SpriteShit){
+			if (s.ID == 1)
+			{
+				_grpCharacters.remove(s, true);
+			}
+		});
 		
 		
 		for (p in 0...days)
@@ -386,18 +432,6 @@ class PlayState extends FlxState
 			}
 			present.ID = 1;
 		}
-		
-		var tank:Prop = new Prop(590, 420, "assets/images/snowTank.png");
-		tank.width -= 25;
-		tank.immovable = true;
-		_grpCharacters.add(tank);
-		
-		var fort:Prop = new Prop(640, 340, "assets/images/snowFort.png");
-		_grpCharacters.add(fort);
-		fort.offset.x += fort.width;
-		fort.width = 30;
-		fort.offset.x -= fort.width + 8;
-		fort.immovable = true;
 	}
 	
 	
