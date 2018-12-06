@@ -18,7 +18,7 @@ class Present extends SpriteShit
 		
 		this.curDay = curDay;
 		
-		loadGraphic("assets/images/presents/present_" + (curDay + 1) +".png", true, 16, 17);
+		loadGraphic("assets/images/presents/present_" + (curDay + 1) +".png", true, 16, 0);
 		animation.add("closed", [0]);
 		animation.add("opened", [1]);
 		drag.x = drag.y = 5000;

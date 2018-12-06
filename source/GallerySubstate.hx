@@ -152,6 +152,8 @@ class GallerySubstate extends FlxSubState
 	
 	override public function update(elapsed:Float):Void 
 	{
+		// note to self: if this super.update() isnt at the top of this function
+		// there's errors with the FlxSpriteButtons where it fuks some bullshit up with the mouse and nulls and shit 
 		super.update(elapsed);
 		
 		#if !mobile

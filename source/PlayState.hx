@@ -403,6 +403,8 @@ class PlayState extends FlxState
 	
 	override public function update(elapsed:Float):Void 
 	{
+		FlxG.watch.addMouse();
+		
 		camFollow.setPosition(player.x, player.y - camOffset);
 		playerHitbox.setPosition(player.x - 3, player.y - 3);
 		presOverlaps = 0;
@@ -559,6 +561,12 @@ class PlayState extends FlxState
 			"Art by Cymbourine",
 			"assets/images/thumbs/thumb-cymbourine.png",
 			"Cymbourine"
+		],
+		[
+			"assets/images/artwork/mattLopz.png",
+			"Art by MatthewLopz",
+			"assets/images/thumbs/thumb-mattLopz.png",
+			"MatthewLopz"
 		]
 	];
 	
@@ -583,6 +591,10 @@ class PlayState extends FlxState
 		[
 			380,
 			410
+		],
+		[
+			385,
+			345
 		]
 	];
 	
