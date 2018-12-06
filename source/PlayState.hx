@@ -143,16 +143,17 @@ class PlayState extends FlxState
 				if (response.success && response.result.success) 
 				{
 					var data:GetDateTimeResult = response.result.data;
-					FlxG.log.add("TIME DATA HERE");
+					FlxG.log.add("NEWGROUNDS TIME DATA");
 					FlxG.log.add(data.datetime);
 					var dateTimeFixed:String = data.datetime.substring(0, 10);
 					FlxG.log.add("Fixed string: " + dateTimeFixed);
+					FlxG.log.add("prev curdate: " + curDate.getDate());
 					curDate = Date.fromString(dateTimeFixed);
 					
 					FlxG.log.add("Current day of the month: " + curDate.getDate());
 					
-					// initPresents();
-					// initNPC();
+					initPresents();
+					initNPC();
 				}
 				
 				
@@ -375,7 +376,7 @@ class PlayState extends FlxState
 	
 	private function initNPC():Void
 	{
-		
+		FlxG.log.add("NPCS ADDED");
 		var days:Int = getProperDays();
 		
 		
@@ -405,14 +406,17 @@ class PlayState extends FlxState
 		// just a precaution while the game is being live updated
 		if (days > grid.length)
 		{
+			FlxG.log.add("over grid length, shortening the length to" + grid.length);
 			days = grid.length;
 		}
 		
+		FlxG.log.add(days);
 		return days;
 	}
 	
 	private function initPresents():Void
 	{
+		FlxG.log.add("GETTIN PRESENTS");
 		var days = getProperDays() + 1;
 		
 		_grpCharacters.forEach(function(s:SpriteShit){
@@ -422,9 +426,12 @@ class PlayState extends FlxState
 			}
 		});
 		
+		FlxG.log.add("how many presents there should be: " + days);
 		
 		for (p in 0...days)
 		{
+			FlxG.log.add("presents added " + FlxG.random.int(0, 100));
+			
 			var present:Present = new Present(presPositions[p][0], presPositions[p][1], p);
 			_grpCharacters.add(present);
 			if (openedPres[p])
