@@ -151,8 +151,8 @@ class PlayState extends FlxState
 					
 					FlxG.log.add("Current day of the month: " + curDate.getDate());
 					
-					initPresents();
-					initNPC();
+					// initPresents();
+					// initNPC();
 				}
 				
 				
@@ -380,12 +380,11 @@ class PlayState extends FlxState
 		
 		
 		_grpCharacters.forEach(function(s:SpriteShit){
-			if (s.ID == 1)
+			if (s.ID == 2)
 			{
 				_grpCharacters.remove(s, true);
 			}
 		});
-		
 		
 		
 		for (c in 0...days)
@@ -403,6 +402,7 @@ class PlayState extends FlxState
 		if (days > 24)
 			days = 24;
 		
+		// just a precaution while the game is being live updated
 		if (days > grid.length)
 		{
 			days = grid.length;
@@ -413,7 +413,7 @@ class PlayState extends FlxState
 	
 	private function initPresents():Void
 	{
-		var days = getProperDays();
+		var days = getProperDays() + 1;
 		
 		_grpCharacters.forEach(function(s:SpriteShit){
 			if (s.ID == 1)
