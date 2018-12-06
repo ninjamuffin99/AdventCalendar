@@ -150,6 +150,9 @@ class PlayState extends FlxState
 					curDate = Date.fromString(dateTimeFixed);
 					
 					FlxG.log.add("Current day of the month: " + curDate.getDate());
+					
+					initPresents();
+					initNPC();
 				}
 				
 				
@@ -351,8 +354,6 @@ class PlayState extends FlxState
 		
 		_grpCharacters = new FlxTypedSpriteGroup<SpriteShit>();
 		_grpEntites.add(_grpCharacters);
-		
-		
 		
 		player = new Player(315, collisionBounds.y + 65);
 		player.animation.frameIndex = curDate.getDate() - 1;
