@@ -54,6 +54,7 @@ class PlayState extends FlxState
 	private var snowStamps:FlxSprite;
 	
 	private var tree:Tree;
+	private var gyrados:FlxSprite;
 	
 	private var collisionBounds:FlxObject;
 	private var treeOGhitbox:FlxObject;
@@ -200,6 +201,14 @@ class PlayState extends FlxState
 		sprGround.scrollFactor.set(0.6, 0.6);
 		add(sprGround);
 		
+		gyrados = new FlxSprite(260, sprGround.y + 162);
+		gyrados.loadGraphic("assets/images/gyradosSheet.png", true, Std.int(74 / 3));
+		gyrados.animation.add("play", [0, 1, 2], 2);
+		gyrados.animation.play("play");
+		gyrados.scrollFactor.set(0.6, 0.6);
+		gyrados.alpha = 0;
+		add(gyrados);
+		
 		var sprFire:FlxSprite = new FlxSprite(sprGround.x + 270, sprGround.y + 164).loadGraphic(AssetPaths.fireSheet__png, true, 10, 18);
 		sprFire.animation.add("fire", [0, 1, 2], 2);
 		sprFire.animation.play("fire");
@@ -291,6 +300,7 @@ class PlayState extends FlxState
 			add(button);
 			
 		}
+		
 		
 		super.create();
 	}
@@ -450,6 +460,8 @@ class PlayState extends FlxState
 		}
 	}
 	
+	private var gyradosTmr:Float = 0;
+	
 	
 	override public function update(elapsed:Float):Void 
 	{
@@ -461,6 +473,32 @@ class PlayState extends FlxState
 		
 		if (player.y < collisionBounds.y + 20)
 		{
+			if (gyradosTmr >= 170)
+			{
+				gyrados.velocity.x = 2;
+				
+				if (gyrados.x >= 280)
+				{
+					if (gyrados.alpha > 0)
+					{
+						gyrados.alpha -= 0.4 * FlxG.elapsed;
+					}
+					else
+					{
+						gyrados.kill();
+					}
+				}
+				else if (gyrados.alpha < 1)
+				{
+					gyrados.alpha += 0.4 * FlxG.elapsed;
+				}
+				
+			}
+			else
+			{
+				gyradosTmr += FlxG.elapsed;
+			}
+			
 			if (camOffset < 90)
 			{
 				camOffset += 10 * FlxG.elapsed;
