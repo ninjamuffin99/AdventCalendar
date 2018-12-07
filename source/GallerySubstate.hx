@@ -191,7 +191,7 @@ class GallerySubstate extends FlxSubState
 		}
 		#end
 		
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (FlxG.keys.anyJustPressed(["ESCAPE", "SPACE"]))
 		{
 			FlxG.cameras.remove(newCamera);
 			close();

@@ -196,7 +196,7 @@ class PlayState extends FlxState
 		
 		// initSnow();
 		
-		var sprGround:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 35).loadGraphic(AssetPaths.ground__png);
+		var sprGround:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 35).loadGraphic("assets/images/ground_2.png");
 		sprGround.scrollFactor.set(0.6, 0.6);
 		add(sprGround);
 		
@@ -617,7 +617,13 @@ class PlayState extends FlxState
 			"Art by MatthewLopz",
 			"assets/images/thumbs/thumb-mattLopz.png",
 			"MatthewLopz"
-		]
+		],
+		[
+			"assets/images/artwork/bianca.png",
+			"Art by Bianca-doodles",
+			"assets/images/thumbs/thumb-bianca.png",
+			"Bianca-doodles"
+		],
 	];
 	
 	private var presPositions:Array<Dynamic> = 
@@ -645,6 +651,10 @@ class PlayState extends FlxState
 		[
 			385,
 			345
+		],
+		[
+			585,
+			350
 		]
 	];
 	
