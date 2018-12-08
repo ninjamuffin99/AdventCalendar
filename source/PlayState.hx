@@ -97,6 +97,7 @@ class PlayState extends FlxState
 		if (FlxG.save.data.openedPres != null)
 		{
 			openedPres = FlxG.save.data.openedPres;
+			trace("loaded savefile");
 		}
 		
 		#if (!flash && !html5)
@@ -662,6 +663,13 @@ class PlayState extends FlxState
 			"assets/images/thumbs/thumb-bianca.png",
 			"Bianca-doodles"
 		],
+		[
+			"assets/images/artwork/sevenSeize.jpg",
+			"Art by SevenSeize",
+			"assets/images/thumbs/thumb-sevenSeize.png",
+			"SevenSeize"
+		],
+		
 	];
 	
 	private var presPositions:Array<Dynamic> = 
@@ -693,6 +701,10 @@ class PlayState extends FlxState
 		[
 			585,
 			350
+		],
+		[
+			575,
+			370
 		]
 	];
 	
