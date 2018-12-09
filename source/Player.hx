@@ -33,7 +33,7 @@ class Player extends Character
 		// if the day is the 9th, since the input is curDate.getDate() - 1 usually...
 		if (theDay == 8)
 		{
-			loadGraphic(AssetPaths.dad__png, false, 24, 24);
+			loadGraphic(AssetPaths.Daddy__png, false, 24, 24);
 			actualOffsetLOL = 20;
 			
 			resizeHitbox();
