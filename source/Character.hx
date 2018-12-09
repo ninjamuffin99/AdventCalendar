@@ -44,10 +44,12 @@ class Character extends SpriteShit
 	
 	private function resizeHitbox():Void
 	{
+		// offsets to the bottom, then shrinks the sprite
+		offset.y = height - 4;
 		height = 4;
-		width = 4;
-		offset.y = 12;
-		offset.x = 8;
+		// this code kinda only applies to the normal sprites, not exactly dad but whatever
+		offset.x = width / 2;
+		width = offset.x / 2;
 	}
 	
 }

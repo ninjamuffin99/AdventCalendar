@@ -128,7 +128,7 @@ class PlayState extends FlxState
 					initPresents();
 					initNPC();
 					
-					player.animation.frameIndex = curDate.getDate() - 1;
+					player.updateSprite(curDate.getDate() - 1);
 				}
 				
 				
@@ -161,7 +161,7 @@ class PlayState extends FlxState
 					
 					initPresents();
 					initNPC();
-					player.animation.frameIndex = curDate.getDate() - 1;
+					player.updateSprite(curDate.getDate() - 1);
 				}
 				
 				
@@ -373,8 +373,8 @@ class PlayState extends FlxState
 		_grpCharacters = new FlxTypedSpriteGroup<SpriteShit>();
 		_grpEntites.add(_grpCharacters);
 		
-		player = new Player(315, collisionBounds.y + 65);
-		player.animation.frameIndex = curDate.getDate() - 1;
+		player = new Player(315, collisionBounds.y + 65, curDate.getDate() - 1);
+		player.updateSprite(curDate.getDate() - 1);
 		_grpCharacters.add(player);
 		
 		playerHitbox = new FlxObject(0, 0, player.width + 6, player.height + 6);
@@ -669,6 +669,14 @@ class PlayState extends FlxState
 			"assets/images/thumbs/thumb-sevenSeize.png",
 			"SevenSeize"
 		],
+		[
+			"assets/images/artwork/nickconter.png",
+			"Art by NickConter",
+			"assets/images/thumbs/thumb-nickconter.png",
+			"NickConter"
+		]
+		
+		
 		
 	];
 	
@@ -705,6 +713,10 @@ class PlayState extends FlxState
 		[
 			575,
 			370
+		],
+		[
+			455,
+			360
 		]
 	];
 	
