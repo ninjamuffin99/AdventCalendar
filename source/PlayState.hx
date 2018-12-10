@@ -724,6 +724,10 @@ class PlayState extends FlxState
 		[
 			455,
 			360
+		],
+		[
+			495,
+			415
 		]
 	];
 	
