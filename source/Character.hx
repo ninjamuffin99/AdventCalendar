@@ -11,6 +11,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 class Character extends SpriteShit 
 {
 	private var speed:Float = 95;
+	private var actualOffsetLOL:Float = 12;
 
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{

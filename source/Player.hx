@@ -15,7 +15,7 @@ class Player extends Character
 {
 	
 	private var C:Float = 0;
-	private var actualOffsetLOL:Float = 12;
+
 
 	public function new(?X:Float = 0, ?Y:Float = 0, curDay:Int = 0 ) 
 	{
