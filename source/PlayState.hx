@@ -79,8 +79,8 @@ class PlayState extends FlxState
 			soundEXT = ".mp3";
 		#end
 		
-		FlxG.sound.playMusic("assets/music/song2" + soundEXT, 0);
-		FlxG.sound.music.fadeIn(5, 0, 0.7);
+		FlxG.sound.playMusic("assets/music/song3" + soundEXT, 0);
+		FlxG.sound.music.fadeIn(5, 0, 0.5);
 		
 		#if !mobile
 			FlxG.mouse.visible = true;
@@ -674,6 +674,12 @@ class PlayState extends FlxState
 			"Art by NickConter",
 			"assets/images/thumbs/thumb-nickconter.png",
 			"NickConter"
+		],
+		[
+			"assets/images/artwork/rgp.jpg",
+			"Art by RGPAnims",
+			"assets/images/thumbs/thumb-rgp.png",
+			"RGPAnims"
 		]
 		
 		
