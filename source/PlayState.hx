@@ -411,7 +411,7 @@ class PlayState extends FlxState
 		{
 			FlxG.log.add("NPC ADDED" + FlxG.random.int(0, 100));
 			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), FlxG.random.float(collisionBounds.y + 60, 430));
-			npc.animation.frameIndex = c;
+			npc.updateSprite(c);
 			npc.ID = 2;
 			_grpCharacters.add(npc);
 		}
