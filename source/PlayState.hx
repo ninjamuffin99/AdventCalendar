@@ -80,7 +80,7 @@ class PlayState extends FlxState
 		#end
 		
 		FlxG.sound.playMusic("assets/music/song3" + soundEXT, 0);
-		FlxG.sound.music.fadeIn(5, 0, 0.5);
+		FlxG.sound.music.fadeIn(5, 0, 0.3);
 		
 		#if !mobile
 			FlxG.mouse.visible = true;
@@ -439,16 +439,17 @@ class PlayState extends FlxState
 		FlxG.log.add("GETTIN PRESENTS");
 		var days = getProperDays() + 1;
 		
+		var presCount:Int = 0;
 		_grpCharacters.forEach(function(s:SpriteShit){
 			if (s.ID == 1)
 			{
-				_grpCharacters.remove(s, true);
+				presCount += 1;
 			}
 		});
 		
 		FlxG.log.add("how many presents there should be: " + days);
 		
-		for (p in 0...days)
+		for (p in presCount...days)
 		{
 			
 			var present:Present = new Present(presPositions[p][0], presPositions[p][1], p);
