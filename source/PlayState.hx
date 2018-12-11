@@ -198,7 +198,7 @@ class PlayState extends FlxState
 		
 		// initSnow();
 		
-		var sprGround:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 35).loadGraphic("assets/images/ground_2.png");
+		var sprGround:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 35).loadGraphic("assets/images/ground_3.png");
 		sprGround.scrollFactor.set(0.6, 0.6);
 		add(sprGround);
 		
@@ -681,6 +681,12 @@ class PlayState extends FlxState
 			"Art by RGPAnims",
 			"assets/images/thumbs/thumb-rgp.png",
 			"RGPAnims"
+		],
+		[
+			"assets/images/artwork/shiro.jpg",
+			"Art by ShiroGaia",
+			"assets/images/thumbs/thumb-shiro.png",
+			"ShiroGaia"
 		]
 		
 		
@@ -728,7 +734,12 @@ class PlayState extends FlxState
 		[
 			495,
 			415
+		],
+		[
+			570,
+			400
 		]
+		
 	];
 	
 	private var medalNames:Array<Int> = 
@@ -742,7 +753,18 @@ class PlayState extends FlxState
 		55982,
 		55983,
 		55984,
-		55985 // dec 10th
+		55985, // dec 10th
+		55986,
+		55987,
+		55988,
+		55989,
+		55990,
+		55991,
+		55992,
+		55993,
+		55994,
+		55995 // Dec 20th
+		
 	];
 	
 	private var openedPres:Array<Bool> =
