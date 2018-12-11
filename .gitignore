@@ -1,5 +1,7 @@
 export/
 
+.vscode
+
 source/APIStuff.hx
 *.png~
 *.kra~
