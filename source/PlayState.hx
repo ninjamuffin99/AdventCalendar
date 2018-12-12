@@ -688,6 +688,13 @@ class PlayState extends FlxState
 			"assets/images/thumbs/thumb-shiro.png",
 			"ShiroGaia"
 		]
+		,
+		[
+			"assets/images/artwork/clatform.png",
+			"Art by Clatform",
+			"assets/images/thumbs/thumb-clatform.png",
+			"Clatform"
+		]
 		
 		
 		
@@ -738,6 +745,10 @@ class PlayState extends FlxState
 		[
 			570,
 			400
+		],
+		[
+			540,
+			415
 		]
 		
 	];
