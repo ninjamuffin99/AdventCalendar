@@ -58,6 +58,7 @@ class PlayState extends FlxState
 	
 	private var collisionBounds:FlxObject;
 	private var treeOGhitbox:FlxObject;
+	private var iglooEnter:FlxObject;
 	
 	private var presOverlaps:Int = 0;
 	
@@ -79,8 +80,11 @@ class PlayState extends FlxState
 			soundEXT = ".mp3";
 		#end
 		
-		FlxG.sound.playMusic("assets/music/song3" + soundEXT, 0);
-		FlxG.sound.music.fadeIn(5, 0, 0.3);
+		if (FlxG.sound.music == null)
+		{
+			FlxG.sound.playMusic("assets/music/song3" + soundEXT, 0);
+			FlxG.sound.music.fadeIn(5, 0, 0.3);
+		}
 		
 		#if !mobile
 			FlxG.mouse.visible = true;
@@ -210,7 +214,7 @@ class PlayState extends FlxState
 		gyrados.alpha = 0;
 		add(gyrados);
 		
-		var sprFire:FlxSprite = new FlxSprite(sprGround.x + 270, sprGround.y + 164).loadGraphic(AssetPaths.fireSheet__png, true, 10, 18);
+		var sprFire:FlxSprite = new FlxSprite(sprGround.x + 270, sprGround.y + 164).loadGraphic(AssetPaths.fireSheet__png, true, Std.int(63 / 3), 24);
 		sprFire.animation.add("fire", [0, 1, 2], 2);
 		sprFire.animation.play("fire");
 		sprFire.alpha = 0.65;
@@ -283,6 +287,28 @@ class PlayState extends FlxState
 		_grpCharacters.add(tree);
 		tree.setPosition(collisionBounds.x + 230, collisionBounds.y + 42);
 		
+		var treeLights:FlxSprite = new FlxSprite(tree.x - 60, tree.y - tree.treeSize.height + 40).loadGraphic(AssetPaths.christmasTree_lights__png);
+		treeLights.scrollFactor.set(_grpCharacters.scrollFactor.x, _grpCharacters.scrollFactor.y);
+		treeLights.cameras = [gameCamera];
+		add(treeLights);
+		
+		var igloo:SpriteShit = new SpriteShit(410, 410);
+		igloo.loadGraphic("assets/images/igloo.png");
+		igloo.offset.y = igloo.height * 0.65;
+		igloo.height *= 0.4;
+		igloo.immovable = true;
+		_grpCharacters.add(igloo);
+		
+		var iggCollide:SpriteShit = new SpriteShit(igloo.x, 410);
+		iggCollide.makeGraphic(Std.int(igloo.width), 1, FlxColor.TRANSPARENT);
+		iggCollide.immovable = true;
+		
+		iggCollide.y -= iggCollide.height + player.height + 3;
+		_grpCharacters.add(iggCollide);
+		
+		iglooEnter = new FlxObject(420, 400, 2, 2);
+		add(iglooEnter);
+		
 		treeOGhitbox = new FlxObject(tree.x, tree.y - tree.treeSize.height, tree.treeSize.width, tree.treeSize.height);
 		add(treeOGhitbox);
 		
@@ -295,6 +321,8 @@ class PlayState extends FlxState
 		
 		if (FlxG.onMobile)
 		{
+			FlxG.cameras.add(uiCamera);
+			
 			var button = new FlxButton(10, 10, "Fullscreen", function() FlxG.fullscreen = !FlxG.fullscreen);
 			button.cameras = [uiCamera];
 			button.scrollFactor.set();
@@ -318,7 +346,7 @@ class PlayState extends FlxState
 		uiCamera.bgColor = FlxColor.TRANSPARENT;
 		
 		FlxG.cameras.reset(gameCamera);
-		FlxG.cameras.add(uiCamera);
+		// FlxG.cameras.add(uiCamera);
 		
 		FlxCamera.defaultCameras = [gameCamera];
 		
@@ -472,6 +500,11 @@ class PlayState extends FlxState
 		camFollow.setPosition(player.x, player.y - camOffset);
 		playerHitbox.setPosition(player.x - 3, player.y - 3);
 		presOverlaps = 0;
+		
+		if (FlxG.overlap(player, iglooEnter))
+		{
+			// blah blah blah enter the igloo here
+		}
 		
 		if (player.y < collisionBounds.y + 20)
 		{
@@ -687,8 +720,7 @@ class PlayState extends FlxState
 			"Art by ShiroGaia",
 			"assets/images/thumbs/thumb-shiro.png",
 			"ShiroGaia"
-		]
-		,
+		],
 		[
 			"assets/images/artwork/clatform.png",
 			"Art by Clatform",
@@ -748,7 +780,11 @@ class PlayState extends FlxState
 		],
 		[
 			540,
-			415
+			420
+		],
+		[
+			615,
+			375
 		]
 		
 	];
