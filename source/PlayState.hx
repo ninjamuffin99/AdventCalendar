@@ -74,7 +74,7 @@ class PlayState extends FlxState
 		camZoomPos = new FlxPoint(288 - 36, 162 - 11);
 		
 		#if !flash
-			soundEXT = ".ogg";
+			soundEXT = ".mp3";
 			
 			
 		#else
