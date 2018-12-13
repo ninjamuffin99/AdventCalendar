@@ -54,6 +54,8 @@ class PlayState extends FlxState
 	private var snowStamps:FlxSprite;
 	
 	private var tree:Tree;
+	private var treeLights:FlxSprite;
+	private var treeLights:FlxSprite;
 	private var gyrados:FlxSprite;
 	
 	private var collisionBounds:FlxObject;
@@ -287,7 +289,7 @@ class PlayState extends FlxState
 		_grpCharacters.add(tree);
 		tree.setPosition(collisionBounds.x + 230, collisionBounds.y + 42);
 		
-		var treeLights:FlxSprite = new FlxSprite(tree.x - 60, tree.y - tree.treeSize.height + 40).loadGraphic(AssetPaths.christmasTree_lights__png);
+		treeLights = new FlxSprite(tree.x - 60, tree.y - tree.treeSize.height + 30).loadGraphic(AssetPaths.christmasTree_lights__png);
 		treeLights.scrollFactor.set(_grpCharacters.scrollFactor.x, _grpCharacters.scrollFactor.y);
 		treeLights.cameras = [gameCamera];
 		add(treeLights);
@@ -297,16 +299,21 @@ class PlayState extends FlxState
 		igloo.offset.y = igloo.height * 0.65;
 		igloo.height *= 0.4;
 		igloo.immovable = true;
-		_grpCharacters.add(igloo);
+		// _grpCharacters.add(igloo);
 		
 		var iggCollide:SpriteShit = new SpriteShit(igloo.x, 410);
 		iggCollide.makeGraphic(Std.int(igloo.width), 1, FlxColor.TRANSPARENT);
 		iggCollide.immovable = true;
 		
 		iggCollide.y -= iggCollide.height + player.height + 3;
-		_grpCharacters.add(iggCollide);
+		// _grpCharacters.add(iggCollide);
 		
-		iglooEnter = new FlxObject(420, 400, 2, 2);
+		var iggSideWall:SpriteShit = new SpriteShit(iggCollide.x + iggCollide.width - 4, iggCollide.y);
+		iggSideWall.makeGraphic(3, 10, FlxColor.TRANSPARENT);
+		iggSideWall.immovable = true;
+		// _grpCharacters.add(iggSideWall);
+		
+		iglooEnter = new FlxObject(425, 403, 2, 6);
 		add(iglooEnter);
 		
 		treeOGhitbox = new FlxObject(tree.x, tree.y - tree.treeSize.height, tree.treeSize.width, tree.treeSize.height);
@@ -496,6 +503,8 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void 
 	{
 		FlxG.watch.addMouse();
+		
+		treeLights.alpha = tree.alpha;
 		
 		camFollow.setPosition(player.x, player.y - camOffset);
 		playerHitbox.setPosition(player.x - 3, player.y - 3);
@@ -726,6 +735,12 @@ class PlayState extends FlxState
 			"Art by Clatform",
 			"assets/images/thumbs/thumb-clatform.png",
 			"Clatform"
+		],
+		[
+			"assets/images/artwork/randy.png",
+			"Art by Randy-Artist",
+			"assets/images/thumbs/thumb-randy.png",
+			"randy-artist"
 		]
 		
 		
