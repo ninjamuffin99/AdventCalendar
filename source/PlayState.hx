@@ -55,7 +55,6 @@ class PlayState extends FlxState
 	
 	private var tree:Tree;
 	private var treeLights:FlxSprite;
-	private var treeLights:FlxSprite;
 	private var gyrados:FlxSprite;
 	
 	private var collisionBounds:FlxObject;
