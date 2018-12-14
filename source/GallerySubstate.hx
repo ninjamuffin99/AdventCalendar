@@ -8,6 +8,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
+import flixel.system.frontEnds.HTML5FrontEnd.FlxBrowser;
 import flixel.text.FlxText;
 import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
@@ -73,8 +74,15 @@ class GallerySubstate extends FlxSubState
 		infoBox.cameras = [newCamera];
 		
 		
+		// offset because the safari search bar covers the game a bit i think
+		var safariOffset:Float = 0;
 		
-		var text:FlxText = new FlxText(10, 10, 0, "Current Pic - Click here to exit", 16);
+		if (FlxG.html5.browser == FlxBrowser.SAFARI)
+		{
+			safariOffset = 60;
+		}
+		
+		var text:FlxText = new FlxText(10, 10 + safariOffset, 0, "Current Pic - Click here to exit", 16);
 		
 		if (FlxG.onMobile)
 		{
@@ -83,7 +91,7 @@ class GallerySubstate extends FlxSubState
 		}
 		text.cameras = [newCamera];
 		
-		textBG = new FlxSpriteButton(5, 7, null, function(){
+		textBG = new FlxSpriteButton(5, 7 + safariOffset, null, function(){
 			FlxG.cameras.remove(newCamera);
 			close();
 		});
