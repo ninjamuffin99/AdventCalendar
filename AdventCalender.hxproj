@@ -15,23 +15,24 @@
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="C:\HaxeToolkit\haxe\lib\flixel\4,5,1" />
-    <class path="C:\HaxeToolkit\haxe\lib\openfl\8,6,4\src" />
-    <class path="C:\HaxeToolkit\haxe\lib\lime\7,1,1\src" />
-    <class path="C:\HaxeToolkit\haxe\lib\hscript\2,3,0" />
-    <class path="C:\HaxeToolkit\haxe\lib\flixel-addons\2,7,1" />
+    <class path="F:\Program Files\haxe\lib\flixel\4,5,1" />
+    <class path="F:\Program Files\haxe\lib\openfl\8,0,1\src" />
+    <class path="F:\Program Files\haxe\lib\lime\6,3,1" />
+    <class path="F:\Program Files\haxe\lib\flixel-addons\2,6,0" />
     <class path="source" />
+    <class path="F:\Program Files\haxe\lib\openfl\8,0,1\src\externs\core\openfl" />
+    <class path="F:\Program Files\haxe\lib\openfl\8,0,1\src\externs\extras" />
     <class path="source\newgroundsAPI\lib\Source" />
     <class path="export\html5\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="flixel=4.5.1&#xA;openfl=8.6.4&#xA;lime=7.1.1&#xA;hscript=2.3.0&#xA;flixel-addons=2.7.1&#xA;FLX_NO_FOCUS_LOST_SCREEN&#xA;tools=7.1.1&#xA;lime-canvas&#xA;FLX_NO_DEBUG&#xA;howlerjs&#xA;no-compilation&#xA;openfl-html5&#xA;NAPE_RELEASE_BUILD&#xA;lime-webgl&#xA;lime-dom&#xA;lime-howlerjs&#xA;lime-html5&#xA;html5&#xA;web&#xA;html5" />
+    <option directives="flixel=4.5.1&#xA;openfl=8.0.1&#xA;lime=6.3.1&#xA;flixel-addons=2.6.0&#xA;FLX_NO_FOCUS_LOST_SCREEN&#xA;tools=6.3.1&#xA;ANDROID_SETUP=true&#xA;FLX_NO_DEBUG&#xA;howlerjs&#xA;no-compilation&#xA;openfl-html5&#xA;NAPE_RELEASE_BUILD&#xA;lime-html5&#xA;html5&#xA;web&#xA;html5&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="False" />
-    <option additional="--macro openfl._internal.macros.ExtraParams.include()&#xA;--macro lime._internal.macros.DefineMacro.run()&#xA;--remap flash:openfl&#xA;--macro flixel.system.macros.FlxDefines.run()" />
+    <option additional="--macro openfl._internal.utils.ExtraParams.include()&#xA;--macro lime.Lib.extraParams()&#xA;--remap flash:openfl&#xA;--macro flixel.system.macros.FlxDefines.run()" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
