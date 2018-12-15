@@ -746,6 +746,12 @@ class PlayState extends FlxState
 			"Art by Butzbo",
 			"assets/images/thumbs/thumb-butzbo.png",
 			"Butzbo"
+		],
+		[
+			"assets/images/artwork/logan.png",
+			"Art by LoganPhresh",
+			"assets/images/thumbs/thumb-logan.png",
+			"LoganPhresh"
 		]
 		
 		
@@ -809,6 +815,10 @@ class PlayState extends FlxState
 		[
 			370,
 			370
+		],
+		[
+			340,
+			400
 		]
 		
 	];
