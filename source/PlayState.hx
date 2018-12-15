@@ -288,7 +288,7 @@ class PlayState extends FlxState
 		_grpCharacters.add(tree);
 		tree.setPosition(collisionBounds.x + 230, collisionBounds.y + 42);
 		
-		treeLights = new FlxSprite(tree.x - 60, tree.y - tree.treeSize.height + 30).loadGraphic(AssetPaths.christmasTree_lights__png);
+		treeLights = new FlxSprite(tree.x - tree.offset.x, tree.y - tree.offset.y).loadGraphic(AssetPaths.christmasTree_lights__png);
 		treeLights.scrollFactor.set(_grpCharacters.scrollFactor.x, _grpCharacters.scrollFactor.y);
 		treeLights.cameras = [gameCamera];
 		add(treeLights);
