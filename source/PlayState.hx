@@ -203,7 +203,7 @@ class PlayState extends FlxState
 		
 		// initSnow();
 		
-		var sprGround:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 35).loadGraphic("assets/images/ground_3.png");
+		var sprGround:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 35).loadGraphic("assets/images/ground_4.png");
 		sprGround.scrollFactor.set(0.6, 0.6);
 		add(sprGround);
 		
