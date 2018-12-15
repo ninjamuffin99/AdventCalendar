@@ -817,7 +817,7 @@ class PlayState extends FlxState
 			370
 		],
 		[
-			-340,
+			340,
 			400
 		]
 		
