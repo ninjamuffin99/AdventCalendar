@@ -32,7 +32,7 @@ class IglooSubstate extends BaseState
 		player = new Player(45, 100, Player.daDayLol);
 		_grpCharacters.add(player);
 		
-		exitShit = new FlxObject(0, 0, 30, 400);
+		exitShit = new FlxObject(0, 0, 25, 400);
 		add(exitShit);
 		
 		FlxG.camera.follow(iglooBG);
@@ -41,6 +41,18 @@ class IglooSubstate extends BaseState
 		
 		super.create();
 		
+	}
+	
+	override function initCollision():Void 
+	{
+		super.initCollision();
+		
+		for (i in wallsArray)
+		{
+			var collision:FlxObject = new FlxObject(i[0], i[1], i[2], i[3]);
+			collision.immovable = true;
+			_grpCollision.add(collision);
+		}
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -54,4 +66,39 @@ class IglooSubstate extends BaseState
 		
 		super.update(elapsed);
 	}
+	
+	private var wallsArray:Array<Dynamic> =
+	[
+		[
+			30,
+			80,
+			15,
+			10
+		],
+		[
+			45,
+			70,
+			25,
+			10
+		],
+		[
+			70,
+			70,
+			95,
+			5
+		],
+		[
+			165,
+			70,
+			25,
+			10
+		],
+		[
+			190,
+			80,
+			15,
+			10
+		]
+		
+	];
 }
