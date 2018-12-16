@@ -30,7 +30,7 @@ import io.newgrounds.objects.events.Result.GetDateTimeResult;
  * ...
  * @author 
  */
-class PlayState extends FlxState 
+class PlayState extends BaseState 
 {
 	private var player:Player;
 	private var camFollow:FlxObject;
@@ -60,8 +60,6 @@ class PlayState extends FlxState
 	private var collisionBounds:FlxObject;
 	private var treeOGhitbox:FlxObject;
 	private var iglooEnter:FlxObject;
-	
-	private var presOverlaps:Int = 0;
 	
 	
 	private var camZoomPos:FlxPoint;
@@ -503,6 +501,11 @@ class PlayState extends FlxState
 	{
 		FlxG.watch.addMouse();
 		
+		if (FlxG.keys.justPressed.O)
+		{
+			FlxG.switchState(new IglooSubstate());
+		}
+		
 		treeLights.alpha = tree.alpha;
 		
 		camFollow.setPosition(player.x, player.y - camOffset);
@@ -752,6 +755,12 @@ class PlayState extends FlxState
 			"Art by LoganPhresh",
 			"assets/images/thumbs/thumb-logan.png",
 			"LoganPhresh"
+		],
+		[
+			"assets/images/artwork/kera.png",
+			"Art by Kerakar",
+			"assets/images/thumbs/thumb-kera.png",
+			"Kerakar"
 		]
 		
 		
@@ -819,6 +828,10 @@ class PlayState extends FlxState
 		[
 			340,
 			400
+		],
+		[
+			405,
+			325
 		]
 		
 	];

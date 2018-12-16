@@ -16,6 +16,8 @@ class Player extends Character
 	
 	private var C:Float = 0;
 
+	// only used for the igloo lol
+	public static var daDayLol:Int = 0;
 
 	public function new(?X:Float = 0, ?Y:Float = 0, curDay:Int = 0 ) 
 	{
@@ -26,6 +28,14 @@ class Player extends Character
 		loadGraphic(AssetPaths.tankMan__png, true, 16, 16);
 		
 		resizeHitbox();
+	}
+	
+	override public function updateSprite(theDay:Int):Void 
+	{
+		super.updateSprite(theDay);
+		
+		// changes the static variable
+		daDayLol = theDay;
 	}
 	
 	private var jumpBoost:Int = 0;

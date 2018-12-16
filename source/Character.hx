@@ -42,6 +42,7 @@ class Character extends SpriteShit
 			// already should have loaded the sprite data i think
 			animation.frameIndex = theDay;
 		}
+		
 	}
 	
 	override public function update(elapsed:Float):Void 
