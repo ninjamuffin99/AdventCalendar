@@ -40,8 +40,6 @@ class PlayState extends BaseState
 	
 	private var thumbnail:Thumbnail;
 
-	private var _grpCollision:FlxGroup;
-	
 	private var curDate:Date;
 	
 	private var sprSnow:FlxSprite;
@@ -58,6 +56,8 @@ class PlayState extends BaseState
 	private var camZoomPos:FlxPoint;
 	
 	public static var soundEXT:String = "";
+	
+	private var enteringIgloo:Bool = false;
 	
 	override public function create():Void 
 	{	
@@ -205,9 +205,7 @@ class PlayState extends BaseState
 		add(sprSnow);
 		
 		// initSnow();
-		
-		_grpCollision = new FlxGroup();
-		add(_grpCollision);
+		initCollision();
 		
 		collisionBounds = new FlxObject(sprSnow.x, 306, sprSnow.width, 3);
 		collisionBounds.immovable = true;
@@ -265,19 +263,19 @@ class PlayState extends BaseState
 		igloo.offset.y = igloo.height * 0.65;
 		igloo.height *= 0.4;
 		igloo.immovable = true;
-		// _grpCharacters.add(igloo);
+		_grpCharacters.add(igloo);
 		
 		var iggCollide:SpriteShit = new SpriteShit(igloo.x, 410);
 		iggCollide.makeGraphic(Std.int(igloo.width), 1, FlxColor.TRANSPARENT);
 		iggCollide.immovable = true;
 		
 		iggCollide.y -= iggCollide.height + player.height + 3;
-		// _grpCharacters.add(iggCollide);
+		_grpCharacters.add(iggCollide);
 		
 		var iggSideWall:SpriteShit = new SpriteShit(iggCollide.x + iggCollide.width - 4, iggCollide.y);
 		iggSideWall.makeGraphic(3, 10, FlxColor.TRANSPARENT);
 		iggSideWall.immovable = true;
-		// _grpCharacters.add(iggSideWall);
+		_grpCharacters.add(iggSideWall);
 		
 		iglooEnter = new FlxObject(425, 403, 2, 6);
 		add(iglooEnter);
@@ -446,11 +444,16 @@ class PlayState extends BaseState
 	
 	override public function update(elapsed:Float):Void 
 	{
-		FlxG.watch.addMouse();
-		
 		if (FlxG.keys.justPressed.O)
 		{
 			FlxG.switchState(new IglooSubstate());
+		}
+		
+		if (FlxG.overlap(playerHitbox, iglooEnter) && !enteringIgloo)
+		{
+			enteringIgloo = true;
+			
+			FlxG.camera.fade(FlxColor.BLACK, 1, false, function(){FlxG.switchState(new IglooSubstate()); });
 		}
 		
 		treeLights.alpha = tree.alpha;
@@ -510,10 +513,7 @@ class PlayState extends BaseState
 		}
 		
 		FlxG.collide(collisionBounds, _grpCharacters);
-		FlxG.collide(_grpCharacters, _grpEntites);
-		FlxG.collide(_grpCharacters, _grpCollision);
 		
-		_grpCharacters.sort(FlxSort.byY);
 		
 		if (FlxG.overlap(player, treeOGhitbox))
 		{

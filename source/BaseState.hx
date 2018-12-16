@@ -4,9 +4,11 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxState;
+import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.util.FlxColor;
+import flixel.util.FlxSort;
 
 /**
  * ...
@@ -24,6 +26,8 @@ class BaseState extends FlxState
 	
 	private var _grpEntites:FlxTypedGroup<FlxObject>;
 	private var _grpCharacters:FlxTypedSpriteGroup<SpriteShit>;
+	private var _grpCollision:FlxGroup;
+	
 
 	override public function create():Void 
 	{
@@ -48,7 +52,7 @@ class BaseState extends FlxState
 		
 		gameCamera.zoom = 2.5;
 		
-		gameCamera.bgColor = 0xff626a71;
+		
 		uiCamera.bgColor = FlxColor.TRANSPARENT;
 		
 		FlxG.cameras.reset(gameCamera);
@@ -56,6 +60,24 @@ class BaseState extends FlxState
 		
 		FlxCamera.defaultCameras = [gameCamera];
 		
+	}
+	
+	private function initCollision():Void
+	{
+		_grpCollision = new FlxGroup();
+		add(_grpCollision);
+	}
+	
+	override public function update(elapsed:Float):Void 
+	{
+		FlxG.watch.addMouse();
+		
+		FlxG.collide(_grpCharacters, _grpEntites);
+		FlxG.collide(_grpCharacters, _grpCollision);
+		
+		_grpCharacters.sort(FlxSort.byY);
+		
+		super.update(elapsed);
 	}
 	
 }
