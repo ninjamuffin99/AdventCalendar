@@ -708,6 +708,12 @@ class PlayState extends BaseState
 			"Art by Kerakar",
 			"assets/images/thumbs/thumb-kera.png",
 			"Kerakar"
+		],
+		[
+			"assets/images/artwork/chobi.png",
+			"Art by Chobiluck",
+			"assets/images/thumbs/thumb-chobi.png",
+			"Chobiluck"
 		]
 		
 		
@@ -733,8 +739,8 @@ class PlayState extends BaseState
 			390
 		],
 		[
-			380,
-			410
+			450,
+			430
 		],
 		[
 			385,
@@ -779,6 +785,10 @@ class PlayState extends BaseState
 		[
 			405,
 			325
+		],
+		[
+			555,
+			340
 		]
 		
 	];
