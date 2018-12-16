@@ -6,6 +6,8 @@ import io.newgrounds.objects.Medal;
 import io.newgrounds.objects.Score;
 import io.newgrounds.objects.ScoreBoard;
 import io.newgrounds.components.ScoreBoardComponent.Period;
+import io.newgrounds.objects.events.Response;
+import io.newgrounds.objects.events.Result.GetDateTimeResult;
 import openfl.display.Stage;
 
 import flixel.FlxG;
@@ -18,6 +20,7 @@ class NGio
 	
 	public static var isLoggedIn:Bool = false;
 	public static var scoreboardsLoaded:Bool = false;
+	public static var NGDate:Date;
 	
 	public static var scoreboardArray:Array<Score> = [];
 	
@@ -62,6 +65,19 @@ class NGio
 		NG.core.requestMedals(onNGMedalFetch);
 		
 		ngDataLoaded.dispatch();
+		
+		NG.core.calls.gateway.getDatetime().addDataHandler(
+		function(response:Response<GetDateTimeResult>):Void
+		{
+			if (response.success && response.result.success) 
+			{
+				var data:GetDateTimeResult = response.result.data;
+				var dateTimeFixed:String = data.datetime.substring(0, 10);	
+				NGDate = Date.fromString(dateTimeFixed);
+			}
+			
+			
+		}).send();
 		
 	}
 	

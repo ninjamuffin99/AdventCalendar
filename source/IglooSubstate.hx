@@ -11,9 +11,6 @@ import flixel.util.FlxColor;
  */
 class IglooSubstate extends BaseState
 {
-	
-	private var player:Player;
-	
 	override public function create():Void 
 	{
 		

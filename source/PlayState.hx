@@ -32,7 +32,6 @@ import io.newgrounds.objects.events.Result.GetDateTimeResult;
  */
 class PlayState extends BaseState 
 {
-	private var player:Player;
 	private var camFollow:FlxObject;
 	private var camOffset:Float = 70;
 	private var playerHitbox:FlxObject;
@@ -41,14 +40,9 @@ class PlayState extends BaseState
 	
 	private var thumbnail:Thumbnail;
 
-	private var _grpCharacters:FlxTypedSpriteGroup<SpriteShit>;
-	private var _grpEntites:FlxTypedGroup<FlxObject>;
 	private var _grpCollision:FlxGroup;
 	
 	private var curDate:Date;
-	
-	private var gameCamera:FlxCamera;
-	private var uiCamera:FlxCamera;
 	
 	private var sprSnow:FlxSprite;
 	private var snowStamps:FlxSprite;
@@ -61,14 +55,12 @@ class PlayState extends BaseState
 	private var treeOGhitbox:FlxObject;
 	private var iglooEnter:FlxObject;
 	
-	
 	private var camZoomPos:FlxPoint;
 	
 	public static var soundEXT:String = "";
 	
 	override public function create():Void 
 	{	
-		
 		camZoomPos = new FlxPoint(288 - 36, 162 - 11);
 		
 		#if !flash
@@ -79,10 +71,17 @@ class PlayState extends BaseState
 			soundEXT = ".mp3";
 		#end
 		
+		// shitty game first time run init basically
 		if (FlxG.sound.music == null)
 		{
 			FlxG.sound.playMusic("assets/music/song3" + soundEXT, 0);
 			FlxG.sound.music.fadeIn(5, 0, 0.3);
+			
+			FlxG.save.bind("File1");
+			
+			#if (!flash && !html5)
+				var newgrounds:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
+			#end
 		}
 		
 		#if !mobile
@@ -95,17 +94,11 @@ class PlayState extends BaseState
 			openedPres.push(false);
 		}
 		
-		FlxG.save.bind("File1");
-		
 		if (FlxG.save.data.openedPres != null)
 		{
 			openedPres = FlxG.save.data.openedPres;
 			trace("loaded savefile");
 		}
-		
-		#if (!flash && !html5)
-			var newgrounds:NGio = new NGio(APIStuff.APIID, APIStuff.EncKey);
-		#end
 		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
 		
@@ -114,28 +107,7 @@ class PlayState extends BaseState
 		// this is run for if the preloader is workign (on web basically)
 		if (NGio.isLoggedIn)
 		{
-			NG.core.calls.gateway.getDatetime().addDataHandler(
-			function(response:Response<GetDateTimeResult>):Void
-			{
-				if (response.success && response.result.success) 
-				{
-					var data:GetDateTimeResult = response.result.data;
-					FlxG.log.add("TIME DATA HERE");
-					FlxG.log.add(data.datetime);
-					var dateTimeFixed:String = data.datetime.substring(0, 10);
-					FlxG.log.add("Fixed string: " + dateTimeFixed);
-					curDate = Date.fromString(dateTimeFixed);
-					
-					FlxG.log.add("Current day of the month: " + curDate.getDate());
-					
-					initPresents();
-					initNPC();
-					
-					player.updateSprite(curDate.getDate() - 1);
-				}
-				
-				
-			}).send();
+			curDate = NGio.NGDate;
 		}
 		else
 		{
@@ -173,9 +145,6 @@ class PlayState extends BaseState
 		});
 		
 		initCameras();
-		
-		var bgTest:FlxSprite = new FlxSprite(288, 162).makeGraphic(370, 235, FlxColor.WHITE);
-		// add(bgTest);
 		
 		var sprSky:FlxSprite = new FlxSprite(camZoomPos.x, camZoomPos.y).loadGraphic(AssetPaths.AdventCalendarBG__png);
 		sprSky.scrollFactor.set(0.05, 0.05);
@@ -338,24 +307,6 @@ class PlayState extends BaseState
 		super.create();
 	}
 	
-	private function initCameras():Void
-	{
-		
-		gameCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
-		uiCamera = new FlxCamera(0, 0, FlxG.width, FlxG.height);
-		
-		gameCamera.zoom = 2.5;
-		
-		gameCamera.bgColor = 0xff626a71;
-		uiCamera.bgColor = FlxColor.TRANSPARENT;
-		
-		FlxG.cameras.reset(gameCamera);
-		// FlxG.cameras.add(uiCamera);
-		
-		FlxCamera.defaultCameras = [gameCamera];
-		
-	}
-	
 	private var snowLayer:Int = 2;
 	
 	private function initSnow():Void
@@ -399,11 +350,7 @@ class PlayState extends BaseState
 	
 	private function initCharacters():Void
 	{
-		_grpEntites = new FlxTypedGroup<FlxObject>();
-		add(_grpEntites);
-		
-		_grpCharacters = new FlxTypedSpriteGroup<SpriteShit>();
-		_grpEntites.add(_grpCharacters);
+		initCharacterBases();
 		
 		player = new Player(315, collisionBounds.y + 65, curDate.getDate() - 1);
 		player.updateSprite(curDate.getDate() - 1);
