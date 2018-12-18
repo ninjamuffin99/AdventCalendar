@@ -30,6 +30,7 @@ class IglooSubstate extends BaseState
 		initCollision();
 		
 		player = new Player(45, 100, Player.daDayLol);
+		player.updateSprite(Player.daDayLol);
 		_grpCharacters.add(player);
 		
 		exitShit = new FlxObject(0, 0, 25, 400);
@@ -69,6 +70,7 @@ class IglooSubstate extends BaseState
 	
 	private var wallsArray:Array<Dynamic> =
 	[
+		// TOPS
 		[
 			30,
 			80,
@@ -98,6 +100,44 @@ class IglooSubstate extends BaseState
 			80,
 			15,
 			10
+		],
+		// BOTOM JUST CHANGE THE Y POSITION
+		[
+			30,
+			110,
+			15,
+			10
+		],
+		[
+			45,
+			117,
+			25,
+			10
+		],
+		[
+			70,
+			122,
+			95,
+			5
+		],
+		[
+			165,
+			117,
+			25,
+			10
+		],
+		[
+			190,
+			110,
+			15,
+			10
+		],
+		//right side
+		[
+			204,
+			90,
+			3,
+			30
 		]
 		
 	];

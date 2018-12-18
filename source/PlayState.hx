@@ -260,8 +260,8 @@ class PlayState extends BaseState
 		
 		var igloo:SpriteShit = new SpriteShit(410, 410);
 		igloo.loadGraphic("assets/images/igloo.png");
-		igloo.offset.y = igloo.height * 0.65;
-		igloo.height *= 0.4;
+		igloo.offset.y = igloo.height * 0.7;
+		igloo.height *= 0.28;
 		igloo.immovable = true;
 		_grpCharacters.add(igloo);
 		
@@ -272,8 +272,8 @@ class PlayState extends BaseState
 		iggCollide.y -= iggCollide.height + player.height + 3;
 		_grpCharacters.add(iggCollide);
 		
-		var iggSideWall:SpriteShit = new SpriteShit(iggCollide.x + iggCollide.width - 4, iggCollide.y);
-		iggSideWall.makeGraphic(3, 10, FlxColor.TRANSPARENT);
+		var iggSideWall:SpriteShit = new SpriteShit(iggCollide.x + iggCollide.width - 9, iggCollide.y);
+		iggSideWall.makeGraphic(9, 10, FlxColor.TRANSPARENT);
 		iggSideWall.immovable = true;
 		_grpCharacters.add(iggSideWall);
 		
@@ -591,6 +591,7 @@ class PlayState extends BaseState
 				medal.sendUnlock();
 		}
 		
+		
 		if (s.curDay == curDate.getDate() - 1)
 		{
 			var medal = NG.core.medals.get(medalNames[s.curDay]);
@@ -714,6 +715,12 @@ class PlayState extends BaseState
 			"Art by Chobiluck",
 			"assets/images/thumbs/thumb-chobi.png",
 			"Chobiluck"
+		],
+		[
+			"assets/images/artwork/snailpirate.jpg",
+			"Art by snailpirate",
+			"assets/images/thumbs/thumb-snailpirate.png",
+			"snailpirate"
 		]
 		
 		
