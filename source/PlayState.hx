@@ -796,8 +796,11 @@ class PlayState extends BaseState
 		[
 			555,
 			340
+		],
+		[
+			615,
+			330
 		]
-		
 	];
 	
 	private var medalNames:Array<Int> = 
