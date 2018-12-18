@@ -185,7 +185,7 @@ class PlayState extends BaseState
 		var sprFire:FlxSprite = new FlxSprite(sprGround.x + 270, sprGround.y + 164).loadGraphic(AssetPaths.fireSheet__png, true, Std.int(63 / 3), 24);
 		sprFire.animation.add("fire", [0, 1, 2], 2);
 		sprFire.animation.play("fire");
-		sprFire.alpha = 0.65;
+		sprFire.alpha = 1.0;
 		sprFire.scrollFactor.set(0.6, 0.6);
 		add(sprFire);
 		
