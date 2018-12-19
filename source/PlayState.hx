@@ -74,7 +74,7 @@ class PlayState extends BaseState
 		// shitty game first time run init basically
 		if (FlxG.sound.music == null)
 		{
-			FlxG.sound.playMusic("assets/music/song3" + soundEXT, 0);
+			FlxG.sound.playMusic("assets/music/song4" + soundEXT, 0);
 			FlxG.sound.music.fadeIn(5, 0, 0.3);
 			
 			FlxG.save.bind("File1");
