@@ -211,7 +211,7 @@ class PlayState extends BaseState
 		collisionBounds.immovable = true;
 		add(collisionBounds);
 		
-		var collisionBottom:FlxObject = new FlxObject(sprSnow.x, 451, sprSnow.width, 3);
+		var collisionBottom:FlxObject = new FlxObject(sprSnow.x, 500, sprSnow.width, 3);
 		collisionBottom.immovable = true;
 		_grpCollision.add(collisionBottom);
 		
@@ -387,7 +387,7 @@ class PlayState extends BaseState
 		for (c in npcCount...days)
 		{
 			FlxG.log.add("NPC ADDED" + FlxG.random.int(0, 100));
-			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), FlxG.random.float(collisionBounds.y + 60, 430));
+			var npc:NPC = new NPC(450 + FlxG.random.float( -150, 150), FlxG.random.float(collisionBounds.y + 60, 500));
 			npc.updateSprite(c);
 			npc.ID = 2;
 			_grpCharacters.add(npc);
