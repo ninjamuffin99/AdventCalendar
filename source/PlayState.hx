@@ -722,6 +722,13 @@ class PlayState extends BaseState
 			"assets/images/thumbs/thumb-snailpirate.png",
 			"snailpirate"
 		]
+		,
+		[
+			"assets/images/artwork/sunny.png",
+			"Art by Suncake",
+			"assets/images/thumbs/thumb-sunny.png",
+			"Suncake"
+		]
 		
 		
 		
@@ -800,6 +807,10 @@ class PlayState extends BaseState
 		[
 			615,
 			330
+		],
+		[
+			500,
+			460
 		]
 	];
 	
