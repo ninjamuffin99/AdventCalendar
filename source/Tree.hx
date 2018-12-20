@@ -18,7 +18,7 @@ class Tree extends SpriteShit
 		
 		this.curDay = curDay;
 		
-		loadGraphic("assets/images/christmasTree_4.png");
+		loadGraphic("assets/images/christmasTree_5.png");
 		
 		treeSize = new FlxRect(0, 0, width, height);
 		
