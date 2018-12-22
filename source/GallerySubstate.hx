@@ -134,7 +134,18 @@ class GallerySubstate extends FlxSubState
 			vertSize = Std.int(vertSize / picsArray[i][4]);
 		}
 		
-		bigPreview.loadGraphic(picsArray[i][0], isAnimated, horizSize, vertSize);
+		if (picsArray[i][0] == "assets/images/artwork/tyler.png")
+		{
+			bigPreview.loadGraphic(picsArray[i][0], true, Std.int(1906 / 2));
+			bigPreview.animation.add("boil", [0, 1], 10);
+			bigPreview.animation.play("boil");
+		}
+		else
+		{
+			bigPreview.loadGraphic(picsArray[i][0], isAnimated, horizSize, vertSize);
+		}
+		
+		
 		
 		// loads animation data
 		if (isAnimated && !isSpritesheet)

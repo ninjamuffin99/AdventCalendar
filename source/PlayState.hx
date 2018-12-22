@@ -734,6 +734,18 @@ class PlayState extends BaseState
 			"Art by SirLenward",
 			"assets/images/thumbs/thumb-lenward.png",
 			"SirLenward"
+		],
+		[
+			"assets/images/artwork/tyler.png",
+			"Art by Tyler",
+			"assets/images/thumbs/thumb-tyler.png",
+			"Tyler"
+		],
+		[
+			"assets/images/artwork/dyingsun.png",
+			"Art by TheDyingSun",
+			"assets/images/thumbs/thumb-dyingsun.png",
+			"TheDyingSun"
 		]
 		
 		
@@ -819,9 +831,18 @@ class PlayState extends BaseState
 			460
 		],
 		[
-			415, //actually set these positions later lololol
+			415,
 			445
+		],
+		[
+			440,
+			480
+		],
+		[
+			440,
+			480
 		]
+		
 	];
 	
 	private var medalNames:Array<Int> = 
@@ -845,7 +866,12 @@ class PlayState extends BaseState
 		55992,
 		55993,
 		55994,
-		55995 // Dec 20th
+		55995, // Dec 20th
+		55996,
+		55997,
+		55998,
+		55999,
+		56000
 		
 	];
 	
