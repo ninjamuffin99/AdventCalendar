@@ -258,6 +258,8 @@ class PlayState extends BaseState
 		treeLights.cameras = [gameCamera];
 		add(treeLights);
 		
+		FlxTween.color(treeLights, 3, FlxColor.WHITE, 0xff88acFF, {type:FlxTweenType.PINGPONG, ease:FlxEase.quadInOut});
+		
 		var igloo:SpriteShit = new SpriteShit(410, 410);
 		igloo.loadGraphic("assets/images/igloo.png");
 		igloo.offset.y = igloo.height * 0.7;
