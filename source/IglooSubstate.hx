@@ -36,7 +36,11 @@ class IglooSubstate extends BaseState
 		exitShit = new FlxObject(0, 0, 25, 400);
 		add(exitShit);
 		
-		FlxG.camera.follow(iglooBG);
+		var camFollow:FlxObject = new FlxObject(120, 90, 1, 1);
+		add(camFollow);
+		FlxG.camera.focusOn(camFollow.getPosition());
+		
+		gameCamera.zoom += 0.5;
 		
 		FlxG.log.add("should be done lol");
 		
@@ -72,9 +76,9 @@ class IglooSubstate extends BaseState
 	[
 		// TOPS
 		[
-			30,
+			20,
 			80,
-			15,
+			25,
 			10
 		],
 		[
@@ -103,9 +107,9 @@ class IglooSubstate extends BaseState
 		],
 		// BOTOM JUST CHANGE THE Y POSITION
 		[
-			30,
+			20,
 			110,
-			15,
+			25,
 			10
 		],
 		[

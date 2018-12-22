@@ -839,8 +839,8 @@ class PlayState extends BaseState
 			480
 		],
 		[
-			440,
-			480
+			550,
+			470
 		]
 		
 	];
