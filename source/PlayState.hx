@@ -25,6 +25,7 @@ import flixel.util.helpers.FlxPointRangeBounds;
 import io.newgrounds.NG;
 import io.newgrounds.objects.events.Response;
 import io.newgrounds.objects.events.Result.GetDateTimeResult;
+import openfl.geom.ColorTransform;
 
 /**
  * ...
@@ -258,7 +259,6 @@ class PlayState extends BaseState
 		treeLights.cameras = [gameCamera];
 		add(treeLights);
 		
-		FlxTween.color(treeLights, 3, FlxColor.WHITE, 0xff88acFF, {type:FlxTweenType.PINGPONG, ease:FlxEase.quadInOut});
 		
 		var igloo:SpriteShit = new SpriteShit(410, 410);
 		igloo.loadGraphic("assets/images/igloo.png");
@@ -442,7 +442,6 @@ class PlayState extends BaseState
 	}
 	
 	private var gyradosTmr:Float = 0;
-	
 	
 	override public function update(elapsed:Float):Void 
 	{
