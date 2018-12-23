@@ -747,6 +747,12 @@ class PlayState extends BaseState
 			"Art by TheDyingSun",
 			"assets/images/thumbs/thumb-dyingsun.png",
 			"TheDyingSun"
+		],
+		[
+			"assets/images/artwork/brandy.png",
+			"Art by BrandyBuizel",
+			"assets/images/thumbs/thumb-brandy.png",
+			"BrandyBuizel"
 		]
 		
 		
@@ -842,6 +848,10 @@ class PlayState extends BaseState
 		[
 			550,
 			470
+		],
+		[
+			600, 
+			455
 		]
 		
 	];
