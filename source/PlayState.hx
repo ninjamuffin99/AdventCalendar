@@ -171,7 +171,7 @@ class PlayState extends BaseState
 		
 		// initSnow();
 		
-		var sprGround:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 35).loadGraphic("assets/images/ground_5.png");
+		var sprGround:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 35).loadGraphic("assets/images/ground_6.png");
 		sprGround.scrollFactor.set(0.6, 0.6);
 		add(sprGround);
 		
@@ -755,9 +755,9 @@ class PlayState extends BaseState
 			"BrandyBuizel"
 		],
 		[
-			"assets/images/artwork/fu.png",
+			"assets/images/artwork/fushark.png",
 			"Art by FuShark",
-			"assets/images/thumbs/thumb-fu.png",
+			"assets/images/thumbs/thumb-fushark.png",
 			"FuShark"
 		]
 		
