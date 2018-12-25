@@ -242,7 +242,7 @@ class PlayState extends BaseState
 		fort.immovable = true;
 		
 		var sign:SpriteShit = new SpriteShit(266, 318);
-		sign.loadGraphic(AssetPaths.sign__png);
+		sign.loadGraphic(AssetPaths.sign_2__png);
 		sign.offset.y = sign.height - 4;
 		sign.height = 2;
 		sign.offset.x = 4;
