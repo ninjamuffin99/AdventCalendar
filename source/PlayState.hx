@@ -200,7 +200,7 @@ class PlayState extends BaseState
 		sprShine.scrollFactor.x = sprGround.scrollFactor.x * 0.85;
 		sprShine.scrollFactor.y = 0.6;
 		sprShine.alpha = 0.8;
-		add(sprShine);
+		//add(sprShine);
 		
 		sprSnow2 = new FlxSprite(sprSky.x, sprSky.y - 96).loadGraphic(AssetPaths.snow2__png);
 		sprSnow2.scrollFactor.set(0.75, 0.75);
