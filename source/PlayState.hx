@@ -461,10 +461,6 @@ class PlayState extends BaseState
 		
 		treeLights.alpha = tree.alpha;
 		
-		if (FlxG.keys.justPressed.C)
-		{
-			triggerCutscene();
-		}
 		
 		if (canExitCutscene)
 		{
@@ -536,7 +532,7 @@ class PlayState extends BaseState
 			{
 				camOffset += 10 * FlxG.elapsed;
 			}
-			else
+			else if (!playingCutscene)
 			{
 				tree.alpha -= 0.3 * FlxG.elapsed;
 			}
@@ -552,7 +548,7 @@ class PlayState extends BaseState
 		FlxG.collide(collisionBounds, _grpCharacters);
 		
 		
-		if (FlxG.overlap(player, treeOGhitbox))
+		if (FlxG.overlap(player, treeOGhitbox) && !playingCutscene)
 		{
 			if (tree.alpha > 0.55)
 			{
@@ -628,6 +624,24 @@ class PlayState extends BaseState
 				medal.sendUnlock();
 		}
 		
+		var presCount:Int = 0;
+		for (i in 0...openedPres.length)
+		{
+			if (openedPres[i])
+			{
+				presCount += 1;
+			}
+		}
+		
+		if (presCount == 25)
+		{
+			triggerCutscene();
+			
+			for (i in 0...openedPres.length)
+			{
+				openedPres[i] = false;
+			}
+		}
 		
 		if (s.curDay == curDate.getDate() - 1)
 		{
@@ -648,23 +662,29 @@ class PlayState extends BaseState
 	
 	private function triggerCutscene():Void
 	{
-		playingCutscene = true;
-		FlxG.sound.music.fadeOut(4.5, 0, function(t:FlxTween)
+		FlxG.log.add("cutscene triggered");
+		if (!playingCutscene)
 		{
-			FlxG.sound.playMusic(AssetPaths.ambience__mp3, 0);
-			FlxG.sound.music.fadeIn(6, 0, 0.5);
-		});
-		
-		FlxTween.tween(camFollow, {y:sprSnow.y - 100}, 8, {onComplete: function(t:FlxTween)
-		{
-			FlxG.sound.play(AssetPaths.rise__mp3, 0.7);
-			FlxG.camera.fade(FlxColor.WHITE, 5.8, false, function()
+			playingCutscene = true;
+			FlxG.sound.music.fadeOut(4.5, 0, function(t:FlxTween)
 			{
-				FlxG.camera.fade(FlxColor.WHITE, 0.1, true);
-				FlxG.sound.play(AssetPaths.crash__mp3, 0.6, false, null, true, function(){beginCreds(); });
+				FlxG.sound.playMusic(AssetPaths.ambience__mp3, 0);
+				FlxG.sound.music.fadeIn(6, 0, 0.5);
 			});
-		}});
-		
+			
+			FlxTween.tween(camFollow, {y:sprSnow.y - 100}, 8, {onComplete: function(t:FlxTween)
+			{
+				FlxG.sound.play(AssetPaths.rise__mp3, 0.7);
+				FlxG.camera.fade(FlxColor.WHITE, 5.8, false, function()
+				{
+					FlxG.camera.fade(FlxColor.WHITE, 0.1, true);
+					var star:FlxSprite = new FlxSprite(507, 25).loadGraphic(AssetPaths.christmasTree_star__png);
+					add(star);
+					
+					FlxG.sound.play(AssetPaths.crash__mp3, 0.6, false, null, true, function(){beginCreds(); });
+				});
+			}});
+		}
 	}
 	
 	private function beginCreds():Void
@@ -724,6 +744,15 @@ class PlayState extends BaseState
 		credArray.push(["Credits Music", "ninjamuffin99"]);
 		credArray.push(["Additional Code", "Geokureli"]);
 		credArray.push(["Special Thanks", "Newgrounds", "Tom Fulp", "TurkeyOnAStick"]);
+		
+		if (NGio.isLoggedIn)
+		{
+			if (NG.core.user.supporter)
+			{
+				credArray.push(["Special Thanks", "to YOU!", NG.core.user.name, "For Supporting NG"]);
+			}
+		}
+		
 		credArray.push([""]);
 		
 		if (FlxG.onMobile)
@@ -1025,8 +1054,8 @@ class PlayState extends BaseState
 			470
 		],
 		[
-			-375, 
-			470
+			310, 
+			440
 		]
 		
 	];
