@@ -28,6 +28,8 @@ class BaseState extends FlxState
 	private var _grpCharacters:FlxTypedSpriteGroup<SpriteShit>;
 	private var _grpCollision:FlxGroup;
 	
+	private var thumbnail:Thumbnail;
+	
 
 	override public function create():Void 
 	{

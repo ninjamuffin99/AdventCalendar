@@ -40,7 +40,7 @@ class PlayState extends BaseState
 	
 	private var snowStamp:FlxSprite;
 	
-	private var thumbnail:Thumbnail;
+
 
 	private var curDate:Date;
 	
@@ -220,7 +220,8 @@ class PlayState extends BaseState
 		collisionBottom.immovable = true;
 		_grpCollision.add(collisionBottom);
 		
-		var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 0.76);
+		var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 1);
+		// var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 0.76);
 		collLeft.immovable = true;
 		_grpCollision.add(collLeft);
 		
@@ -804,6 +805,13 @@ class PlayState extends BaseState
 					if (i == credArray.length - 1)
 					{
 						canExitCutscene = true;
+						if (NGio.isLoggedIn)
+						{
+							var medal = NG.core.medals.get(56235);
+							if (!medal.unlocked)
+								medal.sendUnlock();
+							// 56235
+						}
 					}
 					
 				}});
