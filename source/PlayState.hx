@@ -21,6 +21,7 @@ import flixel.ui.FlxButton;
 import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
+import flixel.util.FlxTimer;
 import flixel.util.helpers.FlxPointRangeBounds;
 import io.newgrounds.NG;
 import io.newgrounds.objects.events.Response;
@@ -59,6 +60,7 @@ class PlayState extends BaseState
 	public static var soundEXT:String = "";
 	
 	private var enteringIgloo:Bool = false;
+	private var playingCutscene:Bool = false;
 	
 	override public function create():Void 
 	{	
@@ -152,12 +154,12 @@ class PlayState extends BaseState
 		add(sprSky);
 		
 		var sprClouds2:FlxSprite = new FlxSprite(sprSky.x, sprSky.y).loadGraphic(AssetPaths.clouds2__png);
-		sprClouds2.scrollFactor.set(0.1, 0.1);
+		sprClouds2.scrollFactor.set(0.1, 0);
 		sprClouds2.alpha = 0.5;
 		add(sprClouds2);
 		
 		var sprClouds1:FlxSprite = new FlxSprite(sprSky.x, sprSky.y).loadGraphic(AssetPaths.clouds1__png);
-		sprClouds1.scrollFactor.set(0.2, 0.2);
+		sprClouds1.scrollFactor.set(0.2, 0);
 		sprClouds1.alpha = 0.5;
 		add(sprClouds1);
 		
@@ -288,7 +290,7 @@ class PlayState extends BaseState
 		FlxG.camera.follow(camFollow, FlxCameraFollowStyle.LOCKON, 0.05);
 		
 		var zoomOffset:Float = 250;
-		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 100, sprSnow.y + sprSnow.height);
+		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 200, sprSnow.y + sprSnow.height);
 		FlxG.camera.focusOn(player.getPosition());
 		FlxG.camera.fade(FlxColor.BLACK, 2.5, true);
 		
@@ -316,7 +318,7 @@ class PlayState extends BaseState
 			
 		var _emitterBG:FlxEmitter;
 		
-		_emitterBG = new FlxEmitter(camZoomPos.x - 50, camZoomPos.y- 90, 200);
+		_emitterBG = new FlxEmitter(camZoomPos.x - 10, camZoomPos.y - 200, 200);
 		_emitterBG.makeParticles(Math.ceil(5 / parralaxxxSnowSize), Math.ceil(5 / parralaxxx), FlxColor.WHITE, 200);
 		
 		add(_emitterBG);
@@ -459,7 +461,21 @@ class PlayState extends BaseState
 		
 		treeLights.alpha = tree.alpha;
 		
-		camFollow.setPosition(player.x, player.y - camOffset);
+		if (FlxG.keys.justPressed.C)
+		{
+			triggerCutscene();
+		}
+		
+		if (FlxG.keys.justPressed.X)
+		{
+			beginCreds();
+		}
+		
+		if (!playingCutscene)
+		{
+			camFollow.setPosition(player.x, player.y - camOffset);
+		}
+		
 		playerHitbox.setPosition(player.x - 3, player.y - 3);
 		presOverlaps = 0;
 		
@@ -608,6 +624,66 @@ class PlayState extends BaseState
 		
 		FlxG.sound.play("assets/sounds/presentOpen" + soundEXT, 1);
 		openSubState(new GallerySubstate(s.curDay));
+	}
+	
+	private function triggerCutscene():Void
+	{
+		playingCutscene = true;
+		FlxG.sound.music.fadeOut(4.5, 0, function(t:FlxTween)
+		{
+			FlxG.sound.playMusic(AssetPaths.ambience__mp3, 0);
+			FlxG.sound.music.fadeIn(6, 0, 0.5);
+		});
+		
+		FlxTween.tween(camFollow, {y:sprSnow.y - 100}, 8, {onComplete: function(t:FlxTween)
+		{
+			FlxG.sound.play(AssetPaths.rise__mp3, 0.7);
+			FlxG.camera.fade(FlxColor.WHITE, 6.1, false, function()
+			{
+				FlxG.camera.fade(FlxColor.WHITE, 0.1, true);
+				FlxG.sound.play(AssetPaths.crash__mp3, 0.6, false, null, true, function(){beginCreds(); });
+			});
+		}});
+		
+	}
+	
+	private function beginCreds():Void
+	{
+		FlxG.sound.music.fadeOut(1, 0, function(t:FlxTween)
+		{
+			FlxG.sound.playMusic(AssetPaths.dedicatedToTheGirlReadingThis__mp3, 0);
+			FlxG.sound.music.fadeIn(8, 0, 1);
+			new FlxTimer().start(1.6, function(t:FlxTimer)
+			{
+				FlxG.cameras.add(uiCamera);
+				for (i in 0...3)
+				{
+					var cred:FlxSprite = new FlxSprite(40 + (i * (8 * i)), 100 + (85 * i)).loadGraphic("assets/images/credits" + i + ".png");
+					cred.alpha = 0;
+					cred.velocity.y = 5;
+					add(cred);
+					
+					if (i == 2)
+					{
+						cred.y -= 30;
+					}
+					
+					FlxTween.tween(cred, {alpha: 1, y: cred.y + 10}, 0.13, {ease: FlxEase.quartOut, startDelay: 0.12 * i});
+					
+					cred.cameras = [uiCamera];
+					
+					new FlxTimer().start(4, function(tt:FlxTimer)
+					{
+						FlxTween.tween(cred, {alpha: 0}, 1, {startDelay: 0.2 * i, onComplete: function(deTween:FlxTween){remove(cred); }});
+					});
+				}
+				
+				new FlxTimer().start(7, function(tt:FlxTimer)
+				{
+					
+				});
+			});
+		});
 	}
 	
 	// SYNTAX GUIDE
@@ -759,6 +835,12 @@ class PlayState extends BaseState
 			"Art by FuShark",
 			"assets/images/thumbs/thumb-fushark.png",
 			"FuShark"
+		],
+		[
+			"assets/images/artwork/fushark.png",
+			"Art by FuShark",
+			"assets/images/thumbs/thumb-fushark.png",
+			"FuShark"
 		]
 		
 		
@@ -861,6 +943,10 @@ class PlayState extends BaseState
 		],
 		[
 			375, 
+			470
+		],
+		[
+			-375, 
 			470
 		]
 		
