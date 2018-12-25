@@ -466,9 +466,29 @@ class PlayState extends BaseState
 			triggerCutscene();
 		}
 		
-		if (FlxG.keys.justPressed.X)
+		if (canExitCutscene)
 		{
-			beginCreds();
+			if (FlxG.onMobile)
+			{
+				for (touch in FlxG.touches.list)
+				{
+					if (touch.pressed)
+					{
+						playingCutscene = false;
+						canExitCutscene = false;
+						player.setPosition(315, collisionBounds.y + 65);
+					}
+				}
+			}
+			else
+			{
+				if (FlxG.keys.justPressed.SPACE)
+				{
+					playingCutscene = false;
+					canExitCutscene = false;
+					player.setPosition(315, collisionBounds.y + 65);
+				}
+			}
 		}
 		
 		if (!playingCutscene)
@@ -638,7 +658,7 @@ class PlayState extends BaseState
 		FlxTween.tween(camFollow, {y:sprSnow.y - 100}, 8, {onComplete: function(t:FlxTween)
 		{
 			FlxG.sound.play(AssetPaths.rise__mp3, 0.7);
-			FlxG.camera.fade(FlxColor.WHITE, 6.1, false, function()
+			FlxG.camera.fade(FlxColor.WHITE, 5.8, false, function()
 			{
 				FlxG.camera.fade(FlxColor.WHITE, 0.1, true);
 				FlxG.sound.play(AssetPaths.crash__mp3, 0.6, false, null, true, function(){beginCreds(); });
@@ -672,19 +692,78 @@ class PlayState extends BaseState
 					
 					cred.cameras = [uiCamera];
 					
-					new FlxTimer().start(4, function(tt:FlxTimer)
+					new FlxTimer().start(2 + (0.1 * i), function(tt:FlxTimer)
 					{
-						FlxTween.tween(cred, {alpha: 0}, 1, {startDelay: 0.2 * i, onComplete: function(deTween:FlxTween){remove(cred); }});
+						remove(cred);
+						if (i == 2)
+						{
+							credsPartTwo();
+						}
 					});
 				}
-				
-				new FlxTimer().start(7, function(tt:FlxTimer)
-				{
-					
-				});
 			});
+			
 		});
 	}
+	
+	private function credsPartTwo():Void
+	{
+		var credArray:Array<Dynamic> = [];
+		credArray.push(["Organizer", "ninjamuffin99"]);
+		credArray.push(["Collab Art", "BrandyBuizel"]);
+		
+		for (i in 0...grid.length)
+		{
+			credArray.push(["Day " + (i + 1) + " art", grid[i][3]]);
+		}
+		
+		credArray.push(["Music Days 1-5", "'Snowfall'", "LawnReality"]);
+		credArray.push(["Music Days 5-10", "'Yuletide Memories'", "LucidShadowDreamer"]);
+		credArray.push(["Music Days 10-20", "'Anastasia and Cinderella'", "Precipitation24"]);
+		credArray.push(["Music Days 20-25", "'Christmas Cheer'", "TwelfthChromatic"]);
+		credArray.push(["Credits Music", "ninjamuffin99"]);
+		credArray.push(["Additional Code", "Geokureli"]);
+		credArray.push(["Special Thanks", "Newgrounds", "Tom Fulp", "TurkeyOnAStick"]);
+		credArray.push([""]);
+		
+		if (FlxG.onMobile)
+		{
+			credArray.push(["Tap anywhere \nat anytime to \nreturn to the game"]);
+		}
+		else
+		{
+			credArray.push(["Press Spacebar \nat anytime to \nreturn to the game"]);
+		}
+		
+		
+		for (i in 0...credArray.length)
+		{
+			new FlxTimer().start(2.5 * i, function(t:FlxTimer)
+			{
+				var credText:FlxText = new FlxText(100, 180, 0, "", 32);
+				credText.alignment = FlxTextAlign.CENTER;
+				add(credText);
+				
+				for (c in 0...credArray[i].length)
+				{
+					credText.text += credArray[i][c] + "\n";
+				}
+				
+				credText.cameras = [uiCamera];
+				
+				FlxTween.tween(credText, {y:credText.y + 50, alpha: 0}, 2.4, {onComplete: function(maTween:FlxTween){
+					remove(credText); 
+					if (i == credArray.length - 1)
+					{
+						canExitCutscene = true;
+					}
+					
+				}});
+			});
+		}
+	}
+	
+	private var canExitCutscene:Bool = false;
 	
 	// SYNTAX GUIDE
 	// link to image
