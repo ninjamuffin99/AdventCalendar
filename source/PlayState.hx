@@ -200,7 +200,7 @@ class PlayState extends BaseState
 		sprShine.scrollFactor.x = sprGround.scrollFactor.x * 0.85;
 		sprShine.scrollFactor.y = 0.6;
 		sprShine.alpha = 0.8;
-		add(sprShine);
+		//add(sprShine);
 		
 		sprSnow2 = new FlxSprite(sprSky.x, sprSky.y - 96).loadGraphic(AssetPaths.snow2__png);
 		sprSnow2.scrollFactor.set(0.75, 0.75);
@@ -747,11 +747,11 @@ class PlayState extends BaseState
 	{
 		var credArray:Array<Dynamic> = [];
 		credArray.push(["Organizer", "ninjamuffin99"]);
-		credArray.push(["Collab Art", "BrandyBuizel"]);
+		credArray.push(["Pixel Art", "BrandyBuizel"]);
 		
 		for (i in 0...grid.length)
 		{
-			credArray.push(["Day " + (i + 1) + " art", grid[i][3]]);
+			credArray.push(["Day " + (i + 1), grid[i][3]]);
 		}
 		
 		credArray.push(["Music Days 1-5", "'Snowfall'", "LawnReality"]);
@@ -760,7 +760,8 @@ class PlayState extends BaseState
 		credArray.push(["Music Days 20-25", "'Christmas Cheer'", "TwelfthChromatic"]);
 		credArray.push(["Credits Music", "ninjamuffin99"]);
 		credArray.push(["Additional Code", "Geokureli"]);
-		credArray.push(["Additional Collab Art", "NickConter"]);
+		credArray.push(["Additional Pixel Art", "NickConter"]);
+		credArray.push(["Additional Pixel Art", "TheDyingSun"]);
 		credArray.push(["Special Thanks", "Newgrounds", "Tom Fulp", "TurkeyOnAStick"]);
 		
 		if (NGio.isLoggedIn)
