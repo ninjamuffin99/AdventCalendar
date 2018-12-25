@@ -62,6 +62,8 @@ class PlayState extends BaseState
 	private var enteringIgloo:Bool = false;
 	private var playingCutscene:Bool = false;
 	
+	private var sprSnow2:FlxSprite;
+	
 	override public function create():Void 
 	{	
 		camZoomPos = new FlxPoint(288 - 36, 162 - 11);
@@ -190,7 +192,7 @@ class PlayState extends BaseState
 		sprFire.animation.play("fire");
 		sprFire.alpha = 1.0;
 		sprFire.scrollFactor.set(0.6, 0.6);
-		add(sprFire);
+		//add(sprFire);
 		
 		var sprShine:FlxSprite = new FlxSprite(sprGround.x + 90, sprGround.y + 176).loadGraphic(AssetPaths.moonSheet__png, true, Std.int(150 / 3), 22);
 		sprShine.animation.add("shine", [0, 1, 2], 1);
@@ -200,7 +202,7 @@ class PlayState extends BaseState
 		sprShine.alpha = 0.8;
 		add(sprShine);
 		
-		var sprSnow2:FlxSprite = new FlxSprite(sprSky.x, sprSky.y - 96).loadGraphic(AssetPaths.snow2__png);
+		sprSnow2 = new FlxSprite(sprSky.x, sprSky.y - 96).loadGraphic(AssetPaths.snow2__png);
 		sprSnow2.scrollFactor.set(0.75, 0.75);
 		add(sprSnow2);
 		
@@ -218,9 +220,13 @@ class PlayState extends BaseState
 		collisionBottom.immovable = true;
 		_grpCollision.add(collisionBottom);
 		
-		var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height);
+		var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 0.76);
 		collLeft.immovable = true;
 		_grpCollision.add(collLeft);
+		
+		var collLeft2:FlxObject = new FlxObject(sprSnow.x, 437, 3, 300);
+		collLeft2.immovable = true;
+		_grpCollision.add(collLeft2);
 		
 		var collRight:FlxObject = new FlxObject(sprSnow.x + sprSnow.width - 1, sprSnow.y, 3, sprSnow.height);
 		collRight.immovable = true;
@@ -244,7 +250,7 @@ class PlayState extends BaseState
 		fort.immovable = true;
 		
 		var sign:SpriteShit = new SpriteShit(266, 318);
-		sign.loadGraphic(AssetPaths.sign_2__png);
+		sign.loadGraphic(AssetPaths.sign_1__png);
 		sign.offset.y = sign.height - 4;
 		sign.height = 2;
 		sign.offset.x = 4;
@@ -287,7 +293,7 @@ class PlayState extends BaseState
 		treeOGhitbox = new FlxObject(tree.x, tree.y - tree.treeSize.height, tree.treeSize.width, tree.treeSize.height);
 		add(treeOGhitbox);
 		
-		FlxG.camera.follow(camFollow, FlxCameraFollowStyle.LOCKON, 0.05);
+		FlxG.camera.follow(camFollow, FlxCameraFollowStyle.LOCKON, 0.03);
 		
 		var zoomOffset:Float = 250;
 		FlxG.camera.setScrollBounds(sprSnow.x, sprSnow.width + zoomOffset, sprSnow.y - 200, sprSnow.y + sprSnow.height);
@@ -492,6 +498,11 @@ class PlayState extends BaseState
 			camFollow.setPosition(player.x, player.y - camOffset);
 		}
 		
+		if (player.x < 250)
+		{
+			FlxG.switchState(new CabinState());
+		}
+		
 		playerHitbox.setPosition(player.x - 3, player.y - 3);
 		presOverlaps = 0;
 		
@@ -624,6 +635,17 @@ class PlayState extends BaseState
 				medal.sendUnlock();
 		}
 		
+		
+		if (s.curDay == curDate.getDate() - 1)
+		{
+			var medal = NG.core.medals.get(medalNames[s.curDay]);
+			if (!medal.unlocked)
+				medal.sendUnlock();
+		}
+		
+		s.animation.play("opened");
+		openedPres[s.curDay] = true;
+		
 		var presCount:Int = 0;
 		for (i in 0...openedPres.length)
 		{
@@ -643,15 +665,6 @@ class PlayState extends BaseState
 			}
 		}
 		
-		if (s.curDay == curDate.getDate() - 1)
-		{
-			var medal = NG.core.medals.get(medalNames[s.curDay]);
-			if (!medal.unlocked)
-				medal.sendUnlock();
-		}
-		
-		s.animation.play("opened");
-		openedPres[s.curDay] = true;
 		
 		FlxG.save.data.openedPres = openedPres;
 		FlxG.save.flush();
@@ -743,6 +756,7 @@ class PlayState extends BaseState
 		credArray.push(["Music Days 20-25", "'Christmas Cheer'", "TwelfthChromatic"]);
 		credArray.push(["Credits Music", "ninjamuffin99"]);
 		credArray.push(["Additional Code", "Geokureli"]);
+		credArray.push(["Additional Collab Art", "NickConter"]);
 		credArray.push(["Special Thanks", "Newgrounds", "Tom Fulp", "TurkeyOnAStick"]);
 		
 		if (NGio.isLoggedIn)
@@ -945,10 +959,10 @@ class PlayState extends BaseState
 			"FuShark"
 		],
 		[
-			"assets/images/artwork/fushark.png",
-			"Art by FuShark",
-			"assets/images/thumbs/thumb-fushark.png",
-			"FuShark"
+			"assets/images/artwork/blas.png",
+			"Art by blasphysics",
+			"assets/images/thumbs/thumb-blas.png",
+			"blasphysics"
 		]
 		
 		
