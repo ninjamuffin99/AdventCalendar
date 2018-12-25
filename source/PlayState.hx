@@ -630,7 +630,7 @@ class PlayState extends BaseState
 		
 		if (s.curDay == 0)
 		{
-			if (NGio.isLoggedIn)
+			if (NGio.isLoggedIn) 
 			{
 				var medal = NG.core.medals.get(medalNames[0]);
 				if (!medal.unlocked)
