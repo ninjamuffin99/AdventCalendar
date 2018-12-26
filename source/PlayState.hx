@@ -76,10 +76,20 @@ class PlayState extends BaseState
 			soundEXT = ".mp3";
 		#end
 		
+		curDate = Date.now();
+		
 		// shitty game first time run init basically
 		if (FlxG.sound.music == null)
 		{
-			FlxG.sound.playMusic("assets/music/song4" + soundEXT, 0);
+			//if its the 25 days leading up to christmas, play the christmas music
+			//else play ambient wind and shit
+			if (curDate.getDate() < 26 && curDate.getMonth() == 11)
+			{
+				FlxG.sound.playMusic("assets/music/song4" + soundEXT, 0);
+			}
+			else
+				FlxG.sound.playMusic(AssetPaths.ambience__mp3, 0);
+			
 			FlxG.sound.music.fadeIn(5, 0, 0.3);
 			
 			FlxG.save.bind("File1");
@@ -107,7 +117,7 @@ class PlayState extends BaseState
 		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
 		
-		curDate = Date.now();
+		
 		
 		// this is run for if the preloader is workign (on web basically)
 		if (NGio.isLoggedIn)
@@ -392,6 +402,19 @@ class PlayState extends BaseState
 				npcCount += 1;
 			}
 		});
+		
+		// hopefulyl make it so that NPCs wind down as December ends
+		if (curDate.getDate() >= 25)
+		{
+			days = FlxG.random.int(npcCount, 10);
+			FlxG.log.add("shrunkDays");
+		}
+		
+		// NPCS only show up if its december
+		if (curDate.getMonth() != 11)
+		{
+			days = 0;
+		}
 		
 		FlxG.log.add("NPC STARTING POINT: " + npcCount);
 		
