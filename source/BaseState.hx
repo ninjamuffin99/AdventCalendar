@@ -18,6 +18,7 @@ class BaseState extends FlxState
 {
 	
 	private var player:Player;
+	private var playerHitbox:FlxObject;
 	private var gameCamera:FlxCamera;
 	private var uiCamera:FlxCamera;
 	

@@ -36,7 +36,7 @@ class PlayState extends BaseState
 {
 	private var camFollow:FlxObject;
 	private var camOffset:Float = 70;
-	private var playerHitbox:FlxObject;
+
 	
 	private var snowStamp:FlxSprite;
 	

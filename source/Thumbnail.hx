@@ -24,6 +24,13 @@ class Thumbnail extends SpriteShit
 	
 	public function newThumb(newDay:Int):Void
 	{
+		// igloo shit
+		if (newDay == -1)
+		{
+			loadGraphic(AssetPaths.thumb_tom__png);
+			curThumb = -1;
+		}
+		
 		if (curThumb != newDay)
 		{
 			if (newDay > PlayState.grid.length - 1)

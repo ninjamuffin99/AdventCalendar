@@ -117,11 +117,29 @@ class GallerySubstate extends FlxSubState
 	
 	private function openImage(i:Int):Void
 	{
+		
 		curDay = i;
 		
 		curAnimPlaying = 0;
 		bigImage.visible = true;
-		bigPreview.loadGraphic(picsArray[i][0]);
+		
+		// regular artwork
+		if (i >= 0)
+		{
+			bigPreview.loadGraphic(picsArray[i][0]);
+			imageText.text = picsArray[i][1];
+		}
+		else
+		{
+			switch(i)
+			{
+				case -1:
+					bigPreview.loadGraphic(AssetPaths.tom__png);
+					imageText.text = "Tom Fulp, creator, founder, president, and CEO of Newgrounds.com";
+			}
+			
+		}
+		
 		
 		var isAnimated = false;
 		var horizSize:Int = Std.int(bigPreview.width);
@@ -134,16 +152,20 @@ class GallerySubstate extends FlxSubState
 			vertSize = Std.int(vertSize / picsArray[i][4]);
 		}
 		
-		if (picsArray[i][0] == "assets/images/artwork/tyler.png")
+		if (i >= 0)
 		{
-			bigPreview.loadGraphic(picsArray[i][0], true, Std.int(1906 / 2));
-			bigPreview.animation.add("boil", [0, 1], 10);
-			bigPreview.animation.play("boil");
+			if (picsArray[i][0] == "assets/images/artwork/tyler.png")
+			{
+				bigPreview.loadGraphic(picsArray[i][0], true, Std.int(1906 / 2));
+				bigPreview.animation.add("boil", [0, 1], 10);
+				bigPreview.animation.play("boil");
+			}
+			else
+			{
+				bigPreview.loadGraphic(picsArray[i][0], isAnimated, horizSize, vertSize);
+			}
 		}
-		else
-		{
-			bigPreview.loadGraphic(picsArray[i][0], isAnimated, horizSize, vertSize);
-		}
+		
 		
 		
 		
@@ -167,7 +189,7 @@ class GallerySubstate extends FlxSubState
 		bigPreview.updateHitbox();
 		bigPreview.screenCenter();
 		
-		imageText.text = picsArray[i][1];
+		
 		
 	}
 	
@@ -181,17 +203,43 @@ class GallerySubstate extends FlxSubState
 			keyboardControls();
 		#end
 		
-		imageText.text = picsArray[curDay][1] + "\nClick here to open " + picsArray[curDay][3] + "'s Newgrounds page";
+		if (curDay >= 0)
+		{
+			imageText.text = picsArray[curDay][1] + "\nClick here to open " + picsArray[curDay][3] + "'s Newgrounds page";
+		}
+		
 		
 		if (FlxG.onMobile)
 		{
-			imageText.text = picsArray[curDay][1] + "\nTap here to open " + picsArray[curDay][3] + "'s Newgrounds page";
+			if (curDay >= 0)
+			{
+				imageText.text = picsArray[curDay][1] + "\nTap here to open " + picsArray[curDay][3] + "'s Newgrounds page";
+			}
+			else
+			{
+				switch(curDay)
+				{
+					case -1:
+						// imageText.text = picsArray[curDay][1] + "\nTap here to open " + picsArray[curDay][3] + "'s Newgrounds page";
+				}
+			}
 			
 		}
 		
 		if (FlxG.keys.justPressed.ENTER)
 		{
-			FlxG.openURL("https://" + picsArray[curDay][3] + ".newgrounds.com");
+			if (curDay >= 0)
+			{
+				FlxG.openURL("https://" + picsArray[curDay][3] + ".newgrounds.com");
+			}
+			else
+			{
+				switch(curDay)
+				{
+					case -1:
+						FlxG.openURL("https://tomfulp.newgrounds.com");
+				}
+			}
 		}
 		
 		

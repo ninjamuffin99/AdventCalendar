@@ -4,6 +4,8 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
 /**
@@ -14,6 +16,7 @@ class IglooSubstate extends BaseState
 {
 	private var exitShit:FlxObject;
 	private var exitingShit:Bool = false;
+	private var menorah:FlxSprite;
 	
 	override public function create():Void 
 	{
@@ -26,12 +29,26 @@ class IglooSubstate extends BaseState
 		var iglooBG:FlxSprite = new FlxSprite().loadGraphic(AssetPaths.igloo_room__png);
 		add(iglooBG);
 		
-		initCharacterBases();
 		initCollision();
+		
+		menorah = new FlxSprite(106, 65).loadGraphic(AssetPaths.menorah__png);
+		menorah.immovable = true;
+		_grpCollision.add(menorah);
+		
+		
+		initCharacterBases();
+		
 		
 		player = new Player(45, 100, Player.daDayLol);
 		player.updateSprite(Player.daDayLol);
 		_grpCharacters.add(player);
+		
+		playerHitbox = new FlxObject(0, 0, player.width + 6, player.height + 6);
+		add(playerHitbox);
+		
+		thumbnail = new Thumbnail(0, 0, 0);
+		add(thumbnail);
+		FlxTween.tween(thumbnail.offset, {y: 5}, 1.2, {ease:FlxEase.quadInOut, type:FlxTweenType.PINGPONG});
 		
 		exitShit = new FlxObject(0, 0, 25, 400);
 		add(exitShit);
@@ -62,11 +79,42 @@ class IglooSubstate extends BaseState
 	
 	override public function update(elapsed:Float):Void 
 	{
+		playerHitbox.setPosition(player.x - 3, player.y - 3);
+		
 		if (FlxG.overlap(player, exitShit) && !exitingShit)
 		{
 			exitingShit = true;
 			
 			FlxG.camera.fade(FlxColor.BLACK, 1, false, function(){FlxG.switchState(new PlayState()); });
+		}
+		
+		if (FlxG.overlap(playerHitbox, menorah))
+		{
+			thumbnail.overlappin = true;
+			thumbnail.setPosition(menorah.x - 10, menorah.y - thumbnail.height - 8);
+			thumbnail.newThumb( -1);
+			
+			
+			if (FlxG.onMobile)
+			{
+				for (touch in FlxG.touches.list)
+				{
+					if (touch.justPressed)
+					{
+						if (touch.overlaps(menorah) || touch.overlaps(thumbnail))
+						{
+							openSubState(new GallerySubstate( -1));
+						}
+					}
+					
+				}
+			}
+			
+			
+			if (FlxG.keys.justPressed.SPACE)
+			{
+				openSubState(new GallerySubstate( -1));
+			}
 		}
 		
 		super.update(elapsed);
