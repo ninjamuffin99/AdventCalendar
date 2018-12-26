@@ -192,7 +192,7 @@ class PlayState extends BaseState
 		sprFire.animation.play("fire");
 		sprFire.alpha = 1.0;
 		sprFire.scrollFactor.set(0.6, 0.6);
-		//add(sprFire);
+		add(sprFire);
 		
 		var sprShine:FlxSprite = new FlxSprite(sprGround.x + 90, sprGround.y + 176).loadGraphic(AssetPaths.moonSheet__png, true, Std.int(150 / 3), 22);
 		sprShine.animation.add("shine", [0, 1, 2], 1);
