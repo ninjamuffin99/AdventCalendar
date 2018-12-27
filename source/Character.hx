@@ -27,21 +27,30 @@ class Character extends SpriteShit
 	}
 	
 	
-	public function updateSprite(theDay:Int):Void
+	public function updateSprite(theDay:Int, isCabin:Bool = false):Void
 	{
-		// if the day is the 9th, since the input is curDate.getDate() - 1 usually...
-		if (theDay == 8)
+		if (isCabin)
 		{
-			loadGraphic(AssetPaths.Daddy__png, false, 24, 24);
-			actualOffsetLOL = 20;
-			
-			resizeHitbox();
+			loadGraphic(AssetPaths.spritesheetArtists__png, true, 16, 16);
+			animation.frameIndex = theDay;
 		}
 		else
 		{
-			// already should have loaded the sprite data i think
-			animation.frameIndex = theDay;
+			if (theDay == 8)
+			{
+				loadGraphic(AssetPaths.Daddy__png, false, 24, 24);
+				actualOffsetLOL = 20;
+				
+				resizeHitbox();
+			}
+			else
+			{
+				// already should have loaded the sprite data i think
+				animation.frameIndex = theDay;
+			}
 		}
+		// if the day is the 9th, since the input is curDate.getDate() - 1 usually...
+		
 		
 	}
 	

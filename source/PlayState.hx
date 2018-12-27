@@ -115,6 +115,11 @@ class PlayState extends BaseState
 			trace("loaded savefile");
 		}
 		
+		for (thing in 0...grid.length)
+		{
+			whitelist.push(grid[thing][3]);
+		}
+		
 		// curDate is initialized as local time just incase the newgrounds api gunks up
 		
 		
@@ -231,7 +236,7 @@ class PlayState extends BaseState
 		_grpCollision.add(collisionBottom);
 		
 		var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 1);
-		// var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 0.76);
+		//var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 0.76);
 		collLeft.immovable = true;
 		_grpCollision.add(collLeft);
 		
@@ -663,8 +668,18 @@ class PlayState extends BaseState
 			
 		}
 		
+		var whitelistUnlock:Bool = false;
 		
-		if (s.curDay == curDate.getDate() - 1)
+		for (w in whitelist)
+		{
+			if (NGio.isLoggedIn)
+			{
+				if (NG.core.user.name == w)
+					whitelistUnlock = true;
+			}
+		}
+		
+		if (s.curDay == curDate.getDate() - 1 || whitelistUnlock)
 		{
 			var medal = NG.core.medals.get(medalNames[s.curDay]);
 			if (!medal.unlocked)
@@ -732,7 +747,7 @@ class PlayState extends BaseState
 	{
 		FlxG.sound.music.fadeOut(1, 0, function(t:FlxTween)
 		{
-			FlxG.sound.playMusic(AssetPaths.dedicatedToTheGirlReadingThis__mp3, 0);
+			FlxG.sound.playMusic(AssetPaths.dedicatedEXTENDED__mp3, 0);
 			FlxG.sound.music.fadeIn(8, 0, 1);
 			new FlxTimer().start(1.6, function(t:FlxTimer)
 			{
@@ -962,7 +977,7 @@ class PlayState extends BaseState
 			"assets/images/artwork/sunny.png",
 			"Art by Suncake",
 			"assets/images/thumbs/thumb-sunny.png",
-			"Suncake"
+			"suncake"
 		],
 		[
 			"assets/images/artwork/lenward.jpg",
@@ -1002,6 +1017,15 @@ class PlayState extends BaseState
 		]
 		
 		
+		
+	];
+	
+	// whitelist also gets filled with artist info from gridArray or whatever
+	private var whitelist:Array<String> =
+	[
+		"ninjamuffin99",
+		"supersavage",
+		"nickxa"
 		
 	];
 	

@@ -42,8 +42,19 @@ class CabinState extends BaseState
 		
 		FlxG.camera.follow(player);
 		
+		var npcsAdded:Int = 0;
+		for (c in 0...26)
+		{
+			npcsAdded += 1;
+			var npc:NPC = new NPC(FlxG.random.float(10, 200), FlxG.random.int(55, 150));
+			npc.updateSprite(c, true);
+			npc.ID = 2;
+			_grpCharacters.add(npc);
+		}
+		
+		FlxG.log.add(npcsAdded + " npcs added");
+		
 		
 		super.create();
 	}
-	
 }

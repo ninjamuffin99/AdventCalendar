@@ -30,7 +30,7 @@ class Player extends Character
 		resizeHitbox();
 	}
 	
-	override public function updateSprite(theDay:Int):Void 
+	override public function updateSprite(theDay:Int, isCabin:Bool = false):Void 
 	{
 		super.updateSprite(theDay);
 		
