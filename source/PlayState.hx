@@ -235,8 +235,8 @@ class PlayState extends BaseState
 		collisionBottom.immovable = true;
 		_grpCollision.add(collisionBottom);
 		
-		var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 1);
-		//var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 0.76);
+		//var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 1);
+		var collLeft:FlxObject = new FlxObject(sprSnow.x, sprSnow.y, 3, sprSnow.height * 0.76);
 		collLeft.immovable = true;
 		_grpCollision.add(collLeft);
 		
