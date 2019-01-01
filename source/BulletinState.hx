@@ -15,13 +15,14 @@ class BulletinState extends FlxState
 {
 	
 	private var camFollow:FlxObject;
+	private var bg:FlxSprite;
 	
 	private var debugSquare:FlxSprite;
 	private var debugText:FlxText;
 
 	override public function create():Void 
 	{
-		var bg:FlxSprite = new FlxSprite().loadGraphic(AssetPaths.board2__png);
+		bg = new FlxSprite().loadGraphic(AssetPaths.board2__png);
 		bg.setGraphicSize(Std.int(bg.width * 2));
 		bg.updateHitbox();
 		add(bg);
@@ -42,8 +43,9 @@ class BulletinState extends FlxState
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 		
-		FlxG.camera.follow(camFollow, null, 0.1);
+		FlxG.camera.follow(camFollow, null, 0.02);
 		FlxG.camera.zoom = 0.5;
+		FlxG.camera.setScrollBounds(bg.x, bg.width, bg.y, bg.height);
 		
 		debugSquare = new FlxSprite(0, 0);
 		debugSquare.alpha = 0.5;
@@ -56,21 +58,55 @@ class BulletinState extends FlxState
 	}
 	
 	private var mousePosOld:FlxPoint = new FlxPoint();
+	private var curEv:Int = 0;
 	
 	override public function update(elapsed:Float):Void 
 	{
 		if (FlxG.mouse.justPressed)
 		{
 			mousePosOld.set(FlxG.mouse.x, FlxG.mouse.y);
-			
 		}
 		
-		if (FlxG.mouse.pressed)
+		if (camFollow.x < 0)
 		{
-			debugText.setPosition(FlxG.mouse.x, FlxG.mouse.y - 40);
-			debugText.text = Std.int(mousePosOld.x - FlxG.mouse.x) + ", " + Std.int(mousePosOld.y - FlxG.mouse.y);
+			camFollow.x = 0;
+		}
+		if (camFollow.x > bg.width)
+		{
+			camFollow.x = bg.width;
+		}
+		if (camFollow.y < 0)
+		{
+			camFollow.y = 0;
+		}
+		if (camFollow.y > bg.height)
+			camFollow.y = bg.height - 10;
+		
+		
+		
+		debugText.setPosition(FlxG.mouse.x, FlxG.mouse.y - 40);
+		debugText.text = Std.int(FlxG.mouse.x) + ", " + Std.int(FlxG.mouse.y);
+		
+		
+		if (FlxG.keys.justPressed.LEFT)
+		{
+			curEv -= 1;
+			updateCamPos();
+		}
+		if (FlxG.keys.justPressed.RIGHT)
+		{
+			curEv += 1;
+			updateCamPos();
 		}
 		
+		if (FlxG.onMobile)
+		{
+			if (FlxG.touches.list[0].justPressed)
+			{
+				curEv += 1;
+				updateCamPos();
+			}
+		}
 		
 		camFollow.velocity.set();
 		
@@ -99,6 +135,19 @@ class BulletinState extends FlxState
 		super.update(elapsed);
 	}
 	
+	private function updateCamPos():Void
+	{
+		if (curEv < 0)
+			curEv = camPosArr.length - 1;
+		if (curEv >= camPosArr.length)
+		{
+			curEv = 0;
+			FlxG.switchState(new CabinState());
+		}
+		
+		camFollow.setPosition(camPosArr[curEv][0], camPosArr[curEv][1]);
+	}
+	
 	private var picPosArray:Array<Dynamic> =
 	[
 		[140, 290],
@@ -124,5 +173,18 @@ class BulletinState extends FlxState
 		[3237, 183],
 		[2363, 1390],
 		[2398, 1438],
+	];
+	private var camPosArr:Array<Dynamic> =
+	[
+		[500, 600],
+		[650, 1880],
+		[1110, 1180],
+		[1400, 2410],
+		[2000, 1810],
+		[2975, 1110],
+		[3800, 510],
+		[3750, 2040],
+		[2966, 2230],
+		[2017, 900]
 	];
 }
