@@ -33,6 +33,7 @@ class Character extends SpriteShit
 		{
 			loadGraphic(AssetPaths.spritesheetArtists__png, true, 16, 16);
 			animation.frameIndex = theDay;
+			resizeHitbox();
 		}
 		else
 		{
@@ -71,7 +72,7 @@ class Character extends SpriteShit
 		
 	}
 	
-	private function resizeHitbox():Void
+	public function resizeHitbox():Void
 	{
 		// offsets to the bottom, then shrinks the sprite
 		offset.y = height - 4;

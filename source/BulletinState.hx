@@ -27,6 +27,11 @@ class BulletinState extends FlxState
 		bg.updateHitbox();
 		add(bg);
 		
+		if (FlxG.sound.music != null)
+		{
+			FlxG.sound.music.fadeOut(2, FlxG.sound.music.volume / 2);
+		}
+		
 		for (i in 0...picPosArray.length)
 		{
 			var ev:FlxSprite = new FlxSprite(picPosArray[i][0], picPosArray[i][1]).loadGraphic("assets/images/loganStuff/E" + (i + 1) +".png");
@@ -52,7 +57,7 @@ class BulletinState extends FlxState
 		add(debugSquare);
 		
 		debugText = new FlxText(0, 0, 0, "", 32);
-		add(debugText);
+		// add(debugText);
 		
 		super.create();
 	}
