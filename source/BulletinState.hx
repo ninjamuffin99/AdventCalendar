@@ -32,6 +32,12 @@ class BulletinState extends FlxState
 			add(ev);
 		}
 		
+		for (i in 0...stringPosArr.length)
+		{
+			var strLink:FlxSprite = new FlxSprite(stringPosArr[i][0], stringPosArr[i][1]).loadGraphic("assets/images/loganStuff/S" + (i + 1) +".png");
+			add(strLink);
+		}
+		
 		
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
@@ -70,6 +76,9 @@ class BulletinState extends FlxState
 		
 		var speed:Float = 220;
 		
+		if (FlxG.keys.pressed.SHIFT)
+			speed *= 4;
+		
 		if (FlxG.keys.pressed.W)
 		{
 			camFollow.velocity.y = -speed;
@@ -93,14 +102,27 @@ class BulletinState extends FlxState
 	private var picPosArray:Array<Dynamic> =
 	[
 		[140, 290],
-		[190, 1600],
-		[720, 800],
-		[950, 2230],
-		[1430, 1370],
+		[176, 1596],
+		[707, 820],
+		[935, 2230],
+		[1412, 1358],
 		[2430, 800],
-		[3340, 1640],
-		[2556, 1750],
+		[3318, 1635],
+		[2532, 1746],
 		[3270, 170],
-		[1445, 220]
+		[1440, 250]
+	];
+	
+	private var stringPosArr:Array<Dynamic> = 
+	[
+		[270, 350],
+		[760, 830],
+		[1180, 835],
+		[1310, 280],
+		[1460, 260],
+		[2366, 804],
+		[3237, 183],
+		[2363, 1390],
+		[2398, 1438],
 	];
 }
