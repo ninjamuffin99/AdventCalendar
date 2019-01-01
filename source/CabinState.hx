@@ -41,7 +41,7 @@ class CabinState extends BaseState
 		_grpCollision.add(colRight);
 		
 		FlxG.camera.follow(player);
-		FlxG.camera.zoom = 4.5;
+		FlxG.camera.zoom = 4.4;
 		FlxG.camera.setScrollBounds(colLeft.x, colRight.x, inside.y, colBottom.y);
 		
 		var npcsAdded:Int = 0;
