@@ -4,6 +4,8 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
 
 /**
  * ...
@@ -14,6 +16,8 @@ class CabinState extends BaseState
 	
 	private var bulletin:FlxObject;
 	private var grpCabinets:FlxGroup;
+	
+	private var nameTags:FlxText;
 
 	override public function create():Void 
 	{
@@ -88,7 +92,7 @@ class CabinState extends BaseState
 		for (c in 0...26)
 		{
 			npcsAdded += 1;
-			var npc:NPC = new NPC(FlxG.random.float(10, 200), FlxG.random.int(55, 150));
+			var npc:NPC = new NPC(FlxG.random.float(10, 170), FlxG.random.int(55, 150));
 			npc.updateSprite(c, true);
 			
 			npc.ID = 2;
@@ -97,6 +101,12 @@ class CabinState extends BaseState
 		
 		FlxG.log.add(npcsAdded + " npcs added");
 		
+		FlxG.cameras.add(uiCamera);
+		
+		nameTags = new FlxText( -10, -10, 0, "", 20);
+		nameTags.color = FlxColor.WHITE;
+		nameTags.cameras = [uiCamera];
+		add(nameTags);
 		
 		super.create();
 	}
@@ -112,6 +122,23 @@ class CabinState extends BaseState
 				FlxG.switchState(new BulletinState());
 			}
 		}
+		
+		_grpCharacters.forEach(function(spr:SpriteShit)
+		{
+			if (spr.ID == 2)
+			{
+				if (FlxG.overlap(playerHitbox, spr))
+				{
+					nameTags.setPosition(spr.x * FlxG.camera.zoom, (spr.y - 50) * FlxG.camera.zoom);
+					nameTags.text = spr.nameShit;
+					nameTags.alpha = 1;
+				}
+				else if (nameTags.alpha > 0)
+				{
+					nameTags.alpha -= 0.01;
+				}
+			}
+		});
 		
 		FlxG.collide(grpCabinets, _grpCharacters);
 		

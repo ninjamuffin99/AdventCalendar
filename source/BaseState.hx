@@ -29,6 +29,8 @@ class BaseState extends FlxState
 	private var _grpCharacters:FlxTypedSpriteGroup<SpriteShit>;
 	private var _grpCollision:FlxGroup;
 	
+	private var _grpEvidence:FlxTypedGroup<Evidence>;
+	
 	private var thumbnail:Thumbnail;
 	
 
@@ -39,11 +41,23 @@ class BaseState extends FlxState
 	
 	private function initCharacterBases():Void
 	{
+		initEvidence();
+		
 		_grpEntites = new FlxTypedGroup<FlxObject>();
 		add(_grpEntites);
 		
 		_grpCharacters = new FlxTypedSpriteGroup<SpriteShit>();
 		_grpEntites.add(_grpCharacters);
+		
+		
+	}
+	
+	private function initEvidence():Void
+	{
+		
+		_grpEvidence = new FlxTypedGroup<Evidence>();
+		add(_grpEvidence);
+		
 		
 	}
 	
@@ -79,6 +93,16 @@ class BaseState extends FlxState
 		FlxG.collide(_grpCharacters, _grpCollision);
 		
 		_grpCharacters.sort(FlxSort.byY);
+		
+		_grpEvidence.forEach(function(ev:Evidence)
+		{
+			if (FlxG.overlap(playerHitbox, ev))
+			{
+				BulletinState.evAmount[ev.ID] = true;
+				ev.visible = false;
+				ev.kill();
+			}
+		});
 		
 		super.update(elapsed);
 	}

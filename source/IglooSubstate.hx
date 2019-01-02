@@ -77,6 +77,15 @@ class IglooSubstate extends BaseState
 		}
 	}
 	
+	override function initEvidence():Void 
+	{
+		super.initEvidence();
+		
+		var ev:Evidence = new Evidence(110, 100);
+		ev.ID = 3;
+		_grpEvidence.add(ev);
+	}
+	
 	override public function update(elapsed:Float):Void 
 	{
 		playerHitbox.setPosition(player.x - 3, player.y - 3);

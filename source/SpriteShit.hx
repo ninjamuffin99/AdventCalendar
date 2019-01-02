@@ -14,6 +14,8 @@ class SpriteShit extends FlxSprite
 	
 	private var oldPos:FlxPoint = new FlxPoint();
 	public var posDiff:FlxPoint = new FlxPoint();
+	public var nameShit:String = "";
+	
 
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{

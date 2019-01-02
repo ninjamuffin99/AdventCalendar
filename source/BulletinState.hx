@@ -19,6 +19,20 @@ class BulletinState extends FlxState
 	
 	private var debugSquare:FlxSprite;
 	private var debugText:FlxText;
+	
+	public static var evAmount:Array<Bool> =
+	[
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	];
 
 	override public function create():Void 
 	{
@@ -36,12 +50,51 @@ class BulletinState extends FlxState
 		{
 			var ev:FlxSprite = new FlxSprite(picPosArray[i][0], picPosArray[i][1]).loadGraphic("assets/images/loganStuff/E" + (i + 1) +".png");
 			add(ev);
+			
+			if (!evAmount[i])
+			{
+				ev.visible = false;
+			}
 		}
 		
 		for (i in 0...stringPosArr.length)
 		{
 			var strLink:FlxSprite = new FlxSprite(stringPosArr[i][0], stringPosArr[i][1]).loadGraphic("assets/images/loganStuff/S" + (i + 1) +".png");
 			add(strLink);
+			
+			switch(i)
+			{
+				case 0:
+					if (!evAmount[0] || !evAmount[1])
+					{
+						strLink.visible = false;
+					}
+				case 1:
+					if (!evAmount[1] || !evAmount[2])
+						strLink.visible = false;
+				case 2:
+					if (!evAmount[2] || !evAmount[3])
+						strLink.visible = false;
+				case 3:
+					if (!evAmount[3] || !evAmount[9])
+						strLink.visible = false;
+				case 4:
+					if (!evAmount[4] || !evAmount[9])
+						strLink.visible = false;
+				case 5:
+					if (!evAmount[4] || !evAmount[5])
+						strLink.visible = false;
+				case 6:
+					if (!evAmount[8] || !evAmount[5])
+						strLink.visible = false;
+				case 7:
+					if (!evAmount[4] || !evAmount[6])
+						strLink.visible = false;
+				case 8:
+					if (!evAmount[4] || !evAmount[7])
+						strLink.visible = false;
+				
+			}
 		}
 		
 		

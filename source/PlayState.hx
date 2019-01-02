@@ -249,9 +249,10 @@ class PlayState extends BaseState
 		_grpCollision.add(collRight);
 		
 		initSnow();
-		
 		initCharacters();
 		initPresents();
+		
+		
 		
 		var tank:Prop = new Prop(590, 420, "assets/images/snowTank.png");
 		tank.width -= 25;
@@ -372,6 +373,28 @@ class PlayState extends BaseState
 		snowLayer -= 1;
 	}
 	
+	override function initEvidence():Void 
+	{
+		super.initEvidence();
+		
+		var evidence1:Evidence = new Evidence(570, 410);
+		evidence1.ID = 0;
+		_grpEvidence.add(evidence1);
+		
+		var evidence2:Evidence = new Evidence(590 - 15, 410);
+		evidence2.ID = 1;
+		_grpEvidence.add(evidence2);
+		
+		var treeEv:Evidence = new Evidence(503, 322);
+		treeEv.ID = 7;
+		_grpEvidence.add(treeEv);
+		
+		var fortEv:Evidence = new Evidence(644, 330);
+		fortEv.ID = 4;
+		_grpEvidence.add(fortEv);
+	}
+	
+	
 	private function initCharacters():Void
 	{
 		initCharacterBases();
@@ -436,7 +459,7 @@ class PlayState extends BaseState
 	private function getProperDays():Int
 	{
 		var days = curDate.getDate() - 1;
-		if (days > 24)
+		if (days > 24 || curDate.getMonth() != 11)
 			days = 24;
 		
 		// just a precaution while the game is being live updated

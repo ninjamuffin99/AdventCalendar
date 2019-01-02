@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import haxe.io.StringInput;
 
 /**
  * ...
@@ -35,6 +36,23 @@ class NPC extends Character
 		super.update(elapsed);
 		
 		_brain.update();
+	}
+	
+	
+	override public function updateSprite(theDay:Int, isCabin:Bool = false):Void 
+	{
+		super.updateSprite(theDay, isCabin);
+		
+		if (isCabin)
+		{
+			if (theDay != 25)
+			{
+				nameShit = PlayState.grid[theDay][3];
+			}
+			else
+				nameShit = "ninjamuffin99";
+			
+		}
 	}
 	
 	public function idle():Void
