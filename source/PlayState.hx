@@ -377,11 +377,11 @@ class PlayState extends BaseState
 	{
 		super.initEvidence();
 		
-		var evidence1:Evidence = new Evidence(570, 410);
+		var evidence1:Evidence = new Evidence(620, 410);
 		evidence1.ID = 0;
 		_grpEvidence.add(evidence1);
 		
-		var evidence2:Evidence = new Evidence(590 - 15, 410);
+		var evidence2:Evidence = new Evidence(590 - 15, 400);
 		evidence2.ID = 1;
 		_grpEvidence.add(evidence2);
 		
@@ -392,6 +392,22 @@ class PlayState extends BaseState
 		var fortEv:Evidence = new Evidence(644, 330);
 		fortEv.ID = 4;
 		_grpEvidence.add(fortEv);
+		
+		var evCorner:Evidence = new Evidence(256, 490);
+		evCorner.ID = 2;
+		_grpEvidence.add(evCorner);
+		
+		var evPhil:Evidence = new Evidence(473, 390);
+		evPhil.ID = 5;
+		_grpEvidence.add(evPhil);
+		
+		var evSign:Evidence = new Evidence(264, 311);
+		evSign.ID = 8;
+		_grpEvidence.add(evSign);
+		
+		var evTyler:Evidence = new Evidence(443, 478);
+		evTyler.ID = 9;
+		_grpEvidence.add(evTyler);
 	}
 	
 	

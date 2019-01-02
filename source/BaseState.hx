@@ -99,7 +99,7 @@ class BaseState extends FlxState
 			if (FlxG.overlap(playerHitbox, ev))
 			{
 				BulletinState.evAmount[ev.ID] = true;
-				ev.visible = false;
+				FlxG.sound.play("assets/sounds/presentOpen.mp3", 1);
 				ev.kill();
 			}
 		});

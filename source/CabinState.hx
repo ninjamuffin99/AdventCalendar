@@ -18,6 +18,7 @@ class CabinState extends BaseState
 	private var grpCabinets:FlxGroup;
 	
 	private var nameTags:FlxText;
+	private var carpet:FlxSprite;
 
 	override public function create():Void 
 	{
@@ -32,13 +33,13 @@ class CabinState extends BaseState
 		add(inside);
 		
 		
-		var carpet:FlxSprite = new FlxSprite(207, 93).loadGraphic(AssetPaths.mat__png);
+		carpet = new FlxSprite(207, 93).loadGraphic(AssetPaths.mat__png);
 		add(carpet);
 		
 		initCharacterBases();
 		initCollision();
 		
-		player = new Player(FlxG.random.float(10, 200), FlxG.random.int(55, 150), Player.daDayLol);
+		player = new Player(195, 103, Player.daDayLol);
 		player.updateSprite(Player.daDayLol);
 		_grpCharacters.add(player);
 		
@@ -68,6 +69,10 @@ class CabinState extends BaseState
 		var colFire:FlxObject = new FlxObject(90, 43, 38, 9);
 		colFire.immovable = true;
 		_grpCollision.add(colFire);
+		
+		var colBulTable:FlxObject = new FlxObject(180, 37, 25, 12);
+		colBulTable.immovable = true;
+		_grpCollision.add(colBulTable);
 		
 		bulletin = new FlxObject(135, 38, 40, 5);
 		bulletin.immovable = true;
@@ -111,6 +116,16 @@ class CabinState extends BaseState
 		super.create();
 	}
 	
+	override function initEvidence():Void 
+	{
+		super.initEvidence();
+		
+		var someEvLol:Evidence = new Evidence(10, 94);
+		someEvLol.ID = 6;
+		_grpEvidence.add(someEvLol);
+		
+	}
+	
 	override public function update(elapsed:Float):Void 
 	{
 		playerHitbox.setPosition(player.x - 3, player.y - 3);
@@ -121,7 +136,19 @@ class CabinState extends BaseState
 			{
 				FlxG.switchState(new BulletinState());
 			}
+			
+			if (FlxG.onMobile)
+			{
+				if (FlxG.touches.list[0].justPressed)
+				{
+					if (FlxG.touches.list[0].overlaps(bulletin))
+						FlxG.switchState(new BulletinState());
+				}
+			}
 		}
+		
+		if (FlxG.overlap(player, carpet) && player.x > 212)
+			FlxG.switchState(new PlayState());
 		
 		_grpCharacters.forEach(function(spr:SpriteShit)
 		{
@@ -135,7 +162,7 @@ class CabinState extends BaseState
 				}
 				else if (nameTags.alpha > 0)
 				{
-					nameTags.alpha -= 0.01;
+					nameTags.alpha -= 0.004;
 				}
 			}
 		});

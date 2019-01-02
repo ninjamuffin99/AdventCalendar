@@ -109,8 +109,11 @@ class BulletinState extends FlxState
 		debugSquare.alpha = 0.5;
 		add(debugSquare);
 		
-		debugText = new FlxText(0, 0, 0, "", 32);
-		// add(debugText);
+		debugText = new FlxText(-400, -250, 0, "", 36);
+		debugText.scrollFactor.set();
+		if (!FlxG.onMobile)
+			debugText.text = "arrow keys to move between pics\nWASD to move freely\nSpacebar to exit";
+		add(debugText);
 		
 		super.create();
 	}
@@ -141,10 +144,10 @@ class BulletinState extends FlxState
 			camFollow.y = bg.height - 10;
 		
 		
-		
+		/*
 		debugText.setPosition(FlxG.mouse.x, FlxG.mouse.y - 40);
 		debugText.text = Std.int(FlxG.mouse.x) + ", " + Std.int(FlxG.mouse.y);
-		
+		*/
 		
 		if (FlxG.keys.justPressed.LEFT)
 		{
@@ -156,6 +159,9 @@ class BulletinState extends FlxState
 			curEv += 1;
 			updateCamPos();
 		}
+		
+		if (FlxG.keys.justPressed.SPACE)
+			FlxG.switchState(new CabinState());
 		
 		if (FlxG.onMobile)
 		{
@@ -200,7 +206,11 @@ class BulletinState extends FlxState
 		if (curEv >= camPosArr.length)
 		{
 			curEv = 0;
-			FlxG.switchState(new CabinState());
+			if (FlxG.onMobile)
+			{
+				FlxG.switchState(new CabinState());
+			}
+			
 		}
 		
 		camFollow.setPosition(camPosArr[curEv][0], camPosArr[curEv][1]);
