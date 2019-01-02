@@ -84,6 +84,8 @@ class IglooSubstate extends BaseState
 		var ev:Evidence = new Evidence(110, 100);
 		ev.ID = 3;
 		_grpEvidence.add(ev);
+		
+		checkEv();
 	}
 	
 	override public function update(elapsed:Float):Void 

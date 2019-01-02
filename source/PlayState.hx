@@ -408,6 +408,8 @@ class PlayState extends BaseState
 		var evTyler:Evidence = new Evidence(443, 478);
 		evTyler.ID = 9;
 		_grpEvidence.add(evTyler);
+		
+		checkEv();
 	}
 	
 	

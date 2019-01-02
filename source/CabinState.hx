@@ -124,6 +124,7 @@ class CabinState extends BaseState
 		someEvLol.ID = 6;
 		_grpEvidence.add(someEvLol);
 		
+		checkEv();
 	}
 	
 	override public function update(elapsed:Float):Void 

@@ -85,6 +85,17 @@ class BaseState extends FlxState
 		add(_grpCollision);
 	}
 	
+	private function checkEv():Void
+	{
+		_grpEvidence.forEach(function(evi:Evidence)
+		{
+			if (BulletinState.evAmount[evi.ID])
+			{
+				evi.kill();
+			}
+		});
+	}
+	
 	override public function update(elapsed:Float):Void 
 	{
 		FlxG.watch.addMouse();
